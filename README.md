@@ -1,8 +1,7 @@
 <div align="center">
 
 # My K8s Homelab
-
-_... managed with ArgoCD, Renovate, GitHub Actions and others._
+🚀 Home Operations Repository 🚧 _... managed with ArgoCD, Renovate, GitHub Actions 🤖 and others._
 
 </div>
 
