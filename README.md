@@ -78,7 +78,7 @@ I always try (whenever possible) to build and manage my infrastructure and workl
 The below showcases the collection of open-source solutions currently implemented in the cluster. Each of these components has been carefully documented, and their deployment is managed using ArgoCD, which adheres to GitOps principles.
 
 ### 🚀 Kubernetes
-My Kubernetes cluster is deployed with Talos, running on multiple Raspberry Pi's. This is a mini-semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate NAS with disk space for NFS/SMB shares, bulk file storage and backups.
+My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/), running on multiple Raspberry Pi's. This is a mini-semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate NAS with disk space for NFS/SMB shares, bulk file storage and backups.
 #### 😶 Core Components
 * Networking & Service Mesh: **cilium** provides eBPF-based networking, while istio powers service-to-service communication with L7 proxying and traffic management. cloudflared secures ingress traffic via Cloudflare, and external-dns keeps DNS records in sync automatically.
 * Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets, I use external-secrets with 1Password Connect to inject secrets into Kubernetes.
