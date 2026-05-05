@@ -39,21 +39,21 @@ This project's main goal is to provide a hands-on learning experience for design
 This repository leverages a range of cutting-edge open-source tools and platforms, forming a comprehensive technology stack that demonstrates the power of the whole [CNCF ecosystem](https://landscape.cncf.io/).
 
 ## 📖 Table of contents
-- [🍼 Overview](#-overview)
-  - [📖 Table of contents](#-table-of-contents)
-  - [🔧 Hardware](#-hardware)
-  - [☁️ Cloud Services](#️-cloud-services)
-  - [🖥️ Technology Stack](#️-technology-stack)
-    - [🚀 Kubernetes](#-kubernetes)
-      - [😶 Core Components](#-core-components)
-      - [⚙ GitOps](#-gitops)
-      - [🌎 DNS](#-dns)
-    - [📁 Directory Structure](#-directory-structure)
-  - [🤝 Acknowledgments](#-acknowledgments)
-  - [👥 Contributing](#-contributing)
-    - [🚫 Code of Conduct](#-code-of-conduct)
-    - [💡 Reporting Issues and Requesting Features](#-reporting-issues-and-requesting-features)
-  - [📄 License](#-license)
+- 🍼 [Overview](#-overview)
+  - 📖 [Table of contents](#-table-of-contents)
+  - 🔧[Hardware](#-hardware)
+  - ☁️ [Cloud Services](#️-cloud-services)
+  - 🖥️ [Technology Stack](#️-technology-stack)
+    - 🚀 [Kubernetes](#-kubernetes)
+      - 😶 [Core Components](#-core-components)
+      - ⚙ [GitOps](#-gitops)
+      - 🌎 [DNS](#-dns)
+    - 📁 [Directory Structure](#-directory-structure)
+  - 🤝 [Acknowledgments](#-acknowledgments)
+  - 👥 [Contributing](#-contributing)
+    - 🚫 [Code of Conduct](#-code-of-conduct)
+    - 💡 [Reporting Issues and Requesting Features](#-reporting-issues-and-requesting-features)
+  - 📄 [License](#-license)
 
 ## 🔧 Hardware
 | Device | Description | Quantity | CPU | RAM | Storage | Architecture | Operating System |
