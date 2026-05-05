@@ -124,9 +124,23 @@ This Git repository contains the following directories and structure:
 ├── 📁 patches    # customized overrides
 📁 kubernetes
 ├── 📁 apps       # applications
-├── 📁 components # re-useable kustomize components
-└── 📁 flux       # flux system configuration
+└── 📁 argocd     # argocd bootstrap configuration
 ```
+
+All Kubernetes manifests are placed under kubernetes/apps/ and each application lives in its own directory named after the namespace it will be deployed to.
+Each application directory typically contains:
+* A kustomization.yaml that serves as the base entry point.
+* A namespace.yaml defining the namespace for the app.
+* flux-kustomization.yaml defining the Flux Kustomization resource that applies the app manifests.
+* An app/ subdirectory containing the actual Kubernetes manifests.
+
+Flux is bootstrapped to kubernetes/apps/, and from there it automatically discovers each top-level kustomization.yaml within the application directories.
+
+Each of these base Kustomizations is responsible for:
+1. Creating the target namespace.
+2. Applying the corresponding Flux Kustomization resource defined in flux-kustomization.yaml.
+
+The Flux Kustomization then deploys the application itself using either HelmReleases or plain Kustomize depending on the app.
 
 ## 🤝 Acknowledgments
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
