@@ -44,7 +44,11 @@ This repository leverages a range of cutting-edge open-source tools and platform
   - [🔧 Hardware](#-hardware)
   - [☁️ Cloud Services](#️-cloud-services)
   - [🖥️ Technology Stack](#️-technology-stack)
-  - [🤖 Automation](#-automation)
+    - [🌱 Kubernetes](#-kubernetes)
+      - [😶 Core Components](#-core-components)
+      - [⚙ GitOps](#-gitops)
+      - [🌎 DNS](#-dns)
+    - [📁 Directory Structure](#-directory-structure)
   - [🤝 Acknowledgments](#-acknowledgments)
   - [👥 Contributing](#-contributing)
     - [🚫 Code of Conduct](#-code-of-conduct)
@@ -112,9 +116,9 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 In my cluster there is an ExternalDNS running. One for syncing private DNS records to main DNS using ExternalDNS webhook provider, while another instance syncs public DNS to Cloudflare. 
 This setup is managed by creating ingresses with two specific classes: internal for private DNS and external for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
 
-### 📁 Directories
+### 📁 Directory Structure
 This Git repository contains the following directories and structure:
-`
+```sh
 📁 talos
 ├── 📁 generated  # talos base configuration
 ├── 📁 patches    # customized overrides
@@ -122,7 +126,8 @@ This Git repository contains the following directories and structure:
 ├── 📁 apps       # applications
 ├── 📁 components # re-useable kustomize components
 └── 📁 flux       # flux system configuration
-`
+```
+
 ## 🤝 Acknowledgments
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
 
