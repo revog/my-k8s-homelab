@@ -114,7 +114,7 @@ This setup is managed by creating ingresses with two specific classes: internal 
 
 ### 📁 Directories
 This Git repository contains the following directories and structure:
-
+`
 📁 talos
 ├── 📁 generated  # talos base configuration
 ├── 📁 patches    # customized overrides
@@ -122,7 +122,7 @@ This Git repository contains the following directories and structure:
 ├── 📁 apps       # applications
 ├── 📁 components # re-useable kustomize components
 └── 📁 flux       # flux system configuration
-
+`
 ## 🤝 Acknowledgments
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
 
