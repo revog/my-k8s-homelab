@@ -153,7 +153,7 @@ Thanks to all CNCF contributors for their dedication and expertise, as their col
 Our project welcomes contributions from any member of our community. To get started contributing, please see our [Contributor Guide](.github/CONTRIBUTING.md).
 
 ### 🚫 Code of Conduct
-By participating in this project, you are expected to uphold the project's [**Code of Conduct**](.github/CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainer.
+By participating in this project, you are expected to uphold the project's [Code of Conduct](.github/CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainer.
 
 ### 💡 Reporting Issues and Requesting Features
 If you encounter any issues or would like to request new features, please create an issue on the repository's issue tracker. When reporting issues, include as much information as possible, such as error messages, logs, and steps to reproduce the issue.
