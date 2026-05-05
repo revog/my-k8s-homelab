@@ -60,22 +60,36 @@ This repository leverages a range of cutting-edge open-source tools and platform
 | NAS | Storage | 1 | 8 cores | 16GB | 48TB | arm64 | [QNAP](https://www.qnap.com/) |
 
 ## ☁️ Cloud Services
-I always try (whenever possible) to build and manage my infrastructure and workloads on-prem and on my own. But there are specific components of my setup that rely on cloud services.
+I always try (whenever possible) to build and manage my infrastructure and workloads on-prem and on my own. But there are specific components of my setup that rely on cloud services. This saves me from having to worry about: 
+(1) Dealing with chicken/egg scenarios
+(2) services I critically need whether my cluster is online or not
 
 | Service                                   | Description                                                                                                 | Cost     |
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- |
 | [Cloudflare](https://www.cloudflare.com/) | I use Cloudflare in my home network for DNS management and to secure my domain with Cloudflare's services.  | ~$?/yr   |
-| [GitHub](https://github.com/)             | Using GitHub for code management and version control                                                        | Free     |
+| [GitHub](https://github.com/)             | Using GitHub for hosting this repository - code management and version control                              | Free     |
 | [Lets Encrypt](https://letsencrypt.org/)  | Using Let's Encrypt to generate certificates for secure communication to and within my network.             | Free     |
 
 ## 🖥️ Technology Stack
 The below showcases the collection of open-source solutions currently implemented in the cluster. Each of these components has been carefully documented, and their deployment is managed using ArgoCD, which adheres to GitOps principles.
 
-The Cloud Native Computing Foundation (CNCF) has played a crucial role in the development and popularization of many of these tools, driving the adoption of cloud-native technologies and enabling projects like this one to thrive.
+### 🌱 Kubernetes
+My Kubernetes cluster is deployed with Talos, running on multiple Raspberry Pi's. This is a mini-semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate NAS with disk space for NFS/SMB shares, bulk file storage and backups.
+#### 😶 Core Components
+* Networking & Service Mesh: **cilium** provides eBPF-based networking, while istio powers service-to-service communication with L7 proxying and traffic management. cloudflared secures ingress traffic via Cloudflare, and external-dns keeps DNS records in sync automatically.
+* Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets, I use external-secrets with 1Password Connect to inject secrets into Kubernetes.
+* Storage & Data Protection: **longhorn** provides distributed storage for persistent volumes, with **velero/kasten (tbd?)** handling backups and restores. **spegel** improves reliability by running a stateless, cluster-local OCI image mirror.
+* Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
 
-|                                                                                                                                | Name                                                            | Description                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/kubernetes/icon/color/kubernetes-icon-color.svg">       | [Kubernetes](https://kubernetes.io/)                            | An open-source system for automating deployment, scaling, and management of containerized applications          |
+#### ⚙ GitOps
+[Argo CD](https://argo-cd.readthedocs.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. Argo CD continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through sync waves, health checks, or the app‑of‑apps pattern, rather than explicit dependency declarations.
+
+This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate watches my entire repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged ARgoCD applies the changes to my cluster.
+
+The Cloud Native Computing Foundation (CNCF) has played a crucial role in the development and popularization of many of these tools, driving the adoption of cloud-native technologies and enabling projects like this one to thrive.
+|                                                                                                                               | Name                                                            | Description                                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/kubernetes/icon/color/kubernetes-icon-color.svg">      | [Kubernetes](https://kubernetes.io/)                            | An open-source system for automating deployment, scaling, and management of containerized applications         |
 | <img width="32" src="https://www.talos.dev/favicon.svg">                                                                      | [Talos Linux](https://www.talos.dev/)                           | Minimal, immutable Linux OS designed for Kubernetes                                                            |
 | <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/flux/icon/color/flux-icon-color.svg">                  | [FluxCD](https://fluxcd.io/)                                    | GitOps continuous delivery for Kubernetes                                                                      |
 | <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/helm/icon/color/helm-icon-color.svg">                  | [Helm](https://helm.sh)                                         | The Kubernetes package manager                                                                                 |
@@ -86,16 +100,28 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 | <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/rook/icon/color/rook-icon-color.svg">                  | [Rook-Ceph](https://rook.io/)                                   | Cloud-native storage orchestration for Kubernetes using Ceph                                                   |
 | <img width="32" src="https://raw.githubusercontent.com/backube/volsync/main/docs/media/volsync.svg">                          | [Volsync](https://volsync.readthedocs.io/)                      | Asynchronous data replication for Kubernetes persistent volumes                                                |
 | <img width="32" src="https://avatars.githubusercontent.com/u/99631794">                                                       | [Spegel](https://github.com/spegel-org/spegel)                  | Stateless cluster-local OCI registry mirror                                                                    |
-| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/prometheus/icon/color/prometheus-icon-color.svg">      | [Prometheus](https://prometheus.io)                              | Monitoring system and time series database                                                                     |
+| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/prometheus/icon/color/prometheus-icon-color.svg">      | [Prometheus](https://prometheus.io)                             | Monitoring system and time series database                                                                     |
 | <img width="32" src="https://grafana.com/static/img/menu/grafana2.svg">                                                       | [Grafana](https://grafana.com)                                  | Analytics and monitoring dashboards                                                                            |
 | <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/cert-manager/icon/color/cert-manager-icon-color.svg">  | [cert-manager](https://cert-manager.io/)                        | X.509 certificate management for Kubernetes                                                                    |
-| <img width="32" src="https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png">      | [External Secrets](https://external-secrets.io/)                 | Synchronize secrets from external APIs (1Password) into Kubernetes                                             |
-| <img width="32" src="https://raw.githubusercontent.com/kubernetes-sigs/external-dns/master/docs/img/external-dns.png">         | [ExternalDNS](https://github.com/kubernetes-sigs/external-dns)  | Automatically manage DNS records from Kubernetes resources                                                     |
-| <img width="32" src="https://raw.githubusercontent.com/oauth2-proxy/oauth2-proxy/master/docs/static/img/logos/OAuth2_Proxy_icon.svg"> | [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/)    | Reverse proxy providing authentication with external OAuth2 providers                                          |
-| <img width="32" src="https://avatars.githubusercontent.com/u/314135">                                                         | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Secure outbound-only tunnel for exposing services without public IPs             |
+| <img width="32" src="https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png">     | [External Secrets](https://external-secrets.io/)                | Synchronize secrets from external APIs (1Password) into Kubernetes                                             |
+| <img width="32" src="https://raw.githubusercontent.com/kubernetes-sigs/external-dns/master/docs/img/external-dns.png">        | [ExternalDNS](https://github.com/kubernetes-sigs/external-dns)  | Automatically manage DNS records from Kubernetes resources                                                     |
+| <img width="32" src="https://raw.githubusercontent.com/oauth2-proxy/oauth2-proxy/master/docs/static/img/logos/OAuth2_Proxy_icon.svg"> | [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/)    | Reverse proxy providing authentication with external OAuth2 providers                                  |
+| <img width="32" src="https://avatars.githubusercontent.com/u/314135">                                                         | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Secure outbound-only tunnel for exposing services without public IPs       |
 
-## 🤖 Automation
-This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate will keep all of the container images within this repository up to date automatically. It can also be configured to keep Helm chart dependencies up to date as well.
+#### 🌎 DNS
+In my cluster there is an ExternalDNS running. One for syncing private DNS records to main DNS using ExternalDNS webhook provider, while another instance syncs public DNS to Cloudflare. 
+This setup is managed by creating ingresses with two specific classes: internal for private DNS and external for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
+
+### 📁 Directories
+This Git repository contains the following directories and structure:
+
+📁 talos
+├── 📁 generated  # talos base configuration
+├── 📁 patches    # customized overrides
+📁 kubernetes
+├── 📁 apps       # applications
+├── 📁 components # re-useable kustomize components
+└── 📁 flux       # flux system configuration
 
 ## 🤝 Acknowledgments
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
