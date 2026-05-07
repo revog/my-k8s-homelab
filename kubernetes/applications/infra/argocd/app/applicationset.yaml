@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: applications
-  namespace: argocd
+  namespace: infra-argocd
 spec:
   goTemplate: true
   goTemplateOptions:
