@@ -8,12 +8,12 @@ helmCharts:
     releaseName: argocd
     repo: https://argoproj.github.io/argo-helm
     version: 6.7.18
-    namespace: argocd
+    namespace: infra-argocd
     valuesFile: values.yaml
 
 patches:
   - path: app/argocd-cmp-patch.yaml
-  - path: argocd-cmd-params-cm-patch.yaml
+  - path: app/argocd-repo-server-pathc.yaml
 #   - path: argocd-rbac-cm-patch.yaml
 
 resources:
