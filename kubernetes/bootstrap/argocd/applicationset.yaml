@@ -30,7 +30,15 @@ spec:
         path: '{{ .path.path }}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{ .path.segments[2] }}-{{ .path.segments[3] }}'
+        # SPECIAL CASE: Cilium must be deployed into the kube-system namespace.
+        # It is bootstrapped early (Talos CNI) and later adopted by Argo CD.
+        # All other applications follow the <category>-<app> namespace convention.
+        namespace: >-
+          {{- if and (eq .path.segments[2] "infra") (eq .path.segments[3] "cilium") -}}
+          kube-system
+          {{- else -}}
+          {{ .path.segments[2] }}-{{ .path.segments[3] }}
+          {{- end }}
       syncPolicy:
         automated:
           prune: true
