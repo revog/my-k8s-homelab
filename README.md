@@ -47,7 +47,11 @@ This repository leverages a range of cutting-edge open-source tools and platform
     - 🚀 [Kubernetes](#-kubernetes)
       - 😶 [Core Components](#-core-components)
       - ⚙ [GitOps](#-gitops)
-      - 🌎 [DNS](#-dns)
+    - 🌎 [Networking & DNS](#-networking-dns)
+      - [Local Network](#-local-network)
+      - [Remote Network (Exposed)](#-remote-network-exposed)
+        - [Privately Exposed (Tailscale)](#-privately-exposed-tailscale)
+        - [Publicly Exposed (Cloudflare)](#-publicly-exposed-cloudflare)
     - 📁 [Directory Structure](#-directory-structure)
   - 🤝 [Acknowledgments](#-acknowledgments)
   - 👥 [Contributing](#-contributing)
@@ -114,19 +118,37 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 |⚠️| <img width="32" src="https://raw.githubusercontent.com/oauth2-proxy/oauth2-proxy/master/docs/static/img/logos/OAuth2_Proxy_icon.svg">| [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/)    | Reverse proxy providing authentication with external OAuth2 providers                                     |
 |⚠️| <img width="32" src="https://avatars.githubusercontent.com/u/314135">                                                                | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Secure outbound-only tunnel for exposing services without public IPs  |
 
-#### 🌎 DNS
-In my cluster there is an ExternalDNS running. One for syncing private DNS records to main DNS using ExternalDNS webhook provider, while another instance syncs public DNS to Cloudflare. 
-This setup is managed by creating ingresses with two specific classes: internal for private DNS and external for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
+### 🌎 Networking & DNS
+Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by Cert Manager for each application.
+This setup is managed by creating ingresses with specific classes: `internal` for local services, `private` for privately exposed services and `external` for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
+
+#### 🔒 Local Network
+The first and easiest way that an app can be exposed is strictly on my local network. This is most often used for apps and services that have to do with home automation or simply used in my local network, there is no need to expose those any further than that.
+Local deployments are accomplished by creating an Ingress of type `internal, which will register a virtual IP for the service in a designated subnet and provision a DNS record in local DNS.
+
+#### 💻 Remote Network (Exposed)
+The remote service type differs between privately but "on the road" used and publicly exposed services.
+
+##### 🪬 Privately Exposed (Tailscale)
+The second and most common way that an app can be exposed is via Tailscale. Creating an Ingress with the `private` class will expose the application to my Tailnet, and automagically configure DNS records. Most self-hosted apps and dashboards are exposed using this Ingress class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
+Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with the Nautik iOS app to monitor and administer my Kubernetes cluster on-the-go.
+
+##### 🔓 Publicly Exposed (Cloudflare)
+The final and least common way to expose an app is via cloudflared - the [Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/) daemon. By routing all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family.
+
+Creating an external Ingress will trigger using ExternalDNS to provision a CNAME DNS record on Cloudflare which points at the Cloudflare Tunnel endpoint. The tunnel routes traffic securely into my cluster, where the ingress controller further routes it to the destination service.
 
 ### 📁 Directory Structure
 This Git repository contains the following directories and structure:
 ```sh
 📁 talos
-├── 📁 generated  # talos base configuration
-├── 📁 patches    # customized overrides
+├── 📁 generated       # talos base configuration
+├── 📁 patches         # customized overrides
 📁 kubernetes
-├── 📁 apps       # applications
-└── 📁 argocd     # argocd bootstrap configuration
+├── 📁 applications    # kubernetes deployments
+|   ├── 📁 app         # end-user/workload apps
+|   └── 📁 infra       # cluster/platform infrastructure components
+└── 📁 bootstrap       # bootstrap configuration
 ```
 
 All Kubernetes manifests are placed under kubernetes/apps/ and each application lives in its own directory named after the namespace it will be deployed to.
