@@ -1,4 +1,4 @@
-# Globals
+# Global values
 
 This folder contains **cluster-wide, non–application-specific configuration** that is shared across multiple applications.
 
@@ -24,7 +24,8 @@ stringData:
 ## Looking-up global values in Helm
 Helm-based applications read global values explicitly at render time using Helm’s lookup function.
 ```yaml
-hosts:  - app.{{ (lookup "v1" "Secret" "argocd" "global-config").data.MY_DOMAIN | b64dec }}``
+hosts:
+  - app.{{ (lookup "v1" "Secret" "argocd" "global-config").data.MY_DOMAIN | b64dec }}``
 ```
 What this does:
 1. Function `lookup` fetches an existing Kubernetes object from the cluster (Secret/global-config in the argocd namespace)
