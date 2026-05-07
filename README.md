@@ -119,7 +119,7 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 |⚠️| <img width="32" src="https://avatars.githubusercontent.com/u/314135">                                                                | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Secure outbound-only tunnel for exposing services without public IPs  |
 
 ### 🌎 Networking & DNS
-Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by Cert Manager for each application.
+Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by [Cert Manager](https://cert-manager.io/) for each application.
 This setup is managed by creating ingresses with specific classes: `internal` for local services, `private` for privately exposed services and `external` for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
 
 #### 🔒 Local Network
@@ -130,7 +130,7 @@ Local deployments are accomplished by creating an Ingress of type `internal, whi
 The remote service type differs between privately but "on the road" used and publicly exposed services.
 
 ##### 🪬 Privately Exposed (Tailscale)
-The second and most common way that an app can be exposed is via Tailscale. Creating an Ingress with the `private` class will expose the application to my Tailnet, and automagically configure DNS records. Most self-hosted apps and dashboards are exposed using this Ingress class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
+The second and most common way that an app can be exposed is via [Tailscale](https://tailscale.com/docs/features/kubernetes-operator). Creating an Ingress with the `private` class will expose the application to my Tailnet, and [automagically](https://tailscale.com/docs/features/magicdns) configure DNS records. Most self-hosted apps and dashboards are exposed using this Ingress class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
 Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with the Nautik iOS app to monitor and administer my Kubernetes cluster on-the-go.
 
 ##### 🔓 Publicly Exposed (Cloudflare)
