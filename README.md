@@ -90,9 +90,9 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/), running 
 * Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
 
 #### ⚙ GitOps
-[Argo CD](https://argo-cd.readthedocs.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. Argo CD continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through sync waves, health checks, or the app‑of‑apps pattern, rather than explicit dependency declarations.
+[Argo CD](https://argo-cd.readthedocs.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. ArgoCD continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through sync waves, health checks, or the app‑of‑apps pattern, rather than explicit dependency declarations.
 
-This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate watches my entire repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged ARgoCD applies the changes to my cluster.
+This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate watches my entire repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged ArgoCD applies the changes to my cluster.
 
 The Cloud Native Computing Foundation (CNCF) has played a crucial role in the development and popularization of many of these tools, driving the adoption of cloud-native technologies and enabling projects like this one to thrive.
 | |                                                                                                                                       | Name                                                            | Description                                                                                               |
@@ -120,7 +120,7 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 
 ### 🌎 Networking & DNS
 Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by [Cert Manager](https://cert-manager.io/) for each application.
-This setup is managed by creating ingresses with specific classes: `internal` for local services, `private` for privately exposed services and `external` for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
+This setup is managed by creating ingresses with specific classes: `internal` for local services, `private` for privately exposed services and `public` for public DNS. The external-dns instances then syncs the DNS records to their respective platforms accordingly.
 
 #### 🔒 Local Network
 The first and easiest way that an app can be exposed is strictly on my local network. This is most often used for apps and services that have to do with home automation or simply used in my local network, there is no need to expose those any further than that.
@@ -134,7 +134,7 @@ The second and most common way that an app can be exposed is via [Tailscale](htt
 Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with the Nautik iOS app to monitor and administer my Kubernetes cluster on-the-go.
 
 ##### 🔓 Publicly Exposed (Cloudflare)
-The final and least common way to expose an app is via cloudflared - the [Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/) daemon. Creating an Ingress with the `external` class will route all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family.
+The final and least common way to expose an app is via cloudflared - the [Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/) daemon. Creating an Ingress with the `public` class will route all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family.
 
 Creating an external Ingress will trigger using ExternalDNS to provision a CNAME DNS record on Cloudflare which points at the Cloudflare Tunnel endpoint. The tunnel routes traffic securely into my cluster, where the ingress controller further routes it to the destination service.
 
