@@ -11,12 +11,5 @@ helmCharts:
     namespace: argocd
     valuesFile: values.yaml
 
-patches:
-  - path: cmp-patch.yaml
-  - path: app/argocd-cm-patch.yaml
-  - path: argocd-rbac-cm-patch.yaml
-  - path: argocd-cmd-params-cm-patch.yaml
-
 resources:
-  - namespace.yaml
-  - app/applicationset.yaml
+  - app/root-application.yaml
