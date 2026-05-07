@@ -22,6 +22,16 @@ spec:
       name: '{{ .path.segments[2] }}-{{ .path.segments[3] }}'
       labels:
         category: '{{ .path.segments[2] }}'
+      annotations:
+        # Sync order:
+        # 10 → infra
+        # 20 → app
+        argocd.argoproj.io/sync-wave: >-
+          {{- if eq .path.segments[2] "infra" -}}
+          10
+          {{- else -}}
+          20
+          {{- end }
     spec:
       project: default
       source:
