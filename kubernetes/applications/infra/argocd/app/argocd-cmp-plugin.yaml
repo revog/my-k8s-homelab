@@ -11,6 +11,11 @@ data:
       name: vars-substitutor
     spec:
       version: v1.0
+      discover:
+        # Search for yaml files in applications folder
+        find:
+          command: ["sh", "-c"]
+          args: ["find . -maxdepth 2 -name '*.yaml'"]
       generate:
         command: ["sh", "-c"]
         args:
@@ -23,5 +28,3 @@ data:
             fi
             # Replace vars with effective values
             envsubst < combined.yaml
-      discover:
-        fileName: "argocd-plugin.yaml"
