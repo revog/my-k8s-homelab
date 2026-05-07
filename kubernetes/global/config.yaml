@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: global-config
+  namespace: argocd
+type: Opaque
+stringData:
+  MY_DOMAIN: example.com
+  CLUSTER_NAME: homelab
+sops:
+  encrypted_regex: '^(stringData)$'
+  age:
+    - recipient: age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
