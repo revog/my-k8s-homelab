@@ -12,10 +12,10 @@ helmCharts:
     valuesFile: values.yaml
 
 patches:
-  - path: app/argocd-cmp-patch.yaml
   - path: app/argocd-repo-server-patch.yaml
 #   - path: argocd-rbac-cm-patch.yaml
 
 resources:
+  - app/argocd-cmp-plugin.yaml
   - app/application.yaml
   - app/applicationset.yaml
