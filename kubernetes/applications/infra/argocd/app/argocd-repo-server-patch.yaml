@@ -18,7 +18,7 @@ spec:
               name: var-run-argocd
             - mountPath: /home/argocd/cmp-server/config/
               name: vars-substitutor
-          # Intall gettext if not in image
+          # Install gettext if not in image
           lifecycle:
             postStart:
               exec:
