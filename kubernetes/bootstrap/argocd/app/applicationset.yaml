@@ -31,7 +31,7 @@ spec:
           10
           {{- else -}}
           20
-          {{- end }
+          {{- end }}
     spec:
       project: default
       source:
