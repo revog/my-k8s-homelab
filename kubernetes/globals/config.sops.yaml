@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: global-config
-  namespace: argocd
+  namespace: infra-argocd
 type: Opaque
 stringData:
   MY_DOMAIN: example.com
