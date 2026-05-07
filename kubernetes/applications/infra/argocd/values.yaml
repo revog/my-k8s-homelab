@@ -6,12 +6,12 @@ configs:
   cm:
   params:
     server.insecure: true
-    url: https://argocd.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}
+    url: https://argocd.{ MY_DOMAIN }
     kustomize.buildOptions: "--enable-helm"
 #    dex.config: |
 #      connectors:
 #      - config:
-#          issuer: https://auth.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}/application/o/argocd/
+#          issuer: https://auth.{ MY_DOMAIN }/application/o/argocd/
 #          clientID: fOsRHVM7umhZ5BUafh5Mw8XRF5FCUC5X1ZKCwSiO
 #          clientSecret: $argocd-oidc:dex.authentik.clientSecret
 #          insecureEnableGroups: true
@@ -31,7 +31,7 @@ server:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - argocd.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}
+      - argocd.{ MY_DOMAIN }
 
 dex:
   enabled: false
