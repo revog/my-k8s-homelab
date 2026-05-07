@@ -11,7 +11,6 @@ Although these values are not strictly secrets, I avoided commiting them in plai
 The file is encrypted with SOPS, so sensitive or environment-specific data never appears in plaintext Git. Argo CD automatically decrypts this Secret during sync when SOPS is configured.
 
 Global values are stored in a Kubernetes `Secret`:
-
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -25,7 +24,7 @@ stringData:
 Helm-based applications read global values explicitly at render time using Helm’s lookup function.
 ```yaml
 hosts:
-  - app.{{ (lookup "v1" "Secret" "argocd" "global-config").data.MY_DOMAIN | b64dec }}``
+  - app.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}``
 ```
 What this does:
 1. Function `lookup` fetches an existing Kubernetes object from the cluster (Secret/global-config in the argocd namespace)
