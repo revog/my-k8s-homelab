@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-globals
+  namespace: infra-argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/revog/my-k8s-homelab.git
+    targetRevision: main
+    path: kubernetes/globals
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra-argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
