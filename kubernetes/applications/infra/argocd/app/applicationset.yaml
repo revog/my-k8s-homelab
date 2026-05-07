@@ -38,6 +38,8 @@ spec:
         repoURL: https://github.com/revog/my-k8s-homelab.git
         targetRevision: main
         path: '{{ .path.path }}'
+        plugin:
+          name: vars-substitutor 
       destination:
         server: https://kubernetes.default.svc
         # SPECIAL CASE: Cilium must be deployed into the kube-system namespace.
