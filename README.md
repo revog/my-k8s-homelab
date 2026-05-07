@@ -151,7 +151,7 @@ This Git repository contains the following directories and structure:
 └── 📁 bootstrap       # bootstrap configuration
 ```
 
-All Kubernetes manifests are placed under [kubernetes/applications](revog/my-k8s-homelab/tree/main/kubernetes/applications)/*/ and each application lives in its own directory named (without prefix) after the namespace it will be deployed to.
+All Kubernetes manifests are placed under [kubernetes/applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications)/*/ and each application lives in its own directory named (without prefix) after the namespace it will be deployed to.
 Each application directory typically contains:
 * A `kustomization.yaml` that serves as the base entry point refering to HelmChart and/or YAML files.
 * A `namespace.yaml` defining the namespace for the app.
@@ -159,7 +159,7 @@ Each application directory typically contains:
 
 The ArgoCD Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
 
-ArgoCD is initially bootstrapped through [kubernetes/bootstrap](/revog/my-k8s-homelab/tree/main/kubernetes/bootstrap), and from there it automatically fetches the needed information and references from the corresponding app folder within the [applications](revog/my-k8s-homelab/tree/main/kubernetes/applications) directory.
+ArgoCD is initially bootstrapped through `[kubernetes/bootstrap](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/bootstrap)`, and from there it automatically fetches the needed information and references from the corresponding app folder within the [applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications) directory.
 
 ## 🤝 Acknowledgements
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
