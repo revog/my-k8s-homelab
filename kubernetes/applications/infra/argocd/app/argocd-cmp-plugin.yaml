@@ -20,11 +20,9 @@ data:
         command: ["sh", "-c"]
         args:
           - |
-            # Template Helm chart (if existing) or use plany YAML
+            # Template Helm chart (if existing) or use plain YAML and replace vars with effective values
             if [ -f "Chart.yaml" ]; then
-              helm template . --include-crds > combined.yaml
+              helm template . --include-crds | envsubst
             else
-              cat *.yaml > combined.yaml
+              cat *.yaml | envsubst
             fi
-            # Replace vars with effective values
-            envsubst < combined.yaml
