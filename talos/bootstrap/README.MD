@@ -1,6 +1,6 @@
 # Cilium
 
-## Create pre-templated Cilium Locally For Talos
+## Create pre-templated Cilium manifests for Cluster bootstrapping
 
 ```bash
 # Overwrite file with a clear header
