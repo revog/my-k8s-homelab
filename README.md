@@ -124,7 +124,7 @@ This setup is managed by creating ingresses with specific classes: `internal` fo
 
 #### 🔒 Local Network
 The first and easiest way that an app can be exposed is strictly on my local network. This is most often used for apps and services that have to do with home automation or simply used in my local network, there is no need to expose those any further than that.
-Local deployments are accomplished by creating an Ingress of type `internal, which will register a virtual IP for the service in a designated subnet and provision a DNS record in local DNS.
+Local deployments are accomplished by creating an Ingress of type `internal`, which will register a virtual IP for the service in a designated subnet and provision a DNS record in local DNS.
 
 #### 💻 Remote Network (Exposed)
 The remote service type differs between privately but "on the road" used and publicly exposed services.
@@ -134,7 +134,7 @@ The second and most common way that an app can be exposed is via [Tailscale](htt
 Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with the Nautik iOS app to monitor and administer my Kubernetes cluster on-the-go.
 
 ##### 🔓 Publicly Exposed (Cloudflare)
-The final and least common way to expose an app is via cloudflared - the [Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/) daemon. By routing all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family.
+The final and least common way to expose an app is via cloudflared - the [Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/) daemon. Creating an Ingress with the `external` class will route all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family.
 
 Creating an external Ingress will trigger using ExternalDNS to provision a CNAME DNS record on Cloudflare which points at the Cloudflare Tunnel endpoint. The tunnel routes traffic securely into my cluster, where the ingress controller further routes it to the destination service.
 
