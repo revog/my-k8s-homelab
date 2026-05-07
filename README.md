@@ -155,7 +155,7 @@ All Kubernetes manifests are placed under [kubernetes/applications](https://gith
 Each application directory typically contains:
 * A `kustomization.yaml` that serves as the base entry point refering to HelmChart and/or YAML files.
 * A `namespace.yaml` defining the namespace for the app.
-* An `app/` subdirectory containing the custom Kubernetes manifests.
+* An `app/` subdirectory containing the (optional) custom Kubernetes manifests.
 
 The ArgoCD Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
 
