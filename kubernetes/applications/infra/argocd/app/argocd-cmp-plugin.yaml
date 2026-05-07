@@ -22,7 +22,7 @@ data:
           - |
             # Template Helm chart (if existing) or use plany YAML
             if [ -f "Chart.yaml" ]; then
-              helm template . > combined.yaml
+              helm template . --include-crds > combined.yaml
             else
               cat *.yaml > combined.yaml
             fi
