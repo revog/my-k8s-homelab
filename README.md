@@ -53,7 +53,7 @@ This repository leverages a range of cutting-edge open-source tools and platform
         - 🪬 [Privately Exposed (Tailscale)](#-privately-exposed-tailscale)
         - 🔓 [Publicly Exposed (Cloudflare)](#-publicly-exposed-cloudflare)
     - 📁 [Directory Structure](#-directory-structure)
-  - 🤝 [Acknowledgments](#-acknowledgments)
+  - 🤝 [Acknowledgements](#-acknowledgements)
   - 👥 [Contributing](#-contributing)
     - 🚫 [Code of Conduct](#-code-of-conduct)
     - 💡 [Reporting Issues and Requesting Features](#-reporting-issues-and-requesting-features)
@@ -166,7 +166,7 @@ Each of these base Kustomizations is responsible for:
 
 The Flux Kustomization then deploys the application itself using either HelmReleases or plain Kustomize depending on the app.
 
-## 🤝 Acknowledgments
+## 🤝 Acknowledgements
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
 
 Thanks to all CNCF contributors for their dedication and expertise, as their collective efforts have been vital in driving innovation and success within the cloud-native ecosystem.
