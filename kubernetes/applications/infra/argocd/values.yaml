@@ -1,10 +1,27 @@
 # TO BE CONFIGURED - sample values
-configs:
-  params:
-    server.insecure: true
-
 applicationSet:
   enabled: true
+
+configs:
+  cm:
+  params:
+    server.insecure: true
+    url: https://argocd.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}
+    kustomize.buildOptions: "--enable-helm"
+#    dex.config: |
+#      connectors:
+#      - config:
+#          issuer: https://auth.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}/application/o/argocd/
+#          clientID: fOsRHVM7umhZ5BUafh5Mw8XRF5FCUC5X1ZKCwSiO
+#          clientSecret: $argocd-oidc:dex.authentik.clientSecret
+#          insecureEnableGroups: true
+#          scopes:
+#            - openid
+#            - profile
+#            - email
+#        name: authentik
+#        type: oidc
+#        id: authentik
 
 controller:
   replicas: 1
@@ -14,7 +31,7 @@ server:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - argocd.{ MY_DOMAIN }
+      - argocd.{{ (lookup "v1" "Secret" "infra-argocd" "global-config").data.MY_DOMAIN | b64dec }}
 
 dex:
   enabled: false
