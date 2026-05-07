@@ -13,11 +13,10 @@ helmCharts:
 
 patches:
   - path: cmp-patch.yaml
-  - path: argocd-cm-patch.yaml
+  - path: app/argocd-cm-patch.yaml
   - path: argocd-rbac-cm-patch.yaml
   - path: argocd-cmd-params-cm-patch.yaml
-  - path: resource-requests-patch.yaml
 
 resources:
   - namespace.yaml
-  - applicationset.yaml
+  - app/applicationset.yaml
