@@ -103,7 +103,7 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 |⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/coredns/icon/color/coredns-icon-color.svg">                   | [CoreDNS](https://coredns.io/)                                  | Flexible, plugin-based DNS server for Kubernetes service discovery                                        |
 |⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/cilium/icon/color/cilium_icon-color.svg">                     | [Cilium](https://cilium.io/)                                    | eBPF-based CNI providing networking, security, and observability                                          |
 |⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/envoy/icon/color/envoy-icon-color.svg">                       | [Envoy Gateway](https://gateway.envoyproxy.io/)                 | Kubernetes Gateway API implementation built on Envoy proxy                                                |
-|⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/argo/icon/color/argo-icon-color.svg">                         | [ArgoCD]([https://fluxcd.io](https://argo-cd.readthedocs.io)/)  | GitOps continuous delivery for Kubernetes                                                                 |
+|⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/argo/icon/color/argo-icon-color.svg">                         | [ArgoCD](https://argo-cd.readthedocs.io)/)                      | GitOps continuous delivery for Kubernetes                                                                 |
 |⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/helm/icon/color/helm-icon-color.svg">                         | [Helm](https://helm.sh)                                         | The Kubernetes package manager                                                                            |
 |⚠️| <img width="32" src="https://avatars.githubusercontent.com/u/36015203">                                                              | [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery) |  Add-on for detecting hardware features and system configuration for dynamic scheduling|
 |⚠️| <img width="32" src="https://github.com/cncf/artwork/raw/main/projects/metallb/icon/color/metallb-icon-color.svg">                   | [MetalLB](https://metallb.io/)                                  | Load balancer for bare metal Kubernetes clusters                                                          |
@@ -151,20 +151,15 @@ This Git repository contains the following directories and structure:
 └── 📁 bootstrap       # bootstrap configuration
 ```
 
-All Kubernetes manifests are placed under kubernetes/apps/ and each application lives in its own directory named after the namespace it will be deployed to.
+All Kubernetes manifests are placed under `[kubernetes/applications](revog/my-k8s-homelab/tree/main/kubernetes/applications)/*/` and each application lives in its own directory named (without prefix) after the namespace it will be deployed to.
 Each application directory typically contains:
-* A kustomization.yaml that serves as the base entry point.
-* A namespace.yaml defining the namespace for the app.
-* flux-kustomization.yaml defining the Flux Kustomization resource that applies the app manifests.
-* An app/ subdirectory containing the actual Kubernetes manifests.
+* A `kustomization.yaml` that serves as the base entry point refering to HelmChart and/or YAML files.
+* A `namespace.yaml` defining the namespace for the app.
+* An `app/` subdirectory containing the custom Kubernetes manifests.
 
-Flux is bootstrapped to kubernetes/apps/, and from there it automatically discovers each top-level kustomization.yaml within the application directories.
+The ArgoCD Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
 
-Each of these base Kustomizations is responsible for:
-1. Creating the target namespace.
-2. Applying the corresponding Flux Kustomization resource defined in flux-kustomization.yaml.
-
-The Flux Kustomization then deploys the application itself using either HelmReleases or plain Kustomize depending on the app.
+ArgoCD is initially bootstrapped through `[kubernetes/bootstrap](/revog/my-k8s-homelab/tree/main/kubernetes/bootstrap)`, and from there it automatically fetches the needed information and references from the corresponding app folder within the `[applications](revog/my-k8s-homelab/tree/main/kubernetes/applications)` directory.
 
 ## 🤝 Acknowledgements
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
