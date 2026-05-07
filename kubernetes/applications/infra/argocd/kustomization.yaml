@@ -13,7 +13,7 @@ helmCharts:
 
 patches:
   - path: app/argocd-cmp-patch.yaml
-  - path: app/argocd-repo-server-pathc.yaml
+  - path: app/argocd-repo-server-patch.yaml
 #   - path: argocd-rbac-cm-patch.yaml
 
 resources:
