@@ -1,6 +1,6 @@
 # Talos
 
-Talos Linux is a modern OS for Kubernetes. It's designed to be secure, immutable and minimal. I run a three-node Talos Linux Kubernetes cluster in my homelab.
+[Talos Linux](https://www.talos.dev/) is a modern OS for Kubernetes. It's designed to be secure, immutable and minimal. I run a three-node Talos Linux Kubernetes cluster in my homelab.
 
 It runs on your Kubernetes nodes and hosts your workloads. It also runs the Kubernetes control plane components including the etcd database. With a single use case and focus it removes complicated and fragile configuration, maintenance, and security vulnerabilities.
 It’s designed to be as minimal as possible while still maintaining practicality. For these reasons, Talos has a number of features unique to it:
