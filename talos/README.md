@@ -156,10 +156,6 @@ talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
     --output talos/rendered/$NODE.yaml
 ```
 
-Step 3: Configure (Control Plane) Nodes
-Step 4: Configure Other Nodes
-...
-
 ### Apply Configuration
 After pre-rendering the node configuration, they can be easily applied. Initially it is mandatory to bootstrap the cluster. 
 Additional nodes can be added the same way. For future configuration changes/updates use the same procedure.
@@ -190,8 +186,22 @@ export KUBECONFIG=./kubeconfig
 kubectl get nodes
 ```
 #### Update/Add nodes
-<tbd>
-  
+Once a fully bootstrapped Kubernetes cluster is in place, additional nodes can be joined. 
+The following commands (`apply-config` und `reboot`) also apply to applying future configuration changes (simply ommit `--insecure` as hosts are known).
+
+```bash
+# Control plane nodes
+NODE=<HOSTNAME>
+# Apply config to control-plane node02 & node03
+talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
+talosctl reboot --nodes $(host $NODE)
+
+NODE=<HOSTNAME>
+# Apply config to worker node04
+talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
+talosctl reboot --nodes $(host $NODE)
+```
+
 As for the cluster I don't do a whole lot of configuration, Omni takes care of alot but since I just run 3 nodes I allow scheduling on the control plane. Other than that I just change the machine host name.
 
 ```yaml
