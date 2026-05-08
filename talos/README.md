@@ -195,27 +195,13 @@ NODE=<HOSTNAME>
 # Apply config to control-plane node02 & node03
 talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
 talosctl reboot --nodes $(host $NODE)
-
+```
+```bash
 NODE=<HOSTNAME>
 # Apply config to worker node04
 talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
 talosctl reboot --nodes $(host $NODE)
 ```
-
-As for the cluster I don't do a whole lot of configuration, Omni takes care of alot but since I just run 3 nodes I allow scheduling on the control plane. Other than that I just change the machine host name.
-
-```yaml
-cluster:
-  allowSchedulingOnControlPlanes: true
-```
-
-```yaml
-machine:
-  network:
-    hostname: "talos-1"
-```
-
-I also install the qemu-guest-agent and iscsi system extensions, but that was a one time choice when setting up the cluster with Omni, then it makes sure to include it in subsequent images. The "old" folder contains some docs on how to do it manually with the image factory.
 
 # Omni
 Omni is a Kubernetes management platform that simplifies the creation and management of Kubernetes clusters on any environment to provide a simple, secure, and resilient platform. It automates cluster creation, management and upgrades, and integrates Kubernetes and Omni access into enterprise identity providers. While Omni does provide a powerful UI, tight integration with Talos Linux means the platform is 100% API-driven from Linux to Kubernetes to Omni.
