@@ -153,7 +153,7 @@ talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
     --config-patch-control-plane @generated/controlplane.yaml \
     --config-patch-worker @generated/worker.yaml \
     --config-patch @patches/patch-$NODE.yaml \
-    --output talos/rendered/nodes/$NODE.yaml
+    --output talos/rendered/$NODE.yaml
 ```
 
 Step 3: Configure (Control Plane) Nodes
