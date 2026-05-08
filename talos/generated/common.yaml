@@ -1,1 +1,14 @@
-<base-skeleton-file>
+cluster:
+  allowSchedulingOnControlPlanes: true
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+    cni:                      # disable default Flannel, use Cilium
+      name: custom
+      urls:
+        - https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/kubernetes/bootstrap/cilium/cilium.yaml
+  proxy:
+    disabled: true            # disable kube-proxy, use Cilium
