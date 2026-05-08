@@ -12,8 +12,34 @@ It’s designed to be as minimal as possible while still maintaining practicalit
 Talos is managed by a single, declarative gRPC API - no ssh, no bash. This is the most unique thing about Talos and something Talos users love.
 
 ## Setup <tbd>
+Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
 
-Step 1: Decide the Kubernetes API Endpoint
+My hardware Setup is based on the Single Board Computer (SBC) Raspberry Pi 5 extended with Storage respectively AI HATs:
+| Node | Role | Storage | Special |
+|---|---|---|---|
+| node01 | control-plane + worker | Raspberry Pi 5 8GB | Hailo AI HAT |
+| node02 | control-plane + worker | Raspberry Pi 5 8GB | M.2 NVMe HAT |
+| node03 | control-plane + worker | Raspberry Pi 5 16GB | M.2 NVMe HAT |
+| node04 | worker | SD card (boot) | — | (not yet in use)
+
+**SD cards:** 64GB SanDisk High Endurance microSDHC (Class 10 / A1)  
+**NVMe:** M.2 2280 NVMe (PCIe Gen 3/4) for Longhorn SDS
+
+### Prerequisites
+Make sure to install the Talos Linux CLI on the workstation prior starting with the deployment. The client can be installed and updated from several sources like package manager (recommended), online [installer script](https://talos.dev/install) or [releases page](https://github.com/siderolabs/talos/releases). 
+```
+brew install siderolabs/tap/talosctl
+```
+Every node node needs a unique IP address plus a moving VIP (Virtual IP) for Kubernetes API. Talos does automatically failover the VIP to a designated node and ensuring the Kubernetes API availability all the time. 
+
+### Image build and deployment
+As the hardware setup derives from an "out-of-the-box-setup", I will use a customized image build. Thanks to the official [Sidero Labs Image Factory](https://factory.talos.dev/) it is quite easy building a customized image based on your needs.
+
+
+### Generate Cluster configuration
+
+### Image deployment
+
 Step 2: Generate Cluster Configuration
 Step 3: Configure (Control Plane) Nodes
 Step 4: Configure Other Nodes
