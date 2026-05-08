@@ -132,6 +132,7 @@ talosctl gen config --output-dir talos/generated --with-secrets talos/generated/
 ```
 The default machine configurations for control plane and worker nodes are typically sufficient to get the cluster running. However, it is more convenient separating certain customization settings such as network interfaces and disk configurations etc. to seperate node-specific files.
 
+**`generated/patches/patch-node0[1234].yaml`**
 ```bash
 for i in (1234) do; touch generated/patches/patch-node0$i.yaml; done
 ```
