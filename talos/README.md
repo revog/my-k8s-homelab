@@ -160,7 +160,36 @@ Step 3: Configure (Control Plane) Nodes
 Step 4: Configure Other Nodes
 ...
 
-## Apply Configuration
+### Apply Configuration
+After pre-rendering the node configuration, they can be easily applied. Initially it is mandatory to bootstrap the cluster. 
+Additional nodes can be added the same way. For future configuration changes/updates use the same procedure.
+
+#### Bootstrapping first node
+```bash
+NODE=<HOSTNAME>
+# Apply config to node01 (use --insecure on first apply)
+talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
+
+# Set endpoint and reboot
+talosctl config endpoint <CLUSTER_VIP>
+talosctl config node $(host $NODE)
+talosctl reboot --nodes $(host $NODE)
+
+# Bootstrap cluster (only once, only on first control plane node!)
+talosctl bootstrap
+
+# Verify health
+talosctl health --wait-timeout 10m
+```
+After accomplished bootstrapping process it is possible to fetch de kubeconfig through `talosctl` and connecting to Kubernetes cluster with `kubectl`:
+```bash
+# Get kubeconfig
+talosctl kubeconfig .
+export KUBECONFIG=./kubeconfig
+
+kubectl get nodes
+```
+#### Update/Add nodes
 <tbd>
   
 As for the cluster I don't do a whole lot of configuration, Omni takes care of alot but since I just run 3 nodes I allow scheduling on the control plane. Other than that I just change the machine host name.
