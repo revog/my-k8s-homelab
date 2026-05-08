@@ -1,0 +1,66 @@
+### Global ###
+# Sensitive files
+*.agekey
+*.pub
+*.key
+*.pem
+.decrypted~*
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+### Helm ###
+# Chart dependencies
+**/charts/*.tgz
+**/Chart.lock
+
+### Terraform ###
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# .tfvars files, which are likely to contain sensitive data, such as password, private keys, and other secrets
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally and so are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# TF lock files
+**/.terraform.lock.hcl
+
+### Talos ###
+# Talos configs
+talosconfig
+
+# Talos cluster secrets
+secrets.yaml
+
+# Locally rendered configs
+**/rendered
+
+# Kubernetes configs
+kubeconfig
