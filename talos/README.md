@@ -14,13 +14,13 @@ Talos is managed by a single, declarative gRPC API - no ssh, no bash. This is th
 ## Setup <tbd>
 Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
 
-My hardware Setup is based on the Single Board Computer (SBC) Raspberry Pi 5 extended with Storage respectively AI HATs:
+My hardware setup is based on the Single Board Computer (SBC) Raspberry Pi 5 extended with Storage respectively AI HATs:
 | Node | Role | Storage | Special |
 |---|---|---|---|
 | node01 | control-plane + worker | Raspberry Pi 5 8GB | Hailo AI HAT |
 | node02 | control-plane + worker | Raspberry Pi 5 8GB | M.2 NVMe HAT |
 | node03 | control-plane + worker | Raspberry Pi 5 16GB | M.2 NVMe HAT |
-| node04 | worker | SD card (boot) | — | (not yet in use)
+| node04 | worker | SD card (boot) | — | (not yet in use) |
 
 **SD cards:** 64GB SanDisk High Endurance microSDHC (Class 10 / A1)  
 **NVMe:** M.2 2280 NVMe (PCIe Gen 3/4) for Longhorn SDS
