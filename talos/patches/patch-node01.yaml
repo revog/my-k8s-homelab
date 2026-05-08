@@ -9,6 +9,8 @@ machine:
           - network: 0.0.0.0/0
             gateway: 192.168.100.1
         dhcp: false
+        vip:
+          ip: 192.168.100.70  # floating IP
   install:
     disk: /dev/mmcblk0        # SD card
   kernel:
