@@ -36,19 +36,24 @@ Every node node needs a unique IP address plus a moving VIP (Virtual IP) for Kub
 
 ### Image build and deployment
 As the hardware setup derives from an "out-of-the-box-setup", I will use a customized image build. Thanks to the official [Sidero Labs Image Factory](https://factory.talos.dev/) it is quite easy building a customized image based on your needs.
+The factory validates the schematic and calculates a deterministic hash from which it is possible building images. It does not permanently store images but its recipe.
 
-#### Generate image
+#### Generate schematic (aka image recipe)
+##### Variant 1: Online Form
 The online form will guide through the process and will provide a unique schemantic ID for downloading the specific image.
 
 - Hardware Type: Single Board Computer (SBC)
 - Talos Linux Version: 1.13.0
 - Single Board Computer: Raspberry Pi 5
 - System Extensions:
-  - siderolabs/iscsi-tools        # required for Longhorn
-  - siderolabs/util-linux-tools   # required for Longhorn
-  - siderolabs/hailort            # add for Hailo-AI node only
+  - siderolabs/iscsi-tools (required for Longhorn)
+  - siderolabs/util-linux-tools (required for Longhorn)
+  - siderolabs/hailort (required for Hailo NPU)
 
-**`rpi5-schematic.yaml`** — adjust extensions per node type:
+##### Variant 2: Local prep
+Alternatively it is possible to achieve the same with an manual/scriptable approach by creating a local YAML manifest, submitting it with `curl` and downloading it afterwards with the returned schematic id.
+
+**`rpi5-schematic.yaml`**
 ```yaml
 overlay:
   name: rpi_5
@@ -60,6 +65,38 @@ customization:
       - siderolabs/util-linux-tools
       - siderolabs/hailort
 ```
+
+Submit schematic to get schematic id:
+```bash
+curl -s -X POST --data-binary @rpi5-schematic.yaml https://factory.talos.dev/schematics -H "Content-Type: application/x-yaml"
+```
+
+#### Download image
+Use the returned schematic ID for downloading customized image and extract:
+```bash
+SCHEMATIC="<schematic-id>"
+VERSION="v1.13.0"
+
+curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-arm64.raw.xz" -o metal-arm64.raw.xz
+xz -d metal-arm64.raw.xz
+```
+
+#### Install image on SD card
+Installation to SD card's can easily be done with local tools like `diskutil` and `dd`:
+```bash
+# Identify SD card
+diskutil list
+
+# Unmount
+diskutil unmountDisk /dev/diskX
+
+# Flash (using rdisk as it is faster on macOS)
+sudo dd if=metal-arm64.raw of=/dev/rdiskX bs=4m status=progress
+
+# Eject
+diskutil eject /dev/diskX
+```
+Finally insert the SD card into the Raspberry Pi and boot up. It starts Talos Linux in **Maintenance Mode** and should be reachable through a DHCP IP.
 
 ### Generate Cluster configuration
 
