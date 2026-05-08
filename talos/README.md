@@ -98,11 +98,33 @@ diskutil eject /dev/diskX
 ```
 Finally insert the SD card into the Raspberry Pi and boot up. It starts Talos Linux in **Maintenance Mode** and should be reachable through a DHCP IP.
 
-### Generate Cluster configuration
+### Configuration
+The Talos configuration is deliberately separated. Separating configuration from secrets increases flexibility, security, and operational simplicity. The reasons for this are:
+* Separation enables **safe reconfiguration**: Machine configurations reconfiguration without changing secrets and allowing cluster updates without disrupting existing nodes.
+* **Improved security** with version control: Machine configurations can be stored in Git while secrets remain separate, reducing the risk of credential exposure.
+* Easier **secret rotation**: Secrets (like certificates or tokens) can be rotated independently by generating a new secrets bundle and rebuilding configs.
 
-### Image deployment
+#### Generate secrets bundle
+The secrets bundle is a file that contains all the cryptographic keys, certificates, and tokens needed to secure your Talos Linux cluster.
+```bash
+talosctl gen secrets -o talos/generated/secrets.yaml
+```
+They deserve special care by being kept under lock and key and secret. The secrets are mandatory for cluster lifecycle and future tasks. So please, handle with care and make sure that they are available when communicating with the Talos instances!
+Will put the secrets to a safe location - e.g. Password Safe / Secret Vaultf and push a `sops`-encrypted variante to the repository.
+```bash
+# Encrypt the secrets file with SOPS using age
+sops --encrypt --age age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx talos/generated/secrets.yaml > talos/generated/secrets.enc.yaml
 
-Step 2: Generate Cluster Configuration
+# Later, decrypt when you need to generate configs
+sops --decrypt talos/generated/secrets.enc.yaml > talos/generated/secrets.yaml
+
+# Clean up the decrypted file
+rm talos/generated/secrets.yaml
+```
+
+#### Generate machine configurations
+
+
 Step 3: Configure (Control Plane) Nodes
 Step 4: Configure Other Nodes
 ...
@@ -128,4 +150,5 @@ I also install the qemu-guest-agent and iscsi system extensions, but that was a 
 Omni is a Kubernetes management platform that simplifies the creation and management of Kubernetes clusters on any environment to provide a simple, secure, and resilient platform. It automates cluster creation, management and upgrades, and integrates Kubernetes and Omni access into enterprise identity providers. While Omni does provide a powerful UI, tight integration with Talos Linux means the platform is 100% API-driven from Linux to Kubernetes to Omni.
 
 I run Omni .....
+
 
