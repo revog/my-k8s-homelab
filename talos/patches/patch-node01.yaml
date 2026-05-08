@@ -1,1 +1,20 @@
-<patch-node01-skeleton>
+---
+machine:
+  network:
+    interfaces:
+      - interface: end0       # verify with: talosctl get addresses
+        addresses:
+          - 192.168.100.71/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.100.1
+        dhcp: false
+  install:
+    disk: /dev/mmcblk0        # SD card
+  kernel:
+    modules:
+      - name: hailo_pci       # only for Hailo-8 node
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: node01
