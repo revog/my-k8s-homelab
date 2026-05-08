@@ -1,5 +1,8 @@
 cluster:
   allowSchedulingOnControlPlanes: true
+  extraManifests:
+    - https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/kubernetes/bootstrap/argocd/argocd.yaml
+  inlineManifests: []
   network:
     dnsDomain: cluster.local
     podSubnets:
