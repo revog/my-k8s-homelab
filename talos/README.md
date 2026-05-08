@@ -123,8 +123,18 @@ rm talos/generated/secrets.yaml
 ```
 
 #### Generate machine configurations
+Follow these steps to generate initial machine configuration. The command will generate three files using the previously created secrets bundle:
+* **controlplane.yaml**: Configuration for your control plane node(s)
+* **worker.yaml**: Configuration for your worker nodes
+* **talosconfig**: The talosctl configuration file used to connect to and authenticate with your cluster
+```bash
+talosctl gen config --output-dir talos/generated --with-secrets talos/generated/secrets.yaml <CLUSTER_NAME> https://<CLUSTER_API_VIP>:6443
+```
+The default machine configurations for control plane and worker nodes are typically sufficient to get the cluster running. However, it is more convenient separating certain customization settings such as network interfaces and disk configurations etc. to seperate node-specific files.
 
-
+```bash
+for i in (1234) do; touch generated/patches/patch-node0$i.yaml; done
+```
 Step 3: Configure (Control Plane) Nodes
 Step 4: Configure Other Nodes
 ...
