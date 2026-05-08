@@ -14,16 +14,18 @@ Talos is managed by a single, declarative gRPC API - no ssh, no bash. This is th
 ## Setup <tbd>
 Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
 
-My hardware setup is based on the Single Board Computer (SBC) Raspberry Pi 5 extended with Storage respectively AI HATs:
+My hardware setup is based on some Raspberry Pi 5 nodes extended with Storage respectively AI HATs:
 | Node | Role | Storage | Special |
 |---|---|---|---|
 | node01 | control-plane + worker | Raspberry Pi 5 8GB | Hailo AI HAT |
 | node02 | control-plane + worker | Raspberry Pi 5 8GB | M.2 NVMe HAT |
 | node03 | control-plane + worker | Raspberry Pi 5 16GB | M.2 NVMe HAT |
-| node04 | worker | SD card (boot) | — | (not yet in use) |
+| node04 | worker | (not yet in use) |  |
 
 **SD cards:** 64GB SanDisk High Endurance microSDHC (Class 10 / A1)  
 **NVMe:** M.2 2280 NVMe (PCIe Gen 3/4) for Longhorn SDS
+
+Due to the limited node count, I will use the control-plane nodes for workload scheduling aswell.
 
 ### Prerequisites
 Make sure to install the Talos Linux CLI on the workstation prior starting with the deployment. The client can be installed and updated from several sources like package manager (recommended), online [installer script](https://talos.dev/install) or [releases page](https://github.com/siderolabs/talos/releases). 
@@ -35,6 +37,29 @@ Every node node needs a unique IP address plus a moving VIP (Virtual IP) for Kub
 ### Image build and deployment
 As the hardware setup derives from an "out-of-the-box-setup", I will use a customized image build. Thanks to the official [Sidero Labs Image Factory](https://factory.talos.dev/) it is quite easy building a customized image based on your needs.
 
+#### Generate image
+The online form will guide through the process and will provide a unique schemantic ID for downloading the specific image.
+
+- Hardware Type: Single Board Computer (SBC)
+- Talos Linux Version: 1.13.0
+- Single Board Computer: Raspberry Pi 5
+- System Extensions:
+  - siderolabs/iscsi-tools        # required for Longhorn
+  - siderolabs/util-linux-tools   # required for Longhorn
+  - siderolabs/hailort            # add for Hailo-AI node only
+
+**`rpi5-schematic.yaml`** — adjust extensions per node type:
+```yaml
+overlay:
+  name: rpi_5
+  image: siderolabs/sbc-raspberrypi
+customization:
+  systemExtensions
+    officialExtensions:
+      - siderolabs/iscsi-tools
+      - siderolabs/util-linux-tools
+      - siderolabs/hailort
+```
 
 ### Generate Cluster configuration
 
