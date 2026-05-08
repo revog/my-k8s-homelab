@@ -98,7 +98,7 @@ diskutil eject /dev/diskX
 ```
 Finally insert the SD card into the Raspberry Pi and boot up. It starts Talos Linux in **Maintenance Mode** and should be reachable through a DHCP IP.
 
-### Configuration
+### Build Configuration
 The Talos configuration is deliberately separated. Separating configuration from secrets increases flexibility, security, and operational simplicity. The reasons for this are:
 * Separation enables **safe reconfiguration**: Machine configurations reconfiguration without changing secrets and allowing cluster updates without disrupting existing nodes.
 * **Improved security** with version control: Machine configurations can be stored in Git while secrets remain separate, reducing the risk of credential exposure.
@@ -123,6 +123,9 @@ rm talos/generated/secrets.yaml
 ```
 
 #### Generate machine configurations
+Talos uses declarative configuration for clusters, but upgrades can cause drift between the declared machine configuration (files you keep in Git) and the deployed configuration (what’s actually running on the nodes).
+To prevent this drift, it is recommend discarding full declared configuration files and instead using a patch-based workflow to regenerate machine configuration whenever you need them.
+
 Follow these steps to generate initial machine configuration. The command will generate three files using the previously created secrets bundle:
 * **controlplane.yaml**: Configuration for your control plane node(s)
 * **worker.yaml**: Configuration for your worker nodes
@@ -132,16 +135,34 @@ talosctl gen config --output-dir talos/generated --with-secrets talos/generated/
 ```
 The default machine configurations for control plane and worker nodes are typically sufficient to get the cluster running. However, it is more convenient separating certain customization settings such as network interfaces and disk configurations etc. to seperate node-specific files.
 
-**`generated/patches/patch-node0[1234].yaml`**
+Beside of node-specific patches there can be created also general - like cluster-related - patch files.
+
+To regenerate your machine configuration create new configs using inputs from existing files (secrets.yaml, patches) and inputs (cluster-name, endpoint, ...):
 ```bash
-for i in (1234) do; touch generated/patches/patch-node0$i.yaml; done
+CLUSTER_NAME=<CLUSTER_NAME>
+CLUSTER_API_VIP=<CLUSTER_API_VIP>
+KUBERNETES_VERSION=<KUBERNETES_VERSION>
+NODE=<HOSTNAME>
+TALOS_VERSION=<TALOS_VERSION>
+
+talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
+    --with-secrets talos/generated/secrets.yaml \
+    --kubernetes-version $KUBERNETES_VERSION \
+    --talos-version $TALOS_VERSION \
+    --config-patch generated/common.yaml \
+    --config-patch-control-plane @generated/controlplane.yaml \
+    --config-patch-worker @generated/worker.yaml \
+    --config-patch @patches/patch-$NODE.yaml \
+    --output talos/generated/nodes/$NODE.yaml
 ```
+
 Step 3: Configure (Control Plane) Nodes
 Step 4: Configure Other Nodes
 ...
 
-## Configuration
-
+## Apply Configuration
+<tbd>
+  
 As for the cluster I don't do a whole lot of configuration, Omni takes care of alot but since I just run 3 nodes I allow scheduling on the control plane. Other than that I just change the machine host name.
 
 ```yaml
