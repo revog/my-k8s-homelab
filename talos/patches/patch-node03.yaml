@@ -1,1 +1,19 @@
-<patch-node03-skeleton>
+---
+machine:
+  network:
+    interfaces:
+      - interface: end0       # verify with: talosctl get addresses
+        addresses:
+          - 192.168.100.53/24
+        dhcp: false
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.100.1
+        vip:
+          ip: 192.168.100.50  # floating IP
+  install:
+    disk: /dev/mmcblk0        # SD card
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: node03

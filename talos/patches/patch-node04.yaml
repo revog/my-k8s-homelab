@@ -2,21 +2,16 @@
 machine:
   network:
     interfaces:
-      - interface: end0       # verify with: talosctl get addresses
+      - interface: end0
         addresses:
-          - 192.168.100.51/24
+          - 192.168.100.54/24
         dhcp: false
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.100.1
-        vip:
-          ip: 192.168.100.50  # floating IP
   install:
     disk: /dev/mmcblk0        # SD card
-  kernel:
-    modules:
-      - name: hailo_pci       # only for Hailo-8 node
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
-hostname: node01
+hostname: node04

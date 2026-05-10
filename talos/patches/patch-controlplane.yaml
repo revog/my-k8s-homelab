@@ -1,0 +1,34 @@
+cluster:
+  allowSchedulingOnControlPlanes: true              # allow workloads on control plane nodes
+  apiServer:
+    certSANs:
+      - 192.168.100.50                              # VIP — kubectl via VIP without cert errors
+    extraArgs:
+      enable-aggregator-routing: "true"             # required for metrics-server and custom API aggregation
+    disablePodSecurityPolicy: true                  # PSP is deprecated, replaced by PodSecurity
+  clusterName: homelab                              # set clustername
+  network:
+    cni:
+      name: custom                                  # disable built-in Flannel, use custom CNI
+      urls:
+        - https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/kubernetes/bootstrap/cilium/cilium.yaml
+  proxy:
+    disabled: true                                  # disable kube-proxy, replaced by Cilium
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0                         # expose metrics on all interfaces for Prometheus
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0                         # expose metrics on all interfaces for Prometheus
+  etcd:
+    extraArgs:
+      auto-compaction-retention: "1"                # compact etcd history >1h, keeps DB small
+      listen-metrics-urls: http://0.0.0.0:2381      # expose etcd metrics for Prometheus
+  discovery:
+    enabled: true                                   # enable cluster member discovery
+    registries:
+      kubernetes:
+        disabled: true                              # avoid API server load, use service discovery instead
+      service: {}                                   # lightweight Talos service-based discovery
+  extraManifests:
+    - https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/kubernetes/bootstrap/argocd/argocd.yaml  # bootstrap ArgoCD, takes over GitOps from here
