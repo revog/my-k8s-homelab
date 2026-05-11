@@ -46,7 +46,7 @@ This repository leverages a range of cutting-edge open-source tools and platform
     - 🚀 [Kubernetes](#-kubernetes)
       - 😶 [Core Components](#-core-components)
       - ⚙ [GitOps](#-gitops)
-    - 🌎 [Networking & DNS](-networking--dns)
+    - 🌎 [Networking & DNS](#-networking--dns)
       - 🔒 [Local Network](#-local-network)
       - 💻 [Remote Network (Exposed)](#-remote-network-exposed)
         - 🪬 [Privately Exposed (Tailscale)](#-privately-exposed-tailscale)
