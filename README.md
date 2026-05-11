@@ -120,7 +120,12 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 
 ### 🌎 Networking & DNS
 Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by [Cert Manager](https://cert-manager.io/) for each application.
-This setup is managed by creating ingresses with specific classes: `internal` for local services (trusted LAN only), `private` for privately exposed services (authenticated devices + user identity) and `public` for public DNS (untrusted internet). The external-dns instances then syncs the DNS records to their respective platforms accordingly.
+Ingress behavior is controlled through dedicated ingress classes:
+* `internal` - local services (trusted LAN only)
+* `private` - privately exposed services (authenticated devices and user identity)
+* `public` - publicly exposed services (untrusted internet).
+
+Each ingress class integrates with ExternalDNS, which syncs DNS records to the appropriate DNS platform automatically.
 
 #### 🔒 Local Network
 The first and easiest way that an app can be exposed is strictly on my local network. This is most often used for apps and services that have to do with home automation or simply used in my local network, there is no need to expose those any further than that.
