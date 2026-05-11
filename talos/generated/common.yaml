@@ -25,6 +25,9 @@ machine:
     disableManifestsDirectory: true                # disable static pod dir, not needed on Talos
     extraConfig:
       serializeImagePulls: false                   # pull images in parallel, faster pod startup
+    nodeIP:
+      validSubnets:                                # enforce using only ip of provided subnets for the kubelet
+        - 192.168.100.0/24
   network:
     nameservers:
       - 192.168.100.100
