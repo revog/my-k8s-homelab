@@ -1,28 +1,12 @@
-# TO BE CONFIGURED - sample values
+hubble:
+  enabled: true
+  ui:
+    enabled: true
+
 kubeProxyReplacement: true
 
-ipam:
-  operator:
-    clusterPoolIPv4PodCIDRList:
-      - 10.244.0.0/16
-
-securityContext:
-  capabilities:
-    ciliumAgent:
-      - CHOWN
-      - KILL
-      - NET_ADMIN
-      - NET_RAW
-      - IPC_LOCK
-      - SYS_ADMIN
-      - SYS_RESOURCE
-      - DAC_OVERRIDE
-      - FOWNER
-      - SETGID
-      - SETUID
-    cleanCiliumState:
-      - NET_ADMIN
-      - SYS_ADMIN
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
 
 operator:
-  replicas: 1
+  replicas: 2
