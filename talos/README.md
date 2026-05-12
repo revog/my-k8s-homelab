@@ -145,6 +145,10 @@ KUBERNETES_VERSION=<KUBERNETES_VERSION>
 NODE=<HOSTNAME>
 TALOS_VERSION=<TALOS_VERSION>
 
+cd talos
+```
+For control-plane nodes:
+```bash
 talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
   --with-secrets secrets.yaml \
   --kubernetes-version $KUBERNETES_VERSION \
@@ -153,17 +157,18 @@ talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
   --config-patch-control-plane @patches/patch-controlplane.yaml \
   --config-patch @patches/patch-$NODE.yaml \
   --output rendered/$NODE.yaml
-
+  --output-types controlplane
+```
+For worker-nodes:
+```bash
 talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
-    --with-secrets talos/generated/secrets.yaml \
+    --with-secrets secrets.yaml \
     --kubernetes-version $KUBERNETES_VERSION \
     --talos-version $TALOS_VERSION \
     --config-patch @generated/common.yaml \
-    --config-patch-control-plane @generated/controlplane.yaml \
-    --config-patch-control-plane @patches/patch-controlplane.yaml \
-    --config-patch-worker @generated/worker.yaml \
     --config-patch @patches/patch-$NODE.yaml \
-    --output talos/rendered/$NODE.yaml
+    --output rendered/$NODE.yaml
+    --output-types worker
 ```
 
 ### Apply Configuration
