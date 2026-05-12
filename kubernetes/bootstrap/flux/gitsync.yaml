@@ -4,7 +4,7 @@ metadata:
   name: homelab
   namespace: infra-flux
 spec:
-  interval: 1m
+  interval: 30m
   url: https://github.com/revog/my-k8s-homelab
   ref:
     branch: main
