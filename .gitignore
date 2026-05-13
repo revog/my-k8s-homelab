@@ -6,6 +6,8 @@
 *.pem
 .decrypted~*
 eso-key.json
+*secrets.yaml
+cluster-config.yaml
 
 ### macOS ###
 # General
@@ -56,9 +58,6 @@ terraform.rc
 ### Talos ###
 # Talos configs
 talosconfig
-
-# Talos cluster secrets
-secrets.yaml
 
 # Locally rendered configs
 **/rendered
