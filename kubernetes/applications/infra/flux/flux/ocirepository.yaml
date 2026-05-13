@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: flux
+  namespace: infra-flux
+spec:
+  interval: 12h
+  url: oci://ghcr.io/fluxcd/helm-charts/flux2
+  ref:
+    tag: "2.13.0"   # pick a stable version; update later intentionally
