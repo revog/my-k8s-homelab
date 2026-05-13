@@ -1,0 +1,17 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kustomize-mutating-webhook
+  namespace: infra-flux
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: kustomize-mutating-webhook
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values: {}
