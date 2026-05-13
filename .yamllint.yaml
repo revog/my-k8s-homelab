@@ -1,0 +1,13 @@
+---
+# Customize rules
+extends: default
+
+# Target specific files to bypass the line-length rule
+rules:
+  line-length:
+    max: 120
+    # Hier werden Dateien für diese spezifische Regel ignoriert
+    ignore: |
+      **/*.sops.yaml
+      **/*enc.age*.yaml
+      **/secrets.yaml
