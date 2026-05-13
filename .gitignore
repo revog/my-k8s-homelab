@@ -5,6 +5,7 @@
 *.key
 *.pem
 .decrypted~*
+eso-key.json
 
 ### macOS ###
 # General
