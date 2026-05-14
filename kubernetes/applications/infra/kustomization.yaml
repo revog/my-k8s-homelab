@@ -5,6 +5,6 @@ kind: Kustomization
 
 resources:
   - cert-manager
-  - cilium
-  - external-secrets
+  - cilium/ks.yaml
+  - external-secrets/ks.yaml
   - flux
