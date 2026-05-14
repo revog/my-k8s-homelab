@@ -8,6 +8,8 @@ metadata:
 spec:
   path: "./applications/infra/cilium/app"
   wait: false
+  interval: 15m
+  prune: false
   dependsOn:
     - name: cilium-crds
       namespace: kube-system
@@ -26,6 +28,8 @@ metadata:
 spec:
   path: "/applications/infra/cilium/crds"
   wait: false
+  interval: 15m
+  prune: false
   targetNamespace: kube-system
   sourceRef:
     kind: ExternalArtifact

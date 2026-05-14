@@ -8,6 +8,8 @@ metadata:
 spec:
   path: "./applications/infra/external-secrets/app"
   wait: false
+  interval: 15m
+  prune: false
   dependsOn:
     - name: external-secrets-crds
       namespace: infra-external-secrets
@@ -26,6 +28,8 @@ metadata:
 spec:
   path: "/applications/infra/external-secrets/crds"
   wait: false
+  interval: 15m
+  prune: false
   targetNamespace: infra-external-secrets
   sourceRef:
     kind: ExternalArtifact
