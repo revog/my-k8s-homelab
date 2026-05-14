@@ -1,3 +1,6 @@
+bpf:
+  hostLegacyRouting: true
+
 cgroup:
   autoMount:
     enabled: false
@@ -9,6 +12,9 @@ hubble:
     enabled: true
   ui:
     enabled: true
+
+ipam:
+  mode: kubernetes
 
 kubeProxyReplacement: true
 
@@ -28,8 +34,6 @@ securityContext:
       - IPC_LOCK
       - SYS_ADMIN
       - SYS_RESOURCE
-      - PERFMON
-      - BPF
       - DAC_OVERRIDE
       - FOWNER
       - SETGID
