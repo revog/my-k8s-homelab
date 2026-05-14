@@ -50,4 +50,4 @@ repos:
         language: unsupported_script
         files: '(secret|credential|token|key).*\.yaml$'
         stages: [pre-commit]
-        exclude: ^kubernetes/applications/infra/external-secrets/(externalsecret-gcp|secretstore)\.yaml$
+        exclude: ^kubernetes/applications/infra/external-secrets/(externalsecret-gcp|secretstore|kustomization)\.yaml$
