@@ -8,3 +8,4 @@ resources:
   - cilium/ks.yaml
   - external-secrets/ks.yaml
   - flux
+  - gateway-api/ks.yaml
