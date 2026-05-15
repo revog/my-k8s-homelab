@@ -137,7 +137,7 @@ Local deployments are accomplished by creating an ingress of type `internal`, wh
 
 * Reachable only from the trusted LAN
 * No Internet or Tailscale exposure
-* DNS records (`*.internal.mydomain.com`) are provisioned in local DNS (e.g. Pi-hole / Unbound)
+* DNS records (`*.internal.myhomelab.com`) are provisioned in local DNS (e.g. Pi-hole / Unbound)
 
 #### 🪬 Privately Exposed (Tailscale)
 The second and most common way that an app can be exposed is via **[Tailscale](https://tailscale.com/docs/features/kubernetes-operator)**. Creating an Ingress with the `private` class will expose the application to my Tailnet, and ["automagically"](https://tailscale.com/docs/features/magicdns) configure DNS records. Most self-hosted apps and dashboards are exposed using this class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
