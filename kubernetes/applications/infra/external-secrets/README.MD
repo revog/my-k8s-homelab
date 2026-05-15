@@ -14,4 +14,5 @@ It depends on accomplished setup of Google Secret Manager.
 Secret Manager is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
 
 ## Initial Setup
-<tbd>
+
+TO BE INSERTED
