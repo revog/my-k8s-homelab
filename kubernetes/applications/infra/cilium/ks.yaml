@@ -6,8 +6,8 @@ metadata:
   name: cilium
   namespace: infra-flux
 spec:
-  path: "./applications/infra/cilium/app"
-  wait: false
+  path: "./kubernetes/applications/infra/cilium/app"
+  wait: true
   interval: 15m
   prune: false
   dependsOn:
@@ -26,8 +26,8 @@ metadata:
   name: cilium-crds
   namespace: infra-flux
 spec:
-  path: "/applications/infra/cilium/crds"
-  wait: false
+  path: "./kubernetes/applications/infra/cilium/crds"
+  wait: true
   interval: 15m
   prune: false
   targetNamespace: kube-system
