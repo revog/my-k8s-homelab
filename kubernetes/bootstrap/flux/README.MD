@@ -1,6 +1,7 @@
 # Flux Bootstrap (Day-0)
 This directory contains **pre-rendered Flux manifests** used during initial cluster bootstrapping via Talos `externalManifests`.
 Flux is installed before any GitOps reconciliation is possible, therefore it cannot be deployed via HelmRelease or Kustomization at this stage.
+Using official Flux CLI instead of Helm because Flux controllers are not distributed as Helm charts for bootstrap.
 
 ## Generate Bootstrap Manifest
 The Flux controllers must be generated using the official Flux CLI.
@@ -9,6 +10,8 @@ This ensures:
 - all required CRDs are included
 - controller deployments are complete
 - manifests are compatible with Flux runtime
+
+⚠️ Please note: The Flux CLI version determines the installed controller version. Ensure consistent CLI version across environments.
 
 ```bash
 # Overwrite file with a clear header
@@ -21,4 +24,4 @@ flux install --namespace infra-flux --export >> kubernetes/bootstrap/flux/compon
 kustomize build > kubernetes/bootstrap/flux/flux.yaml
 ```
 
-⚠️ This pre-rendered file is only used during cluster bootstrapping process. After successfull deployment of Flux, application will be maintained through CICD mechanisms.
+⚠️ This pre-rendered file is only used during cluster bootstrapping process. After successfull deployment of Flux, application will be maintained through Flux mechanisms.
