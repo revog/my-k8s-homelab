@@ -6,8 +6,8 @@ metadata:
   name: external-secrets
   namespace: infra-flux
 spec:
-  path: "./applications/infra/external-secrets/app"
-  wait: false
+  path: "./kubernetes/applications/infra/external-secrets/app"
+  wait: true
   interval: 15m
   prune: false
   dependsOn:
@@ -25,8 +25,8 @@ metadata:
   name: external-secrets-crds
   namespace: infra-flux
 spec:
-  path: "/applications/infra/external-secrets/crds"
-  wait: false
+  path: "./kubernetes/applications/infra/external-secrets/crds"
+  wait: true
   interval: 15m
   prune: false
   targetNamespace: infra-external-secrets
