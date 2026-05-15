@@ -1,14 +1,16 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/gitrepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: homelab
   namespace: infra-flux
 spec:
-  interval: 30m
+  interval: 5m
   url: https://github.com/revog/my-k8s-homelab
   ref:
     branch: main
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -16,6 +18,8 @@ metadata:
   namespace: infra-flux
 spec:
   interval: 5m
+  retryInterval: 1m
+  timeout: 3m
   path: ./kubernetes/clusters/homelab
   prune: true
   sourceRef:
