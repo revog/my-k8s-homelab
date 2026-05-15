@@ -1,6 +1,14 @@
 # Flux Bootstrap (Day-0)
+This directory contains **pre-rendered Flux manifests** used during initial cluster bootstrapping via Talos `externalManifests`.
+Flux is installed before any GitOps reconciliation is possible, therefore it cannot be deployed via HelmRelease or Kustomization at this stage.
 
-## Create pre-templated Flux manifests for Cluster bootstrapping
+## Generate Bootstrap Manifest
+The Flux controllers must be generated using the official Flux CLI.
+
+This ensures:
+- all required CRDs are included
+- controller deployments are complete
+- manifests are compatible with Flux runtime
 
 ```bash
 # Overwrite file with a clear header
