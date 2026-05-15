@@ -118,30 +118,44 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 |⚠️| <img width="32" src="https://raw.githubusercontent.com/oauth2-proxy/oauth2-proxy/master/docs/static/img/logos/OAuth2_Proxy_icon.svg">| [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/)    | Reverse proxy providing authentication with external OAuth2 providers                                     |
 |⚠️| <img width="32" src="https://avatars.githubusercontent.com/u/314135">                                                                | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Secure outbound-only tunnel for exposing services without public IPs  |
 
-### 🌎 Networking & DNS
-Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by [Cert Manager](https://cert-manager.io/) for each application.
-Ingress behavior is controlled through dedicated ingress classes:
-* `internal` - local services (trusted LAN only)
-* `private` - privately exposed services (authenticated devices and user identity)
-* `public` - publicly exposed services (untrusted internet).
+### 🌎 Networking & DNS Strategy
+Apps hosted on my cluster are exposed using any combination of three different methods, depending on their use-case, security requirements, and intended audience. All three methods utilise fully encrypted HTTPS connections – TLS certificates are automatically provisioned and renewed by [Cert Manager](https://cert-manager.io/) for each application. Applications are exposed using a single dedicated domain (e.g. `myhomelab.com`) while maintaining clear **trust boundaries** between local, private, and public services. Subdomains are used to encode **security posture**, not technology. This ensures that exposure intent is immediately clear from the hostname Services cannot be accidentally promoted to a higher exposure tier DNS, ingress logic, and security policies align cleanly.
 
-Each ingress class integrates with ExternalDNS, which syncs DNS records to the appropriate DNS platform automatically.
+All applications are exposed using one of three **gateway classes**, each mapping 1:1 to a **DNS namespace and trust level**.
 
-#### 🔒 Local Network
+| Gateway Class | DNS Namespace | Exposure | Trust Model |
+|-------------|---------------|----------|------------|
+| `internal` | `*.internal.myhomelab.com` | Local network only | Trusted LAN |
+| `private` | `*.private.myhomelab.com` | Tailscale | Authenticated devices + user identity |
+| `public` | `*.myhomelab.com` | Cloudflare Tunnel | Untrusted Internet |
+
+All traffic uses **HTTPS only**. TLS certificates are automatically provisioned and renewed using **cert-manager** And each class integrates with ExternalDNS, which syncs DNS records to the appropriate DNS platform automatically.
+
+#### 🔒 Internal
 The first and easiest way that an app can be exposed is strictly on my local network. This is most often used for apps and services that have to do with home automation or simply used in my local network, there is no need to expose those any further than that.
-Local deployments are accomplished by creating an Ingress of type `internal`, which will register a virtual IP for the service in a designated subnet and provision a DNS record in local DNS.
+Local deployments are accomplished by creating an ingress of type `internal`, which will register a virtual IP for the service in a designated subnet and provision a DNS record in local DNS.
 
-#### 💻 Remote Network (Exposed)
-The remote service type differs between **private access while on the road** used and **publicly exposed services**.
+* Reachable only from the trusted LAN
+* No Internet or Tailscale exposure
+* DNS records (`*.internal.mydomain.com`) are provisioned in local DNS (e.g. Pi-hole / Unbound)
 
-##### 🪬 Privately Exposed (Tailscale)
-The second and most common way that an app can be exposed is via **[Tailscale](https://tailscale.com/docs/features/kubernetes-operator)**. Creating an Ingress with the `private` class will expose the application to my Tailnet, and ["automagically"](https://tailscale.com/docs/features/magicdns) configure DNS records. Most self-hosted apps and dashboards are exposed using this Ingress class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
-Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with the Nautik iOS app to monitor and administer my Kubernetes cluster on-the-go.
+#### 🪬 Privately Exposed (Tailscale)
+The second and most common way that an app can be exposed is via **[Tailscale](https://tailscale.com/docs/features/kubernetes-operator)**. Creating an Ingress with the `private` class will expose the application to my Tailnet, and ["automagically"](https://tailscale.com/docs/features/magicdns) configure DNS records. Most self-hosted apps and dashboards are exposed using this class, so that they are accessible on my personal devices at a consistent URL no matter if I'm at home or abroad.
+Tailscale also serves as a Kubernetes auth proxy, which I use in conjunction with mobile apps to monitor and administer my Kubernetes cluster on-the-go.
 
-##### 🔓 Publicly Exposed (Cloudflare)
+* Accessible only from authenticated Tailnet devices
+* Identity-aware networking (user + device)
+* Consistent URLs anywhere (home or abroad)
+* These DNS records exist publicly (via Cloudflare DNS) but resolve to Tailscale IPs (DNS visibility does not imply reachability)
+* No open firewall ports
+
+#### 🔓 Publicly Exposed (Cloudflare)
 The final and least common way to expose an app is via cloudflared - the **[Cloudflare Tunnel](https://developers.cloudflare.com/learning-paths/replace-vpn/connect-private-network/cloudflared/)** daemon. Creating an Ingress with the `public` class will route all external traffic through Cloudflare's infrastructure, I gain the benefits of their global security infrastructure (notably DDoS protection). This is generally used for webhook endpoints which require access from the wider Internet, though I do expose a select few apps for friends and family. Public apps are additionally protected using Cloudflare Access or application‑level authentication.
 
-Creating a public ingress will trigger using ExternalDNS to provision a CNAME DNS record on Cloudflare which points at the Cloudflare Tunnel endpoint. The tunnel routes traffic securely into my cluster, where the ingress controller further routes it to the destination service.
+* No public IPs or inbound NAT rules
+* Full Cloudflare edge protection (DDoS, WAF, rate limiting)
+* Traffic is always outbound from the cluster
+* Typical usecases are Webhook endpoints and apps for friends & family
 
 ### 📁 Directory Structure
 This Git repository contains the following directories and structure:
