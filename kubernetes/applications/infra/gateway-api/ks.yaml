@@ -23,6 +23,7 @@ metadata:
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/infra/gateway-api/app
+  targetNamespace: infra-gateway
   interval: 15m
   retryInterval: 1m
   timeout: 3m
@@ -33,3 +34,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+
