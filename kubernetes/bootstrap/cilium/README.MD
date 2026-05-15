@@ -2,7 +2,7 @@
 This directory contains a **pre-rendered Cilium manifest** used for initial cluster bootstrapping via Talos configuration (`cluster.network.cni.urls`).
 Cilium is installed at a very early state (before Flux exists), therefore Helm/Kustomize controllers cannot be used at this stage.
 
-## Create pre-templated Cilium manifests for Cluster bootstrapping
+## Generate Bootstrap Manifest
 The bootstrap manifest must be generated using Helm, ensuring: 
 - CRDs are included
 - Helm rendering is accurate
