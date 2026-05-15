@@ -1,4 +1,4 @@
-# Flux
+# Flux Bootstrap (Day-0)
 
 ## Create pre-templated Flux manifests for Cluster bootstrapping
 
