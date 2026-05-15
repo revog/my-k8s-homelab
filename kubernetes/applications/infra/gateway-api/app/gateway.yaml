@@ -27,13 +27,11 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-      # enable later when cert-manager is wired
-      # tls:
-      #   mode: Terminate
-      #   certificateRefs:
-      #     - kind: Secret
-      #       name: <domain-tld-le> #Lets encrypt cert
-
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: public-tls
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
