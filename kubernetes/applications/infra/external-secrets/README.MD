@@ -68,7 +68,7 @@ $ gcloud iam service-accounts keys create eso-key.json --iam-account eso-sa@<YOU
 created key [abcdef1234567890abcdef1234567890abcdef12] of type [json] as [eso-key.json] for [eso-sa@<YOUR_PROJECT_ID>.iam.gserviceaccount.com]
 ```
 
-5. Inject GSM credentials via Talos
+5. Inject GSM credentials via [Talos Configuration](/talos/patches)
 ```yaml
 cluster:
   inlineManifests:
@@ -86,21 +86,4 @@ cluster:
           }
 ```
 
-
-> Step 5-7 — Add External Secrets Operator (Flux) - in applications/infra/external-secrets
-  DONE
-  
-> Step 8 — Add ESO to infra aggregation
-  DONE
- 
-> Step 9 — Enable SOPS in Flux (automatic)
-	Flux automatically detects: 
-	Secret name: sops-age
-	Key: age.agekey
 	
-> Step 10 — Config to encrypt your sensitive files (.sops.yaml)
-  DONE
-  
-> Step 11 - Encrypt file locally and push to git
-
-> Step 12 — First full deploy sequence (what happens)
