@@ -4,7 +4,7 @@ kind: Gateway
 metadata:
   name: cilium-external
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: &hostname "${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: &hostname "*.${CLUSTER_DOMAIN}"
     # external-dns.alpha.kubernetes.io/hostname: &hostname "${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
@@ -40,7 +40,7 @@ kind: Gateway
 metadata:
   name: cilium-private
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: "*.private.${CLUSTER_DOMAIN}"
     # external-dns.alpha.kubernetes.io/hostname: &hostname "private.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
@@ -75,7 +75,7 @@ kind: Gateway
 metadata:
   name: cilium-internal
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "internal.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: "*.internal.${CLUSTER_DOMAIN}"
     # external-dns.alpha.kubernetes.io/hostname: &hostname "internal.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
