@@ -3,18 +3,19 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cert-manager
-  namespace: infra-flux
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: cert-manager
-      version: "v1.14.5"
-      sourceRef:
-        kind: HelmRepository
-        name: jetstack
-        namespace: infra-flux
-  install:
-    createNamespace: true
+  chartRef:
+    kind: OCIRepository
+    name: cert-manager
+    namespace: infra-flux
   values:
     installCRDs: false
+    extraArgs:
+      # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
+      - --enable-certificate-owner-ref=true
+    podDisruptionBudget:
+      enabled: true
+    prometheus:
+      servicemonitor:
+        enabled: true
