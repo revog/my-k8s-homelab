@@ -49,11 +49,14 @@ cluster:
             ... contents of eso-key.json ...
           }
 ```
+This design intentionally solves the "secret bootstrap problem": Flux cannot decrypt secrets without a key
+and the key cannot be stored in Git (sensitive!).
 
-One of the components in Flux is the Flux controller which connects to Git repository and begins the reconciliation loop.
+The solution is quite easy: Talos injects GSM auth credentials (encrypted in code) from where ESO the SOPS AGE key retrieves which enables Flux to decrypt encrypted manifests.
 
 ## 2. Day-1: Infrastructure bootstrap
 Flux does reconsiliate the [infrastructure](/kubernetes/applications/infra) components. 
+One of the components in Flux is the Flux controller which connects to Git repository and begins the reconciliation loop.
 
 ### Secret bootstrapping (GSM)
 Beside other deployments the **External Secrets Operator (ESO)** gets deployed. 
