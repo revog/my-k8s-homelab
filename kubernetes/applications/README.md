@@ -29,7 +29,7 @@ Namespaces are created automatically by GitOps tooling (e.g. Flux with `targetNa
     │       └── homeasistant/
     │           ├── kustomization.yaml
     │           └── app.yaml
-    └── bootstrap/                      # ArgoCD bootstrap / App-of-Apps / ApplicationSet
+    └── bootstrap/                      # Flux & prerequisites bootstrap 
 ```
 
 # Notes
