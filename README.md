@@ -63,7 +63,7 @@ This repository leverages a range of cutting-edge open-source tools and platform
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Provider's Internet Router | Router/Gateway | 1 | - | - | - | - | - |
 | Network Gear | Network Switch | 1 | - | - | - | - | - |
-| [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) | K8s Nodes | 3 | 12 cores | 32GB | 3 x  512GB NVMe | AMD64 | [Talos Linux](https://www.talos.dev/) |
+| [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) | K8s Nodes | 3 | 12 cores | 32GB | 3 x  512GB NVMe | arm64 | [Talos Linux](https://www.talos.dev/) |
 | NAS | Storage | 1 | 8 cores | 16GB | 48TB | arm64 | [QNAP](https://www.qnap.com/) |
 
 ## ☁️ Cloud Services
