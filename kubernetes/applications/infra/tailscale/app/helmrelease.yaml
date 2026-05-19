@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: tailscale-operator
+    namespace: infra-flux
+  values:
+    operatorConfig:
+      # optional but useful label prefix
+      defaultTags:
+        - "tag:k8s"
