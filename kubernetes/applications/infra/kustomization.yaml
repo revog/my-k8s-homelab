@@ -9,3 +9,4 @@ resources:
   - external-secrets/ks.yaml
   - flux
   - gateway-api/ks.yaml
+  - tailscale/ks.yaml
