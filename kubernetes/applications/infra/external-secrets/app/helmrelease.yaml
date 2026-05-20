@@ -10,9 +10,12 @@ spec:
     kind: OCIRepository
     name: external-secrets
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
-  values: {}
+  values:
+    installCRDs: true
