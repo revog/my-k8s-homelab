@@ -5,5 +5,7 @@ kind: Kustomization
 resources:
   - ocirepository.yaml
   - helmrelease.yaml
-  - secret.enc.yaml
-  - namespace.yaml
+  - clusterissuer.yaml
+  - cloudflare-secret.age.enc.yaml
+  - certificate.yaml
+  - namepsace.yaml
