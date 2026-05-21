@@ -10,9 +10,6 @@ spec:
   wait: true
   interval: 15m
   prune: false
-  dependsOn:
-    - name: external-secrets-crds
-      namespace: infra-flux
   targetNamespace: infra-external-secrets
   sourceRef:
     kind: GitRepository
