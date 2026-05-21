@@ -14,3 +14,22 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets-config
+  namespace: infra-flux
+spec:
+  path: "./kubernetes/applications/infra/external-secrets/config"
+  wait: true
+  interval: 15m
+  prune: true
+  targetNamespace: infra-external-secrets
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: external-secrets
