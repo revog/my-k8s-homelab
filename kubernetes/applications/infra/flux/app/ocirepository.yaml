@@ -6,6 +6,6 @@ metadata:
   namespace: infra-flux
 spec:
   interval: 12h
-  url: oci://ghcr.io/fluxcd/helm/flux2
+  url: oci://ghcr.io/fluxcd/charts/flux2
   ref:
     tag: "2.13.0"
