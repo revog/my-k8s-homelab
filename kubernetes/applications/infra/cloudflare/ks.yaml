@@ -4,7 +4,7 @@ metadata:
   name: cloudflare-tunnel
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/infra/cloudflare-tunnel/app
+  path: ./kubernetes/applications/infra/cloudflare/app
   interval: 15m
   retryInterval: 1m
   timeout: 3m
