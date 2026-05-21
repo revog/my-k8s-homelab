@@ -3,23 +3,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cert-manager-crds
-  namespace: infra-flux
-spec:
-  path: ./kubernetes/applications/infra/certmanager/crds
-  interval: 15m
-  retryInterval: 1m
-  timeout: 3m
-  prune: false
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: homelab
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: cert-manager
   namespace: infra-flux
 spec:
@@ -29,8 +12,6 @@ spec:
   timeout: 3m
   prune: true
   wait: true
-  dependsOn:
-    - name: cert-manager-crds
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
