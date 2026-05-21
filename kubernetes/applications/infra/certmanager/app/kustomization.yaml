@@ -8,4 +8,12 @@ resources:
   - clusterissuer.yaml
   - cloudflare-secret.age.enc.yaml
   - certificate.yaml
-  - namepsace.yaml
+  - namespace.yaml
+
+configMapGenerator:
+  - name: cert-manager-values
+    files:
+      - values.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
