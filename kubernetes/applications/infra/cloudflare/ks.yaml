@@ -13,3 +13,6 @@ spec:
   dependsOn:
     - name: cilium
   targetNamespace: infra-cloudflare
+  sourceRef:
+    kind: GitRepository
+    name: homelab
