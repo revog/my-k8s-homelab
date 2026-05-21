@@ -6,3 +6,11 @@ kind: Kustomization
 resources:
   - ocirepository.yaml
   - helmrelease.yaml
+
+configMapGenerator:
+  - name: kustomize-mutating-values
+    files:
+      - values.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

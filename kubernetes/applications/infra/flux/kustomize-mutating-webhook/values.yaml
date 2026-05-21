@@ -1,0 +1,12 @@
+---
+# ConfigMaps watched via the Kubernetes API for substitution variables (names passed to WATCH_CONFIGMAPS env var)
+configMaps:
+  - create: false
+    name: cluster-config
+    data: {}
+
+# -- Secrets watched via the Kubernetes API for substitution variables (names passed to WATCH_SECRETS env var)
+secrets:
+  - create: false
+    name: cluster-secret
+    data: {}
