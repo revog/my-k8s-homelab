@@ -7,6 +7,6 @@ resources:
   - cert-manager/ks.yaml
   - cilium/ks.yaml
   - external-secrets/ks.yaml
-  - flux
+  - flux/ks.yaml
   - gateway-api/ks.yaml
   - tailscale/ks.yaml
