@@ -1,4 +1,7 @@
 ---
+certManager:
+  enabled: true
+
 # ConfigMaps watched via the Kubernetes API for substitution variables (names passed to WATCH_CONFIGMAPS env var)
 configMaps:
   - create: false
@@ -10,3 +13,15 @@ secrets:
   - create: false
     name: cluster-secret
     data: {}
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+service:
+  headless: false
