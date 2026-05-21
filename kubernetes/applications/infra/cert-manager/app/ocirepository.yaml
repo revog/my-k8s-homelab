@@ -8,4 +8,4 @@ spec:
   interval: 12h
   url: oci://quay.io/jetstack/charts/cert-manager
   ref:
-    tag: "v1.15.0"   # choose a current stable version
+    tag: "v1.20.2"   # choose a current stable version
