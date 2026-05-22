@@ -9,4 +9,5 @@ resources:
   - external-secrets/ks.yaml
   - flux/ks.yaml
   - gateway-api/ks.yaml
+  - prometheus/ks.yaml
   - tailscale/ks.yaml
