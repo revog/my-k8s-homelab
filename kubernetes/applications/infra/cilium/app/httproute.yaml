@@ -5,14 +5,7 @@ kind: HTTPRoute
 metadata:
   name: hubble-ui
   namespace: kube-system
-# spec:
-#   parentRefs:
-#     - name: envoy-external
-#       namespace: network-system
-#       sectionName: https
-#     - name: envoy-internal
-#       namespace: network-system
-#       sectionName: https
+spec:
   hostnames:
     - 'hubble.${CLUSTER_DOMAIN}'
   rules:
@@ -20,3 +13,10 @@ metadata:
         - name: hubble-ui
           port: 80
           weight: 100
+#   parentRefs:
+#     - name: envoy-external
+#       namespace: network-system
+#       sectionName: https
+#     - name: envoy-internal
+#       namespace: network-system
+#       sectionName: https
