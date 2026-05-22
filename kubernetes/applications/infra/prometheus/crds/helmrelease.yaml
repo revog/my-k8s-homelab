@@ -8,13 +8,9 @@ spec:
   interval: 1h
   releaseName: prometheus-operator-crds
   targetNamespace: infra-prometheus
-  chart:
-    spec:
-      chart: prometheus-operator-crds
-      sourceRef:
-        kind: OCIRepository
-        name: prometheus-crds
-        namespace: infra-prometheus
+  chartRef:
+    kind: OCIRepository
+    name: prometheus-crds
   install:
     crds: CreateReplace
   upgrade:
