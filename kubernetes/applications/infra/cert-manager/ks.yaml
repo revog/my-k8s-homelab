@@ -34,6 +34,10 @@ spec:
     kind: GitRepository
     name: homelab
   targetNamespace: infra-certmanager
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
 
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
