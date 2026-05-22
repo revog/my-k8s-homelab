@@ -7,7 +7,7 @@ crds:
 global:
   # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
   logLevel: 2
-  priorityClassName: platform-cluster-critical
+  priorityClassName: system-cluster-critical
 extraArgs:
   # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
   - --enable-certificate-owner-ref=true
