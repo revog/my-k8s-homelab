@@ -6,3 +6,8 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+
+configMapGenerator:
+  - name: external-secrets-values
+    files:
+      - values.yaml

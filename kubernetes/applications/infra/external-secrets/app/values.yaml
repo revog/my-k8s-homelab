@@ -1,0 +1,6 @@
+installCRDs: true
+
+priorityClassName: "system-cluster-critical"
+
+serviceMonitor:
+  enabled: true
