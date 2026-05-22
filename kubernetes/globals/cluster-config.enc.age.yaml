@@ -1,27 +1,30 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cluster-config
-  namespace: infra-flux
+    name: cluster-config
+    namespace: infra-flux
 data:
-  CLUSTER_CONTROLPLANE_VIP: ENC[AES256_GCM,data:69+QW4ed1iGXPnNAg4M=,iv:Mjz/aaB9PKzg3jpnDhYt3SmDK1f6BpE5gxIJhH8zFDo=,tag:YWyB2GOsFXe8kF9p+CTiFQ==,type:str]
-  CLUSTER_DOMAIN: ENC[AES256_GCM,data:rS1wNiZQ699fm+0s6Q==,iv:D7Ccpiin/z/9A1S7EsTbwrUywEZJdFejwE0o3f7W2c4=,tag:Z9kLuJXO9y2H9eo8yiAUuQ==,type:str]
-  CLUSTER_NAME: ENC[AES256_GCM,data:K71iSTmLWw==,iv:Z5k8fmOkol6AM40NKxgZjx5KMx8ku8X1oFessuXeWl0=,tag:DBfgpvmYeqE+og9YYLushg==,type:str]
-  CLUSTER_TIMEZONE: ENC[AES256_GCM,data:SPxKPS9NOhvV6YSeFA==,iv:7Mr2K+TnGhbCgs0okzFneBWwQwgK9aTAHsyjghUrvGM=,tag:+YSqVU2mMOtqmviEAMtq/w==,type:str]
-  GOOGLE_PROJECT_ID: ENC[AES256_GCM,data:vKThIkJb/doBGZi4jd95Ew==,iv:sPEY4EJk0jomXfDRT80K1NrRQOcJF+L4dOYaP6sgH/k=,tag:cLoUUmrV7V1qKRKxrMVedA==,type:str]
+    CLUSTER_CONTROLPLANE_VIP: ENC[AES256_GCM,data:69+QW4ed1iGXPnNAg4M=,iv:Mjz/aaB9PKzg3jpnDhYt3SmDK1f6BpE5gxIJhH8zFDo=,tag:YWyB2GOsFXe8kF9p+CTiFQ==,type:str]
+    CLUSTER_LB_EXT_GATEWAY_API: ENC[AES256_GCM,data:WDfJgnOorFvqTWK5BKw=,iv:dbYK6e68Qrc3j3R3fiTmuU4K6IEjsUDdpCUZbytb68w=,tag:9dHTLwv/VwKzgdsySxpt4w==,type:str]
+    CLUSTER_LB_INT_GATEWAY_API: ENC[AES256_GCM,data:3TKb2SZm2y+ArrPSfTw=,iv:jeLdWILI3EKy3qYFkdxmVCCeUM/yYHxDmvqM3PlKJOE=,tag:ARVvtuei19nVljx/mWXwew==,type:str]
+    CLUSTER_LB_PRV_GATEWAY_API: ENC[AES256_GCM,data:nW9K4Y0VJrA7n9nO1Z8=,iv:T85ueng2NvCgFtIIe3T7a5zIvUIR7kwee/uAyeaxyNI=,tag:asM51Zr2h3b7RFHAbO/YQA==,type:str]
+    CLUSTER_DOMAIN: ENC[AES256_GCM,data:rS1wNiZQ699fm+0s6Q==,iv:D7Ccpiin/z/9A1S7EsTbwrUywEZJdFejwE0o3f7W2c4=,tag:Z9kLuJXO9y2H9eo8yiAUuQ==,type:str]
+    CLUSTER_NAME: ENC[AES256_GCM,data:K71iSTmLWw==,iv:Z5k8fmOkol6AM40NKxgZjx5KMx8ku8X1oFessuXeWl0=,tag:DBfgpvmYeqE+og9YYLushg==,type:str]
+    CLUSTER_TIMEZONE: ENC[AES256_GCM,data:SPxKPS9NOhvV6YSeFA==,iv:7Mr2K+TnGhbCgs0okzFneBWwQwgK9aTAHsyjghUrvGM=,tag:+YSqVU2mMOtqmviEAMtq/w==,type:str]
+    GOOGLE_PROJECT_ID: ENC[AES256_GCM,data:vKThIkJb/doBGZi4jd95Ew==,iv:sPEY4EJk0jomXfDRT80K1NrRQOcJF+L4dOYaP6sgH/k=,tag:cLoUUmrV7V1qKRKxrMVedA==,type:str]
 sops:
-  age:
-    - enc: |
-        -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiQkFObU5qZDQ2Nm5CeXV5
-        eld6RE83NXVzdnVNbnEvS0lyR1o2TGNuRTA4CjJseU1seHZXUlFZa1ZsYThDSDUz
-        Z3YyZFZuYkNNQ1NvZko1WGdBTDA2NDAKLS0tIGJJWDVTNVA2Y1YxZFhCZkhpMlhj
-        MFRNdmVUNlh3NWVXT0tjOFlndUQyd1UKX9zMMzAP7SDCb1FMytgSr8HPYbTbNLNj
-        CoygWLWNm3cbErUoV/6SL5u5hIGL5ddHppjoT8R1mwjuO16MIrw8yQ==
-        -----END AGE ENCRYPTED FILE-----
-      recipient: age1tghcyt0d6vsqfmyqxh8pyyn43swn2v9knftf75h8d8d62dhy0slq7txntc
-  encrypted_regex: ^(data|stringData)$
-  lastmodified: "2026-05-21T19:48:45Z"
-  mac: ENC[AES256_GCM,data:HKGO6/mvJp0nKRL6Bj2Fb2nZVETRQTE7QZpNs6W1B7PoI7n5JXNqXo9MsOiwoaHBVxt1A9ZqccsJTQeszvoqLYV8dCd6PUnP189d+PK6U2jzUMzZoz3LgZGVtCQbgdhq327qz3EKttMxmfV3YwUAxxPah2XrolMY8AYP5ff2Ulk=,iv:OBKsG6wh80DoF3sgAGuhMjDximzhagfAK11ucrVJ1mA=,tag:GcXAFds7tQIcsewIYZMsKw==,type:str]
-  mac_only_encrypted: true
-  version: 3.13.0
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiQkFObU5qZDQ2Nm5CeXV5
+            eld6RE83NXVzdnVNbnEvS0lyR1o2TGNuRTA4CjJseU1seHZXUlFZa1ZsYThDSDUz
+            Z3YyZFZuYkNNQ1NvZko1WGdBTDA2NDAKLS0tIGJJWDVTNVA2Y1YxZFhCZkhpMlhj
+            MFRNdmVUNlh3NWVXT0tjOFlndUQyd1UKX9zMMzAP7SDCb1FMytgSr8HPYbTbNLNj
+            CoygWLWNm3cbErUoV/6SL5u5hIGL5ddHppjoT8R1mwjuO16MIrw8yQ==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tghcyt0d6vsqfmyqxh8pyyn43swn2v9knftf75h8d8d62dhy0slq7txntc
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-05-22T19:09:18Z"
+    mac: ENC[AES256_GCM,data:+EkvgcCrkknE5TnXxdc90tZmRmFkD+9MpyEhzM0FsoxJaZU2ZwMMzEmj2YsyCanDBV1FMRikKVhkztrjz/k9yAs5Qxmn23D6VQvOD5qaHoiEQLrOePJ9I1sZyU2cWv5IzKSRzGE2uKe27l4QlL93f7abMjnPW4o0EQf3SU2qUDs=,iv:Pa/Dlr5Yn6GOlmX/lMvc1f7PDfgrbD0ap3pv8vPstA0=,tag:ky2AllzQDNElqkcYLwjvjg==,type:str]
+    mac_only_encrypted: true
+    version: 3.13.0
