@@ -7,7 +7,8 @@ metadata:
   namespace: kube-system
 spec:
   hostnames:
-    - 'hubble.${CLUSTER_DOMAIN}'
+    #- 'hubble.${CLUSTER_DOMAIN}'
+    - hubble.mydomain.com
   rules:
     - backendRefs:
         - name: hubble-ui
