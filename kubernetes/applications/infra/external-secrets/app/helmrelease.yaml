@@ -17,5 +17,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  values:
-    installCRDs: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-secrets-values
+      valuesKey: values.yaml
