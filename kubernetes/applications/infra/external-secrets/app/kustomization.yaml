@@ -10,4 +10,4 @@ resources:
 configMapGenerator:
   - name: external-secrets-values
     files:
-      - values.yaml
+      - values.yaml=./values.yaml
