@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - grafanadashboard.yaml
+#  - grafanadashboard.yaml TEMP DISABLED
   - helmrelease.yaml
   - httproute.yaml
   - loadbalancer.yaml
