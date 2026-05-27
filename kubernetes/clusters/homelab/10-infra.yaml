@@ -17,5 +17,5 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  dependsOn:
-    - name: globals
+  # dependsOn:
+  #   - name: globals
