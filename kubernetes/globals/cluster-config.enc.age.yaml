@@ -12,7 +12,7 @@ data:
     CLUSTER_NAME: ENC[AES256_GCM,data:K71iSTmLWw==,iv:Z5k8fmOkol6AM40NKxgZjx5KMx8ku8X1oFessuXeWl0=,tag:DBfgpvmYeqE+og9YYLushg==,type:str]
     CLUSTER_TIMEZONE: ENC[AES256_GCM,data:SPxKPS9NOhvV6YSeFA==,iv:7Mr2K+TnGhbCgs0okzFneBWwQwgK9aTAHsyjghUrvGM=,tag:+YSqVU2mMOtqmviEAMtq/w==,type:str]
     GOOGLE_SM_PROJECT_ID: ENC[AES256_GCM,data:r9EMdVK5Bbv2WjajjKcv6A==,iv:tdHJOJMekGlqwriCyENvy8jBibDzp/PHEgiIdH0jih4=,tag:Pc8MSejs60TewGj/WZSP7w==,type:str]
-    GOOGLE_SM_LOCATGIN: ENC[AES256_GCM,data:kFjM4LPK7sQqdygd,iv:ug7e30nbAUX9LbA7kj8ai4sEitn1EZ5XLdbBMAwqMtU=,tag:NTGO/K1YMqMs3ixQodyjLg==,type:str]
+    GOOGLE_SM_LOCATION: ENC[AES256_GCM,data:x3zuMfgMthCUv1Ws,iv:c4vI3M7kH3k96RW3J/YrKIn23eEd+OoTC8xn7tOnPsk=,tag:fs7T+1+1h3uG8y/RE1Q/5w==,type:str]
 sops:
     age:
         - enc: |
@@ -25,7 +25,7 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1tghcyt0d6vsqfmyqxh8pyyn43swn2v9knftf75h8d8d62dhy0slq7txntc
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-05-27T21:42:02Z"
-    mac: ENC[AES256_GCM,data:orsgmObWJq24mCedmOCPYCin0pKfegf2p0l9lnWIZrirAQLR3swWCMtb90exI7yqy4b5jh8aShe/04e3pSY15jJ6o5RI8m/j7+shG1STS12OJ0C/ndi5Ntsspv29WvghlcLadn8jlJXi5JMzTq3mcvXePyMNnNFR4viKAy+Zabs=,iv:lkd9s+n5lZvtli9ix3Kivw6lKdLN+3I6zIA3sGi6Ajo=,tag:4aOYCa36xLGcrafE2JT0Qw==,type:str]
+    lastmodified: "2026-05-27T21:47:39Z"
+    mac: ENC[AES256_GCM,data:L2GhvGsg3RJwrKha3CqdmUK8jiJBh2I1XbAh9y5k1sNoPLQ3tysgUwz68HvCZqOBfsEp7fy43VPnmLx7G8g6oxIIdeUWi/WzS3LgloSCrMt7gQmJuH7BXXEaRX7zxxTb2zPwl32Ml7XTsfAv6CDP3OuWHQKX9EiwQUTZhBN98QU=,iv:yykY8BKQ1+4kRWEO7U6XNiZ2bCusBHLfgfTlPVDiYu4=,tag:dH/FGXSvHZi+k72Ckju0rQ==,type:str]
     mac_only_encrypted: true
     version: 3.13.0
