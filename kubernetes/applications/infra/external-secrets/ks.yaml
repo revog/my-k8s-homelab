@@ -32,3 +32,9 @@ spec:
     name: homelab
   dependsOn:
     - name: external-secrets
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secret
