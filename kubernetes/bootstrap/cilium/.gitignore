@@ -1,2 +1,4 @@
 # Kustomize helmChart transformer creates a charts/ dir that can be ignored
 charts/
+# Ignore prefetched Cilium repo
+cilium-src
