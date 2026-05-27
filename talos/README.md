@@ -76,9 +76,9 @@ Use the returned schematic ID for downloading customized image and extract:
 ```bash
 SCHEMATIC="<schematic-id>"
 VERSION="v1.13.0"
-
-curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-arm64.raw.xz" -o metal-arm64.raw.xz
-xz -d metal-arm64.raw.xz
+```
+```bash
+curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-arm64.raw.xz" -o metal-arm64.raw.xz -d metal-arm64.raw.xz
 ```
 
 #### Install image on SD card
