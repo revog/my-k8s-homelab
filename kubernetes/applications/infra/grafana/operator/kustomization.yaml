@@ -10,7 +10,9 @@ resources:
 configMapGenerator:
   - name: grafana-operator-values
     files:
-      - values.yaml
+      - values.yaml=./values.yaml
+    options:
+      disableNameSuffixHash: true
 
 generatorOptions:
   disableNameSuffixHash: true
