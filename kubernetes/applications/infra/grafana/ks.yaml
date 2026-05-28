@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: grafana-operator
+  namespace: infra-flux
+spec:
+  path: "./kubernetes/applications/infra/grafana/operator"
+  wait: true
+  dependsOn:
+    - name: external-secrets
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: grafana
+  namespace: infra-flux
+spec:
+  path: "./kubernetes/applications/infra/grafana/app"
+  wait: true
+  dependsOn:
+    - name: grafana-operator
+  sourceRef:
+    kind: GitRepository
+    name: homelab
