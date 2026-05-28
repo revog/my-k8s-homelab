@@ -6,3 +6,11 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+
+configMapGenerator:
+  - name: grafana-operator-values
+    files:
+      - values.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
