@@ -9,7 +9,7 @@ _... managed with Flux, Renovate, GitHub Actions and others._
   
 [![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue)](https://kubernetes.io/)&nbsp;&nbsp;
 [![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue)](https://talos.dev)&nbsp;&nbsp;
-[![ArgoCD](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fargocd_version&style=for-the-badge&logo=argocd&logoColor=white&color=blue)](https://argoproj.github.io/)&nbsp;&nbsp;
+[![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fargocd_version&style=for-the-badge&logo=argocd&logoColor=white&color=blue)](https://fluxcd.io)&nbsp;&nbsp;
 
 </div>
 
@@ -90,9 +90,9 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/), running 
 * Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
 
 #### ⚙ GitOps
-[ArgoCD](https://argo-cd.readthedocs.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. ArgoCD continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through sync waves, health checks, or the app‑of‑apps pattern, rather than explicit dependency declarations.
+[Flux](https://fluxcd.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. Flux continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through dependency declarations and health checks.
 
-This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate watches my entire repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged ArgoCD applies the changes to my cluster.
+This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate watches my entire repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged Flux applies the changes to my cluster.
 
 The Cloud Native Computing Foundation (CNCF) has played a crucial role in the development and popularization of many of these tools, driving the adoption of cloud-native technologies and enabling projects like this one to thrive.
 | |                                                                                                                                       | Name                                                            | Description                                                                                               |
@@ -176,9 +176,9 @@ Each application directory typically contains:
 * A `namespace.yaml` defining the namespace for the app.
 * An `app/` subdirectory containing the (optional) custom Kubernetes manifests.
 
-The ArgoCD Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
+The Flux Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
 
-ArgoCD is initially bootstrapped through [kubernetes/bootstrap](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/bootstrap), and from there it automatically fetches the needed information and references from the corresponding app folder within the [applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications) directory.
+Flux is initially bootstrapped through [kubernetes/bootstrap](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/bootstrap), and from there it automatically fetches the needed information and references from the corresponding app folder within the [applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications) directory.
 
 ## 🤝 Acknowledgements
 A special thank you to everyone out there participating in the OpenSource space. Much of the inspiration for my setup comes from fellow enthusiasts who have shared their own clusters and configurations on the web.
