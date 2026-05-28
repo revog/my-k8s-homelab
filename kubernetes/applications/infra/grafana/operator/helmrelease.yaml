@@ -8,7 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: grafana-operator
-    namespace: infra-flux
+    namespace: infra-grafana
 
   valuesFrom:
     - kind: ConfigMap
