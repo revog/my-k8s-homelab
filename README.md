@@ -73,7 +73,7 @@ I always try (whenever possible) to build and manage my infrastructure and workl
 
 | Service                                   | Description                                                                                                 | Cost     |
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- |
-| [Cloudflare](https://www.cloudflare.com/) | I use Cloudflare in my home network for DNS management and to secure my domain with Cloudflare's services.  | ~$?/yr   |
+| [Cloudflare](https://www.cloudflare.com/) | I use Cloudflare in my home network for DNS management and to secure my purchased domain with Cloudflare's services.  | ~$10/yr   |
 | [GitHub](https://github.com/)             | Using GitHub for hosting this repository - code management and version control                              | Free     |
 | [Lets Encrypt](https://letsencrypt.org/)  | Using Let's Encrypt to generate certificates for secure communication to and within my network.             | Free     |
 | [Tailscale](https://tailscale.com/)       | Using Tailscale access privately (non-public) exposed services from the internet                            | Free     |
