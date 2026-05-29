@@ -8,6 +8,7 @@ metadata:
 spec:
   path: "./kubernetes/applications/infra/grafana/operator"
   wait: true
+  interval: 15m
   dependsOn:
     - name: external-secrets
   sourceRef:
@@ -30,6 +31,7 @@ metadata:
 spec:
   path: "./kubernetes/applications/infra/grafana/app"
   wait: true
+  interval: 15m
   dependsOn:
     - name: grafana-operator
   sourceRef:
