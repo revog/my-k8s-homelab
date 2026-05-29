@@ -4,11 +4,21 @@ kind: Certificate
 metadata:
   name: public-wildcard
 spec:
-  secretName: public-tls
-
+  commonName: ${CLUSTER_DOMAIN}
   dnsNames:
-    - "*.${CLUSTER_DOMAIN}"
-
+    - ${CLUSTER_DOMAIN}
+    - '*.${CLUSTER_DOMAIN}'
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
   issuerRef:
     name: letsencrypt-cloudflare
     kind: ClusterIssuer
+  privateKey: # cert-manager regenerates a new private key on each issuance (https://cert-manager.io/docs/usage/certificate/#rotation-private-key)
+    rotationPolicy: Always
+    algorithm: ECDSA
+    encoding: PKCS8
+    size: 256
+  secretName: public-tls
+  usages:
+    - server auth
+    - client auth
