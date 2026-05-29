@@ -8,4 +8,4 @@ spec:
   interval: 12h
   url: oci://ghcr.io/grafana/helm-charts/grafana-operator
   ref:
-    tag: "v5.23.0"
+    tag: "5.23.0"
