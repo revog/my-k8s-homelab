@@ -15,6 +15,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  targetNamespace: infra-grafana
   postBuild:
     substituteFrom:
       - kind: ConfigMap
@@ -39,6 +40,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  targetNamespace: infra-grafana
   postBuild:
     substituteFrom:
       - kind: ConfigMap
