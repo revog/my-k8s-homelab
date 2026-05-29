@@ -11,7 +11,7 @@ spec:
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   issuerRef:
-    name: letsencrypt-cloudflare
+    name: letsencrypt-homelab
     kind: ClusterIssuer
   privateKey: # cert-manager regenerates a new private key on each issuance (https://cert-manager.io/docs/usage/certificate/#rotation-private-key)
     rotationPolicy: Always
