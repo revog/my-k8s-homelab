@@ -9,6 +9,7 @@ spec:
   path: "./kubernetes/applications/infra/grafana/operator"
   wait: true
   interval: 15m
+  prune: true
   dependsOn:
     - name: external-secrets
   sourceRef:
@@ -32,6 +33,7 @@ spec:
   path: "./kubernetes/applications/infra/grafana/app"
   wait: true
   interval: 15m
+  prune: true
   dependsOn:
     - name: grafana-operator
   sourceRef:
