@@ -11,4 +11,4 @@ resources:
   - gateway-api/ks.yaml
   - grafana/ks.yaml
   - prometheus/ks.yaml
-#  - tailscale/ks.yaml
+  - tailscale/ks.yaml
