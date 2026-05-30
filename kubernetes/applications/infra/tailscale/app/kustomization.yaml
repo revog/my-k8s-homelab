@@ -5,5 +5,5 @@ kind: Kustomization
 resources:
   - helmrepository.yaml
   - helmrelease.yaml
-  - secret.enc.yaml
+  - secrets.enc.age.yaml
   - namespace.yaml
