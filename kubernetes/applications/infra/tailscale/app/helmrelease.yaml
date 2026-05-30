@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: tailscale-operator
-  namespace: infra-tailscale
 spec:
   interval: 30m
   chart:
@@ -14,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: tailscale
-        namespace: infra-flux
+        namespace: infra-tailscale
   install:
     remediation:
       retries: 3
