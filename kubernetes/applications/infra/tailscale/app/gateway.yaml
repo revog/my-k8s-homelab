@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gatewayclass_v1.json
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: tailscale
+spec:
+  controllerName: "://tailscale.com"
+
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: private
+  namespace: infra-tailscale
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}"
+spec:
+  gatewayClassName: tailscale
+  listeners:
+    # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
+    - name: https-wildcard
+      protocol: HTTPS
+      port: 443
+      hostname: "*.private.${CLUSTER_DOMAIN}"
+      allowedRoutes:
+        namespaces:
+          from: All
+    # Listener 2: Handles the root private domain
+    - name: https-root
+      protocol: HTTPS
+      port: 443
+      hostname: "private.${CLUSTER_DOMAIN}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      # tls:
+      #   mode: Terminate
+      #   certificateRefs:
+      #     - kind: Secret
+      #       name: <domain-tld-le> #Lets encrypt cert
