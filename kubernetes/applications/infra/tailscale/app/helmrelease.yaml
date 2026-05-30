@@ -22,3 +22,7 @@ spec:
     remediation:
       retries: 3
     crds: CreateReplace
+  valuesFrom:
+    - kind: ConfigMap
+      name: tailscale-operator-values
+      valuesKey: values.yaml
