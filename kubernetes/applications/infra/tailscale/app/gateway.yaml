@@ -1,23 +1,18 @@
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gatewayclass_v1.json
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: GatewayClass
-metadata:
-  name: tailscale
-spec:
-  controllerName: "://tailscale.com"
-
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: private
   namespace: infra-tailscale
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
+    cert-manager.io/cluster-issuer: "letsencrypt-homelab"
+    tailscale.com/expose: "true" # Expose this gateway to your Tailnet
+    tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
 spec:
-  gatewayClassName: tailscale
+  # Natively managed by your existing Cilium CNI (replaces Envoy)
+  gatewayClassName: cilium
   listeners:
     # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
     - name: https-wildcard
@@ -27,6 +22,11 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: private-wildcard-cert
     # Listener 2: Handles the root private domain
     - name: https-root
       protocol: HTTPS
@@ -35,8 +35,8 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-      # tls:
-      #   mode: Terminate
-      #   certificateRefs:
-      #     - kind: Secret
-      #       name: <domain-tld-le> #Lets encrypt cert
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: private-wildcard-cert
