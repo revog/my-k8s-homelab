@@ -23,3 +23,12 @@ generatorOptions:
 
 configurations:
   - kustomizeconfig.yaml
+
+patches:
+  - patch: |
+      - op: replace
+        path: /metadata/namespace
+        value: infra-tailscale
+    target:
+      kind: Certificate
+      name: hubble-cert
