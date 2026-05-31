@@ -6,6 +6,7 @@ namespace: kube-system
 
 resources:
 #  - grafanadashboard.yaml TEMP DISABLED
+  - certificate.yaml
   - helmrelease.yaml
   - httproute.yaml
   - loadbalancer.yaml
