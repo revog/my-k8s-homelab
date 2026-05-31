@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hubble-cert
+  namespace: infra-tailscale # must be same namespace as gateway
+spec:
+  secretName: private-gateway-tls-store
+  dnsNames:
+    - 'hubble.private.${CLUSTER_DOMAIN}'
+  issuerRef:
+    name: letsencrypt-homelab
+    kind: ClusterIssuer
