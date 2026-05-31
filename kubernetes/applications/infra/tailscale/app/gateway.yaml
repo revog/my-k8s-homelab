@@ -26,17 +26,17 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: private-wildcard-cert
-    # Listener 2: Handles the root private domain
-    - name: https-root
-      protocol: HTTPS
-      port: 443
-      hostname: "private.${CLUSTER_DOMAIN}"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: private-wildcard-cert
+            name: private-gateway-tls-store
+    # # Listener 2: Handles the root private domain
+    # - name: https-root
+    #   protocol: HTTPS
+    #   port: 443
+    #   hostname: "private.${CLUSTER_DOMAIN}"
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: All
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - kind: Secret
+    #         name: private-gateway-tls-store
