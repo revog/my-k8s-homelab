@@ -7,7 +7,7 @@ resources:
   - helmrepository.yaml
   - clusterissuer.yaml
   - cloudflare-secret.age.enc.yaml
-  - certificates.yamL
+  - certificates.yaml
   - namespace.yaml
 
 configMapGenerator:
