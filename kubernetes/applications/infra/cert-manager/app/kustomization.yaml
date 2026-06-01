@@ -9,6 +9,7 @@ resources:
   - cloudflare-secret.age.enc.yaml
   - certificates.yaml
   - namespace.yaml
+  - referencegrant.yaml
 
 configMapGenerator:
   - name: cert-manager-values
