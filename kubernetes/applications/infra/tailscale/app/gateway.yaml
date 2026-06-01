@@ -8,12 +8,12 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
 spec:
-  # Natively managed by your existing Cilium CNI (replaces Envoy)
   gatewayClassName: cilium
   infrastructure:
     annotations:
       tailscale.com/expose: "true" # Expose this gateway to your Tailnet
       tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
+      tailscale.com/proxy-class: cilium-bypass # Link to proxy class
   listeners:
     # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
     - name: https-wildcard

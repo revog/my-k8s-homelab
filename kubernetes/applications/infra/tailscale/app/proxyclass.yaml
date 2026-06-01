@@ -1,0 +1,9 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: cilium-bypass
+spec:
+  statefulSet:
+    pod:
+      annotations:
+        ingress.cilium.io/bypass-socket-lb: "true"

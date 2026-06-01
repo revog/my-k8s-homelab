@@ -3,11 +3,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - gateway.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - secrets.enc.age.yaml
   - namespace.yaml
-  - gateway.yaml
+  - secrets.enc.age.yaml
+  - proxyclass.yaml
 
 configMapGenerator:
   - name: tailscale-operator-values
