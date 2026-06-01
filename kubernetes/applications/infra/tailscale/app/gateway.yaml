@@ -7,7 +7,6 @@ metadata:
   namespace: infra-tailscale
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
-    cert-manager.io/cluster-issuer: "letsencrypt-homelab"
     tailscale.com/expose: "true" # Expose this gateway to your Tailnet
     tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
 spec:
@@ -25,8 +24,9 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - kind: Secret
-            name: private-gateway-tls-store
+          - kind: Secret 
+            name: private-wildcard-tls
+            namespace: infra-cert-manager
     # # Listener 2: Handles the root private domain
     # - name: https-root
     #   protocol: HTTPS
@@ -39,4 +39,5 @@ spec:
     #     mode: Terminate
     #     certificateRefs:
     #       - kind: Secret
-    #         name: private-gateway-tls-store
+    #         name: private-wildcard-tls
+    #         namespace: infra-cert-manager
