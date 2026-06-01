@@ -1,5 +1,6 @@
 ---
-podAnnotations:
-  # Allows Tailscale pods to bypass Cilium's socket-LB tracking
-  # (https://tailscale.com/docs/features/kubernetes-operator#cilium-in-kube-proxy-replacement-mode)
-  ingress.cilium.io/bypass-socket-lb: "true"
+operatorConfig:
+  podAnnotations:
+    # Allows Tailscale pods to bypass Cilium's socket-LB tracking
+    # (https://tailscale.com/docs/features/kubernetes-operator#cilium-in-kube-proxy-replacement-mode)
+    ingress.cilium.io/bypass-socket-lb: "true"
