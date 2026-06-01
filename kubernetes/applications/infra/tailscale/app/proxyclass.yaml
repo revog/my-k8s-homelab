@@ -7,3 +7,13 @@ spec:
     pod:
       annotations:
         ingress.cilium.io/bypass-socket-lb: "true"
+      tailscaleContainer:
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
