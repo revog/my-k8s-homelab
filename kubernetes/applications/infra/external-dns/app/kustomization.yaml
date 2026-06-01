@@ -7,8 +7,9 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+  - pdb.yaml
   - secrets.enc.age.yaml
-
+  
 configMapGenerator:
   - name: external-dns-values
     files:
