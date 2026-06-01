@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: public-wildcard-tls
+spec:
+  dnsNames:
+    - ${CLUSTER_DOMAIN}
+    - '*.${CLUSTER_DOMAIN}'
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  issuerRef:
+    name: letsencrypt-homelab
+    kind: ClusterIssuer
+  privateKey: # cert-manager regenerates a new private key on each issuance (https://cert-manager.io/docs/usage/certificate/#rotation-private-key)
+    rotationPolicy: Always
+    algorithm: ECDSA
+    encoding: PKCS8
+    size: 256
+  secretName: public-wildcard-tls
+  usages:
+    - server auth
+    - client auth
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: private-wildcard-tls
+spec:
+  dnsNames:
+    - private.${CLUSTER_DOMAIN}
+    - '*.private.${CLUSTER_DOMAIN}'
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  issuerRef:
+    name: letsencrypt-homelab
+    kind: ClusterIssuer
+  privateKey: # cert-manager regenerates a new private key on each issuance (https://cert-manager.io/docs/usage/certificate/#rotation-private-key)
+    rotationPolicy: Always
+    algorithm: ECDSA
+    encoding: PKCS8
+    size: 256
+  secretName: private-wildcard-tls
+  usages:
+    - server auth
+    - client auth
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: internal-wildcard-tls
+spec:
+  dnsNames:
+    - internal.${CLUSTER_DOMAIN}
+    - '*.internal.${CLUSTER_DOMAIN}'
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  issuerRef:
+    name: letsencrypt-homelab
+    kind: ClusterIssuer
+  privateKey: # cert-manager regenerates a new private key on each issuance (https://cert-manager.io/docs/usage/certificate/#rotation-private-key)
+    rotationPolicy: Always
+    algorithm: ECDSA
+    encoding: PKCS8
+    size: 256
+  secretName: internal-wildcard-tls
+  usages:
+    - server auth
+    - client auth
