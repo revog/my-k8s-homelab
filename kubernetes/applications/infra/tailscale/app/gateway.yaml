@@ -24,9 +24,9 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - kind: Secret 
+          - kind: Secret
             name: private-wildcard-tls
-            namespace: infra-cert-manager
+            namespace: infra-certmanager
     # # Listener 2: Handles the root private domain
     # - name: https-root
     #   protocol: HTTPS
