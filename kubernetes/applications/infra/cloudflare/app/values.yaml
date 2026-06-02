@@ -1,7 +1,7 @@
 tunnel:
   tunnelName: homelab-public
   tunnelId: ${CLOUDFLARED_TUNNEL_ID}
-  credentialsSecret: tunnel-credentials
+  credentialsSecret: cloudflare-tunnel-creds
 ingress:
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: "http://public.kube-system.svc.cluster.local:80"
