@@ -1,11 +1,9 @@
-cloudflare:
+tunnel:
   tunnelName: homelab-public
   tunnelId: ${CLOUDFLARED_TUNNEL_ID}
-  secretName: tunnel-credentials
-  ingress:
-    - hostname: "*.${CLUSTER_DOMAIN}"
-      service: "http://public.kube-system.svc.cluster.local:80"
-      originRequest:
-        noTLSVerify: true
-    - service: http_status:404
+  credentialsSecret: tunnel-credentials
+ingress:
+  - hostname: "*.${CLUSTER_DOMAIN}"
+    service: "http://public.kube-system.svc.cluster.local:80"
+  - service: http_status:404
 replicaCount: 2
