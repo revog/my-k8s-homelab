@@ -3,7 +3,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: cilium-external
+  name: external
   annotations:
     external-dns.alpha.kubernetes.io/hostname: &hostname "*.${CLUSTER_DOMAIN}"
     # external-dns.alpha.kubernetes.io/hostname: &hostname "${CLUSTER_DOMAIN}"
@@ -38,7 +38,7 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: cilium-internal
+  name: internal
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "*.internal.${CLUSTER_DOMAIN}"
     # external-dns.alpha.kubernetes.io/hostname: &hostname "internal.${CLUSTER_DOMAIN}"
