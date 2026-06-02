@@ -11,7 +11,7 @@ resources:
 configMapGenerator:
   - name: cloudflared-values
     files:
-      - values.yaml=./values.yaml
+      - values.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
