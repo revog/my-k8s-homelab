@@ -6,7 +6,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
-  - secret.enc.yaml
+  - secret.age.enc.yaml
 
 configMapGenerator:
   - name: cloudflared-values
