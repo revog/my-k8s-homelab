@@ -1,9 +1,4 @@
 ---
-ingress:
-  - hostname: "*.${CLUSTER_DOMAIN}"
-    service: "http://public.kube-system.svc.cluster.local:80"
-  - service: http_status:404
-
 metrics:
   enabled: true
 
@@ -21,3 +16,4 @@ serviceMonitor:
 
 tunnel:
   existingSecret: cloudflare-tunnel-creds
+  existingSecretKey: credentials.json
