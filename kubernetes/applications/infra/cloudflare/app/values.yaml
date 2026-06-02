@@ -7,5 +7,5 @@ cloudflare:
       service: "http://public.kube-system.svc.cluster.local:80"
       originRequest:
         noTLSVerify: true
-
+    - service: http_status:404
 replicaCount: 2
