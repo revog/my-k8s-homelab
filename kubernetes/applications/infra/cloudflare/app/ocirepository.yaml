@@ -1,4 +1,4 @@
-
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -8,5 +8,5 @@ metadata:
 spec:
   interval: 12h
   url: oci://ghcr.io/helmforgedev/helm/cloudflared
-  # ref:
-    # tag: "0.1.x"   # pin after testing (check available tags)
+  ref:
+    tag: "1.5.5"   # pin after testing (check available tags)

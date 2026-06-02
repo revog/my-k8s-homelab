@@ -1,9 +1,24 @@
-tunnel:
-  tunnelName: homelab-public
-  tunnelId: ${CLOUDFLARED_TUNNEL_ID}
-  credentialsSecret: cloudflare-tunnel-creds
+---
 ingress:
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: "http://public.kube-system.svc.cluster.local:80"
   - service: http_status:404
+
+metrics:
+  enabled: true
+
+pdb:
+  enabled: true
+  minAvailable: 1
+
 replicaCount: 2
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  labels:
+    prometheus: kube-prometheus
+
+tunnel:
+  existingSecret: cloudflare-tunnel-creds
+  existingSecretKey: credentials.json
