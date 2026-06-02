@@ -8,7 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cloudflared
-    namespace: infra-flux
+    namespace: infra-cloudflare
 
   valuesFrom:
     - kind: ConfigMap
