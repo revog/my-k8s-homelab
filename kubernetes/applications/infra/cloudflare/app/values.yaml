@@ -15,6 +15,6 @@ serviceMonitor:
     prometheus: kube-prometheus
 
 tunnel:
-  token: "" # Muss leer bleiben!
-  existingSecret: "cloudflare-tunnel-token"
-  existingSecretKey: "token"
+  token: ""
+  existingSecret: cloudflare-tunnel-creds
+  existingSecretKey: token
