@@ -12,6 +12,7 @@ spec:
   wait: true
   dependsOn:
     - name: cilium
+    - name: external-dns
   targetNamespace: infra-cloudflare
   sourceRef:
     kind: GitRepository
