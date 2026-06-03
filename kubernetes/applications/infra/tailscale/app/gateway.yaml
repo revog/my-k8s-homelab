@@ -6,7 +6,7 @@ metadata:
   name: private
   namespace: infra-tailscale
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
+    # external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
 spec:
   gatewayClassName: cilium
   # infrastructure:
