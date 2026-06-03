@@ -6,17 +6,16 @@ metadata:
   name: hubble-ui
   namespace: kube-system
 spec:
+  parentRefs:
+    - name: private
+      namespace: infra-tailscale # Explicitly points across namespaces to your Tailscale Gateway
   hostnames:
     - 'hubble.private.${CLUSTER_DOMAIN}'
   rules:
-    - backendRefs:
-        - name: hubble-ui
-          port: 80
-          weight: 100
-#   parentRefs:
-#     - name: envoy-external
-#       namespace: network-system
-#       sectionName: https
-#     - name: envoy-internal
-#       namespace: network-system
-#       sectionName: https
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: hubble-ui # The exact name of your existing Hubble Kubernetes service
+          port: 80 # The service port of hubble-ui

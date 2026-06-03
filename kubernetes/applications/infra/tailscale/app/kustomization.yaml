@@ -8,7 +8,6 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - secrets.enc.age.yaml
-  - proxyclass.yaml
 
 configMapGenerator:
   - name: tailscale-operator-values
