@@ -25,8 +25,6 @@ priorityClassName: system-cluster-critical
 provider:
   name: cloudflare
 
-replicaCount: 2
-
 registry: txt
 txtPrefix: k8s.
 txtOwnerId: "k8s-homelab-cluster"
