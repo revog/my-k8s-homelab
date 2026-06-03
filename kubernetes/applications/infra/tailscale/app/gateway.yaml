@@ -9,10 +9,10 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
 spec:
   gatewayClassName: cilium
-  infrastructure:
-    annotations:
-      tailscale.com/expose: "true" # Expose this gateway to your Tailnet
-      tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
+  # infrastructure:
+  #   annotations:
+  #     tailscale.com/expose: "true" # Expose this gateway to your Tailnet
+  #     tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
   listeners:
     # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
     - name: https-wildcard
