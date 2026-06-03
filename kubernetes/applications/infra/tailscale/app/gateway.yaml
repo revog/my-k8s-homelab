@@ -13,7 +13,6 @@ spec:
     annotations:
       tailscale.com/expose: "true" # Expose this gateway to your Tailnet
       tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
-      tailscale.com/proxy-class: cilium-bypass # Link to proxy class
   listeners:
     # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
     - name: https-wildcard
