@@ -1,30 +1,42 @@
 ---
 cloudflare:
   proxied: false # Default use "Grey cloud" (DNS only) for LAN and Tailscale.
+
 domainFilters:
   - "${CLUSTER_DOMAIN}"
+
 env:
   - name: CF_API_TOKEN
     valueFrom:
       secretKeyRef:
         key: CLOUDFLARE_API_TOKEN
         name: external-dns-cloudflare
+
 extraArgs:
   - --cloudflare-proxied  # Enables per-route overriding to "Orange Cloud" (for public tier)
   - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
   - --crd-source-kind=DNSEndpoint
   #- --annotation-filter=external-dns.alpha.kubernetes.io/external=true # Only processes resources with this annotation
+
 policy: sync # Delete DNS entries on cloudflare, if app is removed
+
 priorityClassName: system-cluster-critical
+
 provider:
   name: cloudflare
-triggerLoopOnEvent: true
-txtPrefix: k8s.
+
+replicaCount: 2
+
 registry: txt
+txtPrefix: k8s.
 txtOwnerId: "k8s-homelab-cluster"
+
 sources:
   - gateway-httproute # Scans Cilium Gateway API components
   - service           # Scans standard Kubernetes Services
   - ingress           # Scans standard Kubernetes Ingresses
+
 serviceMonitor:
   enabled: true
+
+triggerLoopOnEvent: true
