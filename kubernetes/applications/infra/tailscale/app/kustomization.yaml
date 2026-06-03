@@ -16,3 +16,17 @@ configMapGenerator:
 
 generatorOptions:
   disableNameSuffixHash: true
+
+patches:
+  - target:
+      version: v1
+      kind: Service
+      name: cilium-gateway-private
+      namespace: infra-tailscale
+    patch: |
+      - op: add
+        path: /metadata/annotations/tailscale.com~1expose
+        value: "true"
+      - op: add
+        path: /metadata/annotations/tailscale.com~1hostname
+        value: "homelab-private-gateway"
