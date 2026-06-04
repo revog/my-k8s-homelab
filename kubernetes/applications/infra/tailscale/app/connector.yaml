@@ -1,0 +1,9 @@
+---
+apiVersion: ://tailscale.com
+kind: Connector
+metadata:
+  name: subnet-router
+spec:
+  routes:
+    - "10.96.0.0/12"   # Service CIDR
+    - "10.244.0.0/16"  # Pod CIDR
