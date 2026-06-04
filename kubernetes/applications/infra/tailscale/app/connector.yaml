@@ -1,5 +1,5 @@
 ---
-apiVersion: ://tailscale.com
+apiVersion: tailscale.com
 kind: Connector
 metadata:
   name: subnet-router
