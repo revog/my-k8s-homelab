@@ -16,6 +16,7 @@ extraArgs:
   - --cloudflare-proxied  # Enables per-route overriding to "Orange Cloud" (for public tier)
   - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
   - --crd-source-kind=DNSEndpoint
+  - --prefer-ipv4-address=true
   #- --annotation-filter=external-dns.alpha.kubernetes.io/external=true # Only processes resources with this annotation
 
 policy: sync # Delete DNS entries on cloudflare, if app is removed

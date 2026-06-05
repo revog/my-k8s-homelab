@@ -4,22 +4,16 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: private
-  namespace: infra-tailscale
   annotations:
-    # external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
     external-dns.alpha.kubernetes.io/exclude: "true"
+    io.cilium/gateway-service-type: "HostNetwork"
 spec:
   gatewayClassName: cilium
-  infrastructure:
-    annotations:
-      tailscale.com/expose: "true" # Expose this gateway to your Tailnet
-      tailscale.com/hostname: "homelab-private-gateway"  # Device name in Tailscale Admin Console
   listeners:
-    # Listener 1: Handles all application subdomains (*.private.myhomelab.com)
     - name: https-wildcard
       protocol: HTTPS
       port: 443
-      hostname: "*.private.${CLUSTER_DOMAIN}"
+      hostname: "*.private.birdsnest.app"
       allowedRoutes:
         namespaces:
           from: All
@@ -29,17 +23,3 @@ spec:
           - kind: Secret
             name: private-wildcard-tls
             namespace: infra-certmanager
-    # # Listener 2: Handles the root private domain
-    # - name: https-root
-    #   protocol: HTTPS
-    #   port: 443
-    #   hostname: "private.${CLUSTER_DOMAIN}"
-    #   allowedRoutes:
-    #     namespaces:
-    #       from: All
-    #   tls:
-    #     mode: Terminate
-    #     certificateRefs:
-    #       - kind: Secret
-    #         name: private-wildcard-tls
-    #         namespace: infra-cert-manager
