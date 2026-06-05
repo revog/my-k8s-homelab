@@ -1,1 +1,52 @@
 ---
+defaultSettings:
+  # set correct disk path for Talos
+  defaultDataPath: /var/mnt/nvme1
+  # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
+  createDefaultDiskLabeledNodes: true  
+
+  defaultReplicaCount: 2
+
+  # Prevent rebuild storms and limit per node
+  replicaAutoBalance: best-effort
+  concurrentReplicaRebuildPerNodeLimit: 1
+  concurrentVolumeBackupRestorePerNodeLimit: 1
+
+  # enable V2 engine
+  v2DataEngine: true
+
+# Reduce resource usage for Pi nodes
+longhornManager:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+longhornDriver:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+csi:
+  attacherReplicaCount: 2
+  provisionerReplicaCount: 2
+  resizerReplicaCount: 1
+  snapshotterReplicaCount: 1
+
+longhornUI:
+  replicas: 1
+
+ingress:
+  enabled: false
+
+# Default StorageClass options
+persistence:
+  defaultClass: true
+  defaultClassReplicaCount: 2
+
+
