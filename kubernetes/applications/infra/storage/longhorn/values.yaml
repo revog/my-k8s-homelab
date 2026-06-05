@@ -17,6 +17,7 @@ defaultSettings:
 
 # Reduce resource usage for Pi nodes
 longhornManager:
+  priorityClassName: system-cluster-critical
   resources:
     requests:
       cpu: 100m
