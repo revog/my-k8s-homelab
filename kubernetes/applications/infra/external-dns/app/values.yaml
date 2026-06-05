@@ -30,7 +30,6 @@ txtPrefix: k8s.
 txtOwnerId: "k8s-homelab-cluster"
 
 sources:
-  - gateway-httproute # Scans Cilium Gateway API components
   - service           # Scans standard Kubernetes Services
   - ingress           # Scans standard Kubernetes Ingresses
 

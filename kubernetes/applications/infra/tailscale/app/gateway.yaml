@@ -5,7 +5,6 @@ kind: Gateway
 metadata:
   name: private
   annotations:
-    external-dns.alpha.kubernetes.io/exclude: "true"
     io.cilium/gateway-service-type: "HostNetwork"
 spec:
   gatewayClassName: cilium
@@ -13,7 +12,7 @@ spec:
     - name: https-wildcard
       protocol: HTTPS
       port: 443
-      hostname: "*.private.birdsnest.app"
+      hostname: "*.private.${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
           from: All
