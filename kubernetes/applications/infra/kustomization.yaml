@@ -15,3 +15,4 @@ resources:
   - grafana/ks.yaml
   - prometheus/ks.yaml
   - tailscale/ks.yaml
+  - storage/ks.yaml
