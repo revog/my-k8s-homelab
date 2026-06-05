@@ -19,12 +19,14 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
+      hostname: "*.${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
+      hostname: "*.${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
           from: All
@@ -32,7 +34,8 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: public-tls
+            name: public-wildcard-tls
+            namespace: infra-certmanager
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -54,6 +57,7 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
+      hostname: "*.internal.${CLUSTER_DOMAIN}"
       # allowedRoutes:
       #   namespaces:
       #     from: Same
@@ -63,8 +67,10 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-      # tls:
-      #   mode: Terminate
-      #   certificateRefs:
-      #     - kind: Secret
-      #       name: <domain-tld-le> #Lets encrypt cert
+      hostname: "*.internal.${CLUSTER_DOMAIN}"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: internal-wildcard-tls
+            namespace: infra-certmanager
