@@ -30,10 +30,10 @@ txtPrefix: k8s.
 txtOwnerId: "k8s-homelab-cluster"
 
 sources:
-  - service              # Scans standard Kubernetes Services
-  - ingress              # Scans standard Kubernetes Ingresses
-  - gateway-httproute    # für Gateway API
-  - crd                  # für DNSEndpoint CRDs
+  - crd
+  - gateway-httproute
+  # - ingress
+  # - service
 
 serviceMonitor:
   enabled: true
