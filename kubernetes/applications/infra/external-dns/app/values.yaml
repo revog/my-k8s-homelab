@@ -13,7 +13,7 @@ env:
         name: external-dns-cloudflare
 
 extraArgs:
-  - --cloudflare-proxied  # Enables per-route overriding to "Orange Cloud" (for public tier)
+  #- --cloudflare-proxied  # Enables per-route overriding to "Orange Cloud" (for public tier)
   - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
   - --crd-source-kind=DNSEndpoint
   #- --annotation-filter=external-dns.alpha.kubernetes.io/external=true # Only processes resources with this annotation
@@ -30,8 +30,10 @@ txtPrefix: k8s.
 txtOwnerId: "k8s-homelab-cluster"
 
 sources:
-  - service           # Scans standard Kubernetes Services
-  - ingress           # Scans standard Kubernetes Ingresses
+  - service              # Scans standard Kubernetes Services
+  - ingress              # Scans standard Kubernetes Ingresses
+  - gateway-httproute    # für Gateway API
+  - crd                  # für DNSEndpoint CRDs
 
 serviceMonitor:
   enabled: true
