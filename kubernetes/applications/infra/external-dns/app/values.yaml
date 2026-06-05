@@ -16,7 +16,6 @@ extraArgs:
   - --cloudflare-proxied  # Enables per-route overriding to "Orange Cloud" (for public tier)
   - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
   - --crd-source-kind=DNSEndpoint
-  - --prefer-ipv4-address=true
   - --publish-internal-addresses
   #- --annotation-filter=external-dns.alpha.kubernetes.io/external=true # Only processes resources with this annotation
 
