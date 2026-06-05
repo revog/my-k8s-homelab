@@ -5,7 +5,7 @@ metadata:
   name: storage
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/infra/storage/app
+  path: ./kubernetes/applications/infra/storage/longhorn
   targetNamespace: infra-storage
   interval: 15m
   retryInterval: 1m
