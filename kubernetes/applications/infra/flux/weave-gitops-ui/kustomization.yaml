@@ -6,7 +6,7 @@ kind: Kustomization
 resources:
   - helmrepository.yaml
   - helmrelease.yaml
-  - secret.yaml
+  - secret.age.enc.yaml
 
 configMapGenerator:
   - name: gitops-values
