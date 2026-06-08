@@ -6,3 +6,4 @@ kind: Kustomization
 resources:
   - flux
   - kustomize-mutating-webhook
+  - weave-gitops-ui
