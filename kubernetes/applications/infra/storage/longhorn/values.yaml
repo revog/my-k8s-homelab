@@ -52,5 +52,5 @@ ingress:
 
 # Default StorageClass options
 persistence:
-  defaultClass: true
+  defaultClass: false
   defaultClassReplicaCount: 2
