@@ -5,11 +5,12 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - ocirepository.yaml
-  - secret.enc.age.yaml
+  - helmrepository.yaml
+  - httproute.yaml
+  - namespace.yaml
 
 configMapGenerator:
-  - name: gitops-values
+  - name: headlamp-values
     files:
       - values.yaml
 
