@@ -1,0 +1,42 @@
+---
+args:
+  # Skip TLS verification for kubelet certificates - necessary because Talos uses self-signed kubelet certs
+  - --kubelet-insecure-tls
+  # Use InternalIP to connect to nodes (avoids hostname resolution issues)
+  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  # Metric resolution interval
+  - --metric-resolution=15s
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+replicas: 2
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+  limits:
+    cpu: 500m
+    memory: 500Mi
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+
+tls:
+  type: "cert-manager"
+  clusterDomain: cluster.local
+  certManager:
+    addInjectorAnnotations: true
+    existingIssuer:
+      enabled: true
+      kind: "ClusterIssuer"
+      name: "letsencrypt-homelab"
