@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: weave-gitops
+  namespace: infra-flux
+spec:
+  interval: 12h
+  url: oci://ghcr.io/weaveworks/weave-gitops
+  ref:
+    tag: "v0.38.0"
