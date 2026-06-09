@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: headlamp
-  namespace: flux-system
+  namespace: infra-flux
 spec:
   url: https://kubernetes-sigs.github.io/headlamp/
   interval: 12h
