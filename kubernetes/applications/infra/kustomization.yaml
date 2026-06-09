@@ -13,6 +13,7 @@ resources:
   - flux/ks.yaml
   - gateway-api/ks.yaml
   - grafana/ks.yaml
+  - headlamp/ks.yaml
   - prometheus/ks.yaml
   - tailscale/ks.yaml
   - storage/ks.yaml
