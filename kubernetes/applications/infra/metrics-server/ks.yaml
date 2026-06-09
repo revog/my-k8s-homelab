@@ -12,7 +12,7 @@ spec:
   prune: false
   dependsOn:
     - name: cert-manager
-      namespace: infra-certmanager
+      namespace: infra-flux
   targetNamespace: kube-system
   sourceRef:
     kind: GitRepository
