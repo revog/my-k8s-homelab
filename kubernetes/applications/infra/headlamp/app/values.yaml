@@ -18,9 +18,9 @@ initContainers:
       - name: headlamp-plugins
         mountPath: /build/plugins
 
-  volumeMounts:
-    - name: headlamp-plugins
-      mountPath: /build/plugins
-  volumes:
-    - name: headlamp-plugins
-      emptyDir: {}
+volumeMounts:
+  - name: headlamp-plugins
+    mountPath: /build/plugins
+volumes:
+  - name: headlamp-plugins
+    emptyDir: {}
