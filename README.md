@@ -47,7 +47,7 @@ This repository leverages a range of cutting-edge open-source tools and platform
       - 😶 [Core Components](#-core-components)
       - ⚙ [GitOps](#-gitops)
     - 🌎 [Networking & DNS](#-networking--dns)
-      - 🔒 [Local Network](#-local-network)
+      - 🔒 [Local Network (internal)](#-internal)
       - 💻 [Remote Network (Exposed)](#-remote-network-exposed)
         - 🪬 [Privately Exposed (Tailscale)](#-privately-exposed-tailscale)
         - 🔓 [Publicly Exposed (Cloudflare)](#-publicly-exposed-cloudflare)
