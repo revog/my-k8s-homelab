@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: headlamp
-        namespace: flux-system
+        namespace: infra-flux
   valuesFrom:
     - kind: ConfigMap
       name: headlamp-values
