@@ -24,7 +24,7 @@ metadata:
   name: prometheus-crds
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/infra/prometheus/crds
+  path: ./kubernetes/applications/infra/monitoring/crds
   targetNamespace: infra-monitoring
   interval: 15m
   retryInterval: 1m
