@@ -1,1 +1,55 @@
+authentik:
+  secret_key: "b7cRP2xLm9Qk3Zr68YtN5Szgh6aBhD4uH1E0GqMZyV"
+  error_reporting:
+    enabled: false
 
+# global:
+#   envFrom:
+#     - secretRef:
+#         name: authentik-secret
+
+server:
+  route:
+    main:
+      enabled: true
+      hostnames:
+       - authentik.private.${CLUSTER_DOMAIN}'
+       # - authentik.${CLUSTER_DOMAIN}'
+      parentRefs:
+       - name: private
+         namespace: infra-tailscale  # Explicitly points across namespaces to your Tailscale Gateway
+       # - name: public
+       #   namespace: infra-gateway
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+worker:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      accessModes: ["ReadWriteOnce"]
+      size: 8Gi
+  # auth:
+  #   enablePostgresUser: false
+  #   existingSecret: authentik-secret
+  #   secretKeys:
+  #     userPasswordKey: AUTHENTIK_POSTGRESQL__PASSWORD
+
+redis:
+  enabled: true
