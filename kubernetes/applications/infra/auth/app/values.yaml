@@ -13,8 +13,8 @@ server:
     main:
       enabled: true
       hostnames:
-       - authentik.private.${CLUSTER_DOMAIN}'
-       # - authentik.${CLUSTER_DOMAIN}'
+       - auth.private.${CLUSTER_DOMAIN}'
+       # - auth.${CLUSTER_DOMAIN}'
       parentRefs:
        - name: private
          namespace: infra-tailscale  # Explicitly points across namespaces to your Tailscale Gateway
