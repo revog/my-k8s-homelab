@@ -14,7 +14,7 @@ spec:
         name: victoria-metrics
       interval: 1h
   releaseName: victoria-metrics
-  targetNamespace: infra-prometheus
+  targetNamespace: infra-monitoring
   valuesFrom:
     - kind: ConfigMap
       name: victoria-metrics-values
