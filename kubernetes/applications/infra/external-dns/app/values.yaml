@@ -3,8 +3,7 @@ cloudflare:
   proxied: false # Default use "Grey cloud" (DNS only) for LAN and Tailscale.
 
 domainFilters:
-  - "internal.${CLUSTER_DOMAIN}"
-  - "private.${CLUSTER_DOMAIN}"
+  - "${CLUSTER_DOMAIN}"
 
 env:
   - name: CF_API_TOKEN
