@@ -1,18 +1,17 @@
 ---
 defaultSettings:
-  # set correct disk path for Talos
-  defaultDataPath: /var/lib/longhorn
-  # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
-  createDefaultDiskLabeledNodes: true
+  defaultDataPath: /var/mnt/nvme       # set falllback path
+  createDefaultDiskLabeledNodes: true  # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
 
   defaultReplicaCount: 2
 
-  # Prevent rebuild storms and limit per node
+  # Prevent rebuild storms  per node and optimize limits
+  concurrentReplicaRebuildPerNodeLimit: 1
+  concurrentVolumeBackupRestorePerNodeLimit: 1
+  disableRevisionCounter: true
   replicaSoftAntiAffinity: true
   replicaAutoBalance: best-effort
   guaranteedInstanceManagerCPU: 5  # amount of allocated CPU on a node for instance manager (interpreted in %)
-  concurrentReplicaRebuildPerNodeLimit: 1
-  concurrentVolumeBackupRestorePerNodeLimit: 1
 
   backupTarget: ""
   backupTargetCredentialSecret: ""
@@ -48,9 +47,9 @@ longhornUI:
   replicas: 1
 
 ingress:
-  enabled: false
+  enabled: false              # setup done with dedicated httproute yaml manifest
 
 # Default StorageClass options
 persistence:
-  defaultClass: false
+  defaultClass: false          # setup done with dedicated yaml manifest
   defaultClassReplicaCount: 2
