@@ -34,6 +34,9 @@ kubeProxyReplacement: true
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 
+l2announcements:
+  enabled: true
+
 operator:
   replicas: 2
   priorityClassName: system-cluster-critical
