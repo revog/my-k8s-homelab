@@ -3,7 +3,8 @@ cloudflare:
   proxied: false # Default use "Grey cloud" (DNS only) for LAN and Tailscale.
 
 domainFilters:
-  - "${CLUSTER_DOMAIN}"
+  - "internal.${CLUSTER_DOMAIN}"
+  - "private.${CLUSTER_DOMAIN}"
 
 env:
   - name: CF_API_TOKEN
@@ -31,6 +32,7 @@ txtOwnerId: "k8s-homelab-cluster"
 
 sources:
   - crd
+  - gateway
   # - gateway-httproute
   # - ingress
   - service
