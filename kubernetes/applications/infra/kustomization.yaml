@@ -15,6 +15,6 @@ resources:
   - grafana/ks.yaml
   - headlamp/ks.yaml
   - metrics-server/ks.yaml
-#  - prometheus/ks.yaml
+  - monitoring/ks.yaml
   - tailscale/ks.yaml
   - storage/ks.yaml
