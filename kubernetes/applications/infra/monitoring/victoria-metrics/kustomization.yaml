@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - helmrepository.yaml
-  - httproute.yaml
   - namespace.yaml
 
 configMapGenerator:
