@@ -1,0 +1,5 @@
+vmsingle:
+  route:
+    enabled: true
+    hostnames: 
+      - 'metrics.private.${CLUSTER_DOMAIN}'
