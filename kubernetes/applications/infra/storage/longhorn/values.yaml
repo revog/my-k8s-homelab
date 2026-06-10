@@ -10,7 +10,7 @@ defaultSettings:
   # Prevent rebuild storms and limit per node
   replicaSoftAntiAffinity: true
   replicaAutoBalance: best-effort
-  guaranteedInstanceManagerCPU: 0.5
+  guaranteedInstanceManagerCPU: 5  # amount of allocated CPU on a node for instance manager (interpreted in %)
   concurrentReplicaRebuildPerNodeLimit: 1
   concurrentVolumeBackupRestorePerNodeLimit: 1
 
