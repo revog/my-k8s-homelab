@@ -3,23 +3,23 @@ authentik:
   error_reporting:
     enabled: false
 
-# global:
-#   envFrom:
-#     - secretRef:
-#         name: authentik-secret
+global:
+  envFrom:
+    - secretRef:
+        name: postgres-auth
 
 server:
   route:
     main:
       enabled: true
       hostnames:
-       - auth.private.${CLUSTER_DOMAIN}'
-       # - auth.${CLUSTER_DOMAIN}'
+        - 'auth.private.${CLUSTER_DOMAIN}'
+        # - 'auth.${CLUSTER_DOMAIN}'
       parentRefs:
-       - name: private
-         namespace: infra-tailscale  # Explicitly points across namespaces to your Tailscale Gateway
-       # - name: public
-       #   namespace: infra-gateway
+        - name: private
+          namespace: infra-tailscale  # Explicitly points across namespaces to your Tailscale Gateway
+        # - name: public
+        #   namespace: infra-gateway
   resources:
     requests:
       cpu: 100m
@@ -45,11 +45,11 @@ postgresql:
       storageClass: longhorn
       accessModes: ["ReadWriteOnce"]
       size: 8Gi
-  # auth:
-  #   enablePostgresUser: false
-  #   existingSecret: authentik-secret
-  #   secretKeys:
-  #     userPasswordKey: AUTHENTIK_POSTGRESQL__PASSWORD
+  auth:
+    enablePostgresUser: false
+    existingSecret: postgres-auth
+    secretKeys:
+      userPasswordKey: AUTHENTIK_POSTGRESQL_PASSWORD
 
 redis:
   enabled: true
