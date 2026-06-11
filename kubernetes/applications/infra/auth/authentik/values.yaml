@@ -49,7 +49,7 @@ postgresql:
     enablePostgresUser: false
     existingSecret: postgres-auth
     secretKeys:
-      userPasswordKey: AUTHENTIK_POSTGRESQL_PASSWORD
+      userPasswordKey: AUTHENTIK_POSTGRESQL__PASSWORD
 
 redis:
   enabled: true
