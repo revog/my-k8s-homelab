@@ -6,6 +6,7 @@ resources:
   - gateway.yaml
   - helmrepository.yaml
   - helmrelease.yaml
+  - httproute.yaml
   - namespace.yaml
   - secrets.enc.age.yaml
   - service.yaml
