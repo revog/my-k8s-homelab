@@ -4,9 +4,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: external
-  annotations:
-    # external-dns.alpha.kubernetes.io/hostname: &hostname "*.${CLUSTER_DOMAIN}"
-    # external-dns.alpha.kubernetes.io/hostname: &hostname "${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
   addresses:
@@ -19,7 +16,7 @@ spec:
       hostname: "*.${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
-          from: Same
+          from: All
     - name: https
       protocol: HTTPS
       port: 443
@@ -54,9 +51,9 @@ spec:
       protocol: HTTP
       port: 80
       hostname: "*.internal.${CLUSTER_DOMAIN}"
-      # allowedRoutes:
-      #   namespaces:
-      #     from: Same
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: https
       protocol: HTTPS
       port: 443
