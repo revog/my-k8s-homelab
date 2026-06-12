@@ -31,8 +31,8 @@ txtOwnerId: "k8s-homelab-cluster"
 
 sources:
   - crd
-  - gateway
-  # - gateway-httproute
+  # - gateway
+  - gateway-httproute
   # - ingress
   - service
 
