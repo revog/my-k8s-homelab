@@ -12,6 +12,7 @@ server:
   route:
     main:
       enabled: true
+      https: true
       hostnames:
         - 'auth.private.${CLUSTER_DOMAIN}'
         # - 'auth.${CLUSTER_DOMAIN}'
@@ -20,6 +21,14 @@ server:
           namespace: infra-tailscale  # Explicitly points across namespaces to your Tailscale Gateway
         # - name: public
         #   namespace: infra-gateway
+    internal:
+      enabled: true
+      https: true
+      hostnames:
+        - 'auth.internal.${CLUSTER_DOMAIN}'
+      parentRefs:
+        - name: internal
+          namespace: infra-gateway
   resources:
     requests:
       cpu: 100m
