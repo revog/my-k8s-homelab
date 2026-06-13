@@ -1,7 +1,12 @@
 authentik:
-  secret_key: "b7cRP2xLm9Qk3Zr68YtN5Szgh6aBhD4uH1E0GqMZyV"
+  env:
+    - name: AUTHENTIK_ALLOWED_HOSTS
+      value: "auth.internal.${CLUSTER_DOMAIN},auth.private.${CLUSTER_DOMAIN},auth.${CLUSTER_DOMAIN}"
+    - name: AUTHENTIK_LISTEN__TRUSTED_PROXY_CIDRS
+      value: "10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
   error_reporting:
     enabled: false
+  secret_key: ${AUTHENTIK_SECRET_KEY}
 
 global:
   envFrom:
