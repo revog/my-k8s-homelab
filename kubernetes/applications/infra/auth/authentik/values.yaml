@@ -41,21 +41,21 @@ server:
       parentRefs:
         - name: public
           namespace: infra-gateway
-    additionalRules:
-      # Force the Gateway to inject the HTTPS protocol scheme header. This ensures Authentik upgrades its internal WebSocket engine from 'ws' to 'wss',
-      # preventing browser-side Mixed Content blocks (Interceptor errors) when accessed via Cloudflare Tunnels or proxies on port 80.
-      - backendRefs:
-          - group: ''
-            kind: Service
-            name: authentik-server # Erzeugt die korrekte Service-Bindung
-            port: 80
-            weight: 1
-        filters:
-          - type: RequestHeaderModifier
-            requestHeaderModifier:
-              set:
-                - name: "X-Forwarded-Proto"
-                  value: "https"
+      additionalRules:
+        # Force the Gateway to inject the HTTPS protocol scheme header. This ensures Authentik upgrades its internal WebSocket engine from 'ws' to 'wss',
+        # preventing browser-side Mixed Content blocks (Interceptor errors) when accessed via Cloudflare Tunnels or proxies on port 80.
+        - backendRefs:
+            - group: ''
+              kind: Service
+              name: authentik-server # Erzeugt die korrekte Service-Bindung
+              port: 80
+              weight: 1
+          filters:
+            - type: RequestHeaderModifier
+              requestHeaderModifier:
+                set:
+                  - name: "X-Forwarded-Proto"
+                    value: "https"
   resources:
     requests:
       cpu: 100m
