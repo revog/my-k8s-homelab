@@ -1,5 +1,14 @@
 config:
   pluginsDir: /build/plugins
+  oidc:
+    secret:
+      create: false
+    externalSecret:
+      enabled: true
+      name: "headlamp-oidc-secret"
+      hasScopes: true
+    issuerURL: "https://auth.${CLUSTER_DOMAIN}"
+    scopes: "openid,profile,email,groups"
 
 initContainers:
   - name: headlamp-plugins
