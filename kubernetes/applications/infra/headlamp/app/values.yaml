@@ -3,7 +3,7 @@ config:
   oidc:
     secret:
       create: false
-      name: "headlamp-oidc-secret"
+    clientSecret: "headlamp-oidc-secret"
     issuerURL: "https://auth.${CLUSTER_DOMAIN}"
     scopes: "openid,profile,email,groups"
 
