@@ -2,16 +2,10 @@ authentik:
   env:
     - name: AUTHENTIK_ALLOWED_HOSTS
       value: "auth.internal.${CLUSTER_DOMAIN},auth.private.${CLUSTER_DOMAIN},auth.${CLUSTER_DOMAIN}"
-    - name: AUTHENTIK_CORS_ORIGINS
-      value: "https://auth.internal.${CLUSTER_DOMAIN},https://auth.private.${CLUSTER_DOMAIN},https://auth.${CLUSTER_DOMAIN}"
     - name: AUTHENTIK_LISTEN__PROXY_HEADERS
       value: "true"
     - name: AUTHENTIK_LISTEN__TRUSTED_PROXY_CIDRS
       value: "10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
-    - name: AUTHENTIK_FORWARDED_ALLOW_IPS
-      value: "*"
-    - name: SECURE_PROXY_SSL_HEADER
-      value: "HTTP_X_FORWARDED_PROTO,https"
   error_reporting:
     enabled: false
   secret_key: ${AUTHENTIK_SECRET_KEY}
@@ -47,6 +41,14 @@ server:
       parentRefs:
         - name: public
           namespace: infra-gateway
+      filters:
+        # Force the Gateway to inject the HTTPS protocol scheme header. This ensures Authentik upgrades its internal WebSocket engine from 'ws' to 'wss',
+        # preventing browser-side Mixed Content blocks (Interceptor errors) when accessed via Cloudflare Tunnels or proxies on port 80.
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: "X-Forwarded-Proto"
+                value: "https"
   resources:
     requests:
       cpu: 100m
