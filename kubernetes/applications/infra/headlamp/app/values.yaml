@@ -3,8 +3,9 @@ config:
   oidc:
     secret:
       create: false
-    clientId: headlamp-sso
-    clientSecret: headlamp-oidc-secret
+    externalSecret:
+      enabled: true
+      name: headlamp-oidc-secret
     issuerURL: https://auth.${CLUSTER_DOMAIN}
     scopes: "openid,profile,email,groups"
 
