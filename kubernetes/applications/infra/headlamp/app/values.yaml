@@ -6,8 +6,6 @@ config:
     externalSecret:
       enabled: true
       name: headlamp-oidc-secret
-    issuerURL: https://auth.${CLUSTER_DOMAIN}
-    scopes: "openid,profile,email,groups"
 
 initContainers:
   - name: headlamp-plugins
