@@ -2,7 +2,6 @@ clusterRoleBinding:
   create: false
 
 config:
-  baseURL: https://headlamp.private.${CLUSTER_DOMAIN}
   pluginsDir: /build/plugins
   oidc:
     secret:
@@ -27,7 +26,7 @@ initContainers:
     volumeMounts:
       - name: headlamp-plugins
         mountPath: /build/plugins
-  
+
 serviceAccount:
   create: false
 
