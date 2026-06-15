@@ -2,6 +2,7 @@ clusterRoleBinding:
   create: false
 
 config:
+  baseURL: https://headlamp.private.${CLUSTER_DOMAIN}
   pluginsDir: /build/plugins
   oidc:
     secret:
