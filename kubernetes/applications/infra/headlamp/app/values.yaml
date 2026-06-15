@@ -1,3 +1,6 @@
+clusterRoleBinding:
+  create: false
+
 config:
   pluginsDir: /build/plugins
   oidc:
@@ -23,6 +26,9 @@ initContainers:
     volumeMounts:
       - name: headlamp-plugins
         mountPath: /build/plugins
+  
+serviceAccount:
+  create: false
 
 volumeMounts:
   - name: headlamp-plugins
