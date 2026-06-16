@@ -9,6 +9,7 @@ config:
     externalSecret:
       enabled: true
       name: headlamp-oidc-secret
+  unsafeUseServiceAccountToken: false # This disables per-user authentication and is only safe behind an auth proxy
 
 initContainers:
   - name: headlamp-plugins
