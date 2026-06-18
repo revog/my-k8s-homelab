@@ -9,7 +9,7 @@ resources:
   - secret.age.enc.yaml
 
 configMapGenerator:
-  - name: authentik-values
+  - name: zitadel-values
     files:
       - values.yaml
 

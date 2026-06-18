@@ -1,0 +1,67 @@
+zitadel:
+  masterkeySecretName: zitadel-masterkey
+  configmapConfig:
+    ExternalDomain: auth.${CLUSTER_DOMAIN}
+    ExternalSecure: true
+    ExternalPort: 443
+  configSecretName: zitadel-config
+  configSecretKey: config.yaml
+
+gateway:
+  # HTTPRoute configuration for ZITADEL HTTP API traffic
+  httpRoute:
+    enabled: true
+    hostnames:
+      - 'auth.internal.${CLUSTER_DOMAIN}'
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+
+login:
+  gateway:
+    # HTTPRoute configuration for the Login UI
+    httpRoute:
+      enabled: true
+      hostnames:
+        - auth.${CLUSTER_DOMAIN}
+      parentRefs:
+        - name: public
+          namespace: infra-gateway
+      # fix for cloudflare
+      filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: "X-Forwarded-Proto"
+                value: "https"
+  pdb:
+    enabled: true
+    minAvailable: 1
+  # metrics:
+  #   enabled: false
+  #   serviceMonitor:
+  #     enabled: false
+
+# metrics:
+#   enabled: false
+#   serviceMonitor:
+#     enabled: false
+
+postgresql:
+  enabled: true
+  auth:
+    enablePostgresUser: true
+    existingSecret: "zitadel-postgres-auth"
+    secretKeys:
+      adminPasswordKey: "admin-password"
+      userPasswordKey: "user-password"
+    database: "zitadel"
+    username: "zitadel"
+  primary:
+    persistence:
+      enabled: true
+      storageClass: longhorn-v2
+      accessModes: ["ReadWriteOnce"]
+      size: 4Gi
+
+replicaCount: 2
