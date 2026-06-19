@@ -40,7 +40,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: flux-system
+        namespace: infra-auth
   valuesFrom:
     - kind: ConfigMap
       name: postgres-values
