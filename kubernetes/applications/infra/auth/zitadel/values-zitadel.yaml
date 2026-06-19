@@ -1,3 +1,4 @@
+---
 zitadel:
   masterkeySecretName: zitadel-masterkey
   configmapConfig:
@@ -46,22 +47,5 @@ login:
 #   enabled: false
 #   serviceMonitor:
 #     enabled: false
-
-postgresql:
-  enabled: true
-  auth:
-    enablePostgresUser: true
-    existingSecret: "zitadel-postgres-auth"
-    secretKeys:
-      adminPasswordKey: "admin-password"
-      userPasswordKey: "user-password"
-    database: "zitadel"
-    username: "zitadel"
-  primary:
-    persistence:
-      enabled: true
-      storageClass: longhorn-v2
-      accessModes: ["ReadWriteOnce"]
-      size: 4Gi
 
 replicaCount: 2

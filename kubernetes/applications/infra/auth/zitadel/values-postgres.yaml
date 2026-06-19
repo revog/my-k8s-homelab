@@ -1,0 +1,22 @@
+---
+auth:
+  enablePostgresUser: true
+  existingSecret: "zitadel-postgres-auth"
+  secretKeys:
+    adminPasswordKey: "admin-password"
+    userPasswordKey: "user-password"
+  database: "zitadel"
+  username: "zitadel"
+primary:
+  persistence:
+    enabled: true
+    storageClass: longhorn-v2
+    accessModes: ["ReadWriteOnce"]
+    size: 4Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
