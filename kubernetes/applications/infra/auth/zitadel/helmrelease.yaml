@@ -23,7 +23,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: zitadel-values
-      valuesKey: values.yaml
+      valuesKey: values-zitadel.yaml
 
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
@@ -44,4 +44,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: postgres-values
-      valuesKey: values.yaml
+      valuesKey: values-postgres.yaml
