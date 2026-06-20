@@ -26,6 +26,9 @@ gateway:
         namespace: infra-gateway
       - name: private
         namespace: infra-tailscale
+    paths:
+      - path: /
+        pathType: PathPrefix
 login:
   gateway:
     # HTTPRoute configuration for the Login UI
@@ -43,8 +46,6 @@ login:
         - name: private
           namespace: infra-tailscale
       paths:
-        - path: /
-          pathType: PathPrefix
         - path: /ui/v2/login
           pathType: PathPrefix
       # fix for cloudflare
