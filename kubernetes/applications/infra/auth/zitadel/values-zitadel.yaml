@@ -1,7 +1,28 @@
 ---
+db:
+  postgres:
+    host: "postgres-postgresql.infra-auth.svc.cluster.local"
+    port: 5432
+    database: "zitadel"
+    ssl:
+      mode: "disable"
+    user:
+      username: "zitadel"
+      # Holt das User-Passwort sicher aus deinem Secret:
+      existingSecret: "zitadel-postgres-auth"
+      passwordKey: "user-password"
+    admin:
+      username: "postgres"
+      # Holt das Admin-Passwort sicher aus deinem Secret:
+      existingSecret: "zitadel-postgres-auth"
+      passwordKey: "admin-password"
+
 zitadel:
   masterkeySecretName: zitadel-masterkey
   configmapConfig:
+    Database.Postgres.Host: "postgres-postgresql.infra-auth.svc.cluster.local"
+    Database.Postgres.Port: 5432
+    Database.Postgres.Database: "zitadel"
     ExternalDomain: auth.${CLUSTER_DOMAIN}
     ExternalSecure: true
     ExternalPort: 443
@@ -47,5 +68,8 @@ login:
 #   enabled: false
 #   serviceMonitor:
 #     enabled: false
+
+postgresql:
+  enabled: false
 
 replicaCount: 2
