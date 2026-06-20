@@ -34,11 +34,16 @@ gateway:
   httpRoute:
     enabled: true
     hostnames:
-      - 'auth.internal.${CLUSTER_DOMAIN}'
+      - auth.${CLUSTER_DOMAIN}
+      - auth.internal.${CLUSTER_DOMAIN}
+      - auth.private.${CLUSTER_DOMAIN}
     parentRefs:
       - name: internal
         namespace: infra-gateway
-
+      - name: public
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
 login:
   gateway:
     # HTTPRoute configuration for the Login UI
@@ -46,9 +51,15 @@ login:
       enabled: true
       hostnames:
         - auth.${CLUSTER_DOMAIN}
+        - auth.internal.${CLUSTER_DOMAIN}
+        - auth.private.${CLUSTER_DOMAIN}
       parentRefs:
+        - name: internal
+          namespace: infra-gateway
         - name: public
           namespace: infra-gateway
+        - name: private
+          namespace: infra-tailscale
       paths:
         - path: /
           pathType: PathPrefix
