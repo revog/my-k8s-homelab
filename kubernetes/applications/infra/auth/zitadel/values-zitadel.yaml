@@ -49,6 +49,11 @@ login:
       parentRefs:
         - name: public
           namespace: infra-gateway
+      paths:
+        - path: /
+          pathType: PathPrefix
+        - path: /ui/v2/login
+          pathType: PathPrefix
       # fix for cloudflare
       filters:
         - type: RequestHeaderModifier
