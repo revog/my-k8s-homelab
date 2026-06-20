@@ -8,6 +8,13 @@ zitadel:
     ExternalDomain: auth.${CLUSTER_DOMAIN}
     ExternalSecure: true
     ExternalPort: 443
+    FirstInstance:
+      Org:
+        Human:
+          UserName: "admin"                     # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_USERNAME
+          Email: "reto@vogel.vu"                # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL
+          Password: "TheSecureInitPassword123!" # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+          PasswordChangeRequired: true
   configSecretName: zitadel-config
   configSecretKey: config.yaml
 
