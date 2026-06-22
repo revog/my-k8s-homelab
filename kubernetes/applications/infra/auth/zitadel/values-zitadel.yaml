@@ -12,7 +12,7 @@ zitadel:
       Org:
         Human:
           UserName: "admin"                     # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_USERNAME
-          Email: "reto@vogel.vu"                # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL
+          Email: me@${CLUSTER_DOMAIN}           # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL
           Password: "TheSecureInitPassword123!" # ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
           PasswordChangeRequired: true
   configSecretName: zitadel-config
