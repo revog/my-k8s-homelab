@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: paperless-ngx
+spec:
+  interval: 12h
+  url: oci://oci.trueforge.org/truecharts/paperless-ngx
+  ref:
+    tag: "14.11.2"
+  
