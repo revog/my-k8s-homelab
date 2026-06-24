@@ -6,7 +6,7 @@ metadata:
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/app/paperless/app
-  targetNamespace: app-paperless
+  targetNamespace: app-paperless-ngx
   interval: 15m
   retryInterval: 1m
   timeout: 3m
