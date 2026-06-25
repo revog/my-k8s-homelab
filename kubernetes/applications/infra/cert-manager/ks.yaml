@@ -14,7 +14,7 @@ spec:
   dependsOn:
     - name: cert-manager-crds
       namespace: infra-flux
-    - name: prometheus-crds
+    - name: victoria-metrics
       namespace: infra-flux
   wait: true
   healthChecks:
