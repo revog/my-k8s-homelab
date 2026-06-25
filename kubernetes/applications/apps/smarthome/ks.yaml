@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: paperless
+  name: smarthome
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/app/paperless/app
-  targetNamespace: app-paperless-ngx
+  path: ./kubernetes/applications/app/smarthome/homeassistant
+  targetNamespace: app-smarthome
   interval: 15m
   retryInterval: 1m
   timeout: 3m
@@ -19,4 +19,3 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  

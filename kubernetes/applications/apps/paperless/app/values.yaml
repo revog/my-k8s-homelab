@@ -1,3 +1,4 @@
+---
 workload:
   main:
     podSpec:
@@ -9,8 +10,8 @@ workload:
             PAPERLESS_CONSUMPTION_DIR: "/consume/"
             PAPERLESS_MEDIA_ROOT: "/media/"
             PAPERLESS_URL: "https://paperless.internal.${CLUSTER_DOMAIN}"
-            PAPERLESS_ALLOWED_HOSTS="https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.internal.${CLUSTER_DOMAIN}"
-            PAPERLESS_CORS_ALLOWED_HOSTS="https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.internal.${CLUSTER_DOMAIN}"
+            PAPERLESS_ALLOWED_HOSTS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.internal.${CLUSTER_DOMAIN}"
+            PAPERLESS_CORS_ALLOWED_HOSTS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.internal.${CLUSTER_DOMAIN}"
             PAPERLESS_ADMIN_USER: "admin"
             PAPERLESS_ADMIN_PASSWORD: "changeme"
             PAPERLESS_ADMIN_MAIL: "admin@admin.com"
@@ -19,4 +20,3 @@ workload:
             PAPERLESS_CONSUMER_POLLING: 120
             PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
             PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.$CLUSTER_DOMAIN}/logout"
- 

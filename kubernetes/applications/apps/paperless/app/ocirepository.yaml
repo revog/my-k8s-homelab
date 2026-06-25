@@ -8,4 +8,3 @@ spec:
   url: oci://oci.trueforge.org/truecharts/paperless-ngx
   ref:
     tag: "14.11.2"
-  

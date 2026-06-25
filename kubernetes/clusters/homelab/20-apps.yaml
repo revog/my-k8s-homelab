@@ -7,7 +7,7 @@ metadata:
   namespace: infra-flux
 spec:
   interval: 10m
-  path: ./kubernetes/applications/app
+  path: ./kubernetes/applications/apps
   prune: true
   sourceRef:
     kind: GitRepository
