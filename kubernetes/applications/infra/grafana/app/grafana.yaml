@@ -19,19 +19,21 @@ spec:
       auto_login: "true"
       # For variables see https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#env-provider
       enabled: "true"
-      name: "GitHub SSO"
+      name: "Zitadel SSO"
       allow_sign_up: "true"
       client_id: ${GRAFANA_AUTH_GENERIC_CLIENT_ID}
       client_secret: ${GRAFANA_AUTH_GENERIC_CLIENT_SECRET}
-      scopes: "openid profile email groups"
+      scopes: "openid email profile offline_access roles"
       email_attribute_path: email
       login_attribute_path: username
-      name_attribute_path: full_name
+      name_attribute_path: fullname
       groups_attribute_path: groups
-      auth_url: "https://auth.${CLUSTER_DOMAIN}/auth"
-      token_url: "https://auth.${CLUSTER_DOMAIN}/token"
-      api_url: "https://auth.${CLUSTER_DOMAIN}/userinfo"
-      role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
+      auth_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/authorize"
+      token_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/token"
+      api_url: "https://auth.${CLUSTER_DOMAIN}/oidc/v1/userinfo"
+      use_pkce: "true"
+      #role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
+      role_attribute_path: "contains('user-roles[*]', 'monitoring') && 'Editor' || 'admin'"
     log:
       mode: console
     metrics:
@@ -44,7 +46,7 @@ spec:
       angular_support_enabled: "true"
     server:
       enable_gzip: "true"
-      root_url: https://grafana.${CLUSTER_DOMAIN}
+      root_url: https://grafana.internal.${CLUSTER_DOMAIN}
     smtp:
       enabled: "true"
       host: "smtp-relay.home-system.svc.cluster.local:25"
@@ -85,6 +87,6 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 10Gi
-      storageClassName: ceph-block
+          storage: 1Gi
+      storageClassName: longhorn-v2
   disableDefaultSecurityContext: All
