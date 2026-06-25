@@ -10,8 +10,6 @@ spec:
   wait: true
   interval: 15m
   prune: true
-  dependsOn:
-    - name: external-secrets
   sourceRef:
     kind: GitRepository
     name: homelab
