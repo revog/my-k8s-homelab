@@ -1,4 +1,4 @@
-fullnameOverride: "victoria-metrics"
+fullnameOverride: "vm"
 
 external:
   grafana:
