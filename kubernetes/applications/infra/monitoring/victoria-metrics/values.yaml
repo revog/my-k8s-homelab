@@ -1,5 +1,7 @@
+fullnameOverride: "victoria-metrics"
+
 vmsingle:
   route:
     enabled: true
-    hostnames: 
+    hostnames:
       - 'metrics.private.${CLUSTER_DOMAIN}'
