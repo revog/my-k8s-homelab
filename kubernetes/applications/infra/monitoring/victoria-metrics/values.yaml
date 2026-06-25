@@ -1,4 +1,13 @@
 fullnameOverride: "vm"
+prometheus-node-exporter:
+  enabled: true
+  hostNetwork: true
+  fullnameOverride: "vm-node-exporter"
+kube-state-metrics:
+  enabled: true
+  fullnameOverride: "vm-kube-state-metrics"
+victoria-metrics-operator:
+  fullnameOverride: "vm-operator"
 
 external:
   grafana:
