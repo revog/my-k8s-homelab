@@ -1,7 +1,29 @@
 fullnameOverride: "victoria-metrics"
 
+external:
+  grafana:
+    host: "grafana.internal.${CLUSTER_DOMAIN}"
+
+grafana:
+  enabled: false
+
 vmsingle:
   route:
     enabled: true
+    parentRefs:
+      - name: private
+        namespace: infra-tailscale # Explicitly points across namespaces to your Tailscale Gateway
+      - name: internal
+        namespace: infra-gateway
     hostnames:
-      - 'metrics.private.${CLUSTER_DOMAIN}'
+      - 'monitoring.internal.${CLUSTER_DOMAIN}'
+      - 'monitoring.private.${CLUSTER_DOMAIN}'
+  spec:
+    retentionPeriod: "1" # Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h.
+    storage:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+      storageClassName: longhorn-v2
