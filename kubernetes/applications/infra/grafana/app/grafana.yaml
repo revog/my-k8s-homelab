@@ -31,7 +31,6 @@ spec:
       auth_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/authorize"
       token_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/token"
       api_url: "https://auth.${CLUSTER_DOMAIN}/oidc/v1/userinfo"
-      use_pkce: "true"
       #role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
       role_attribute_path: "contains('user-roles[*]', 'monitoring') && 'Editor' || 'admin'"
     log:
