@@ -13,6 +13,7 @@ victoria-metrics-operator:
   fullnameOverride: "vm-operator"
   crds:
     enabled: false
+    plain: false
   operator:
     disable_prometheus_converter: false
     enable_converter_ownership: true
