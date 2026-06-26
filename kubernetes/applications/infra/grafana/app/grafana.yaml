@@ -6,7 +6,7 @@ metadata:
   name: grafana
   labels:
     grafana.internal/instance: grafana
-    Dashboards: grafana
+    dashboards: grafana
 spec:
   client:
     preferIngress: false
