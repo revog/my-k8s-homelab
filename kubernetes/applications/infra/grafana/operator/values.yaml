@@ -1,5 +1,3 @@
-clusterDomain: "${CLUSTER_DOMAIN}"
-
 dashboard:
   enabled: true
 
