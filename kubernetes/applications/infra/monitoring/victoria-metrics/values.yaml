@@ -22,6 +22,9 @@ defaultDashboards:
   enabled: true
   grafanaOperator:
     enabled: true
+    namespace: infra-grafana
+    labels:
+      grafana.internal/instance: grafana
 
 external:
   grafana:
