@@ -7,6 +7,8 @@ metadata:
   labels:
     grafana.internal/instance: grafana
 spec:
+  client:
+    preferIngress: false
   config:
     analytics:
       check_for_updates: "false"
@@ -47,11 +49,11 @@ spec:
       enable_gzip: "true"
       root_url: https://grafana.internal.${CLUSTER_DOMAIN}
     smtp:
-      enabled: "true"
-      host: "smtp-relay.home-system.svc.cluster.local:25"
-      from_address: "noreply@${CLUSTER_DOMAIN}"
-      from_name: "Grafana"
-      skip_verify: "true"
+      enabled: "false"
+      # host: "smtp-relay.home-system.svc.cluster.local:25"
+      # from_address: "noreply@${CLUSTER_DOMAIN}"
+      # from_name: "Grafana"
+      # skip_verify: "true"
   deployment:
     spec:
       strategy:
