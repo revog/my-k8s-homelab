@@ -23,12 +23,7 @@ defaultDashboards:
   grafanaOperator:
     enabled: true
     namespace: infra-grafana
-    labels:
-      grafana.internal/instance: grafana
     spec:
-      instanceSelector:
-        matchLabels:
-          grafana.internal/instance: grafana
       allowCrossNamespaceImport: true
 
 external:
