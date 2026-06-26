@@ -17,6 +17,11 @@ victoria-metrics-operator:
     disable_prometheus_converter: false
     enable_converter_ownership: true
 
+defaultDashboards:
+  enabled: true
+  grafanaOperator:
+    enabled: true
+
 external:
   grafana:
     host: "grafana.internal.${CLUSTER_DOMAIN}"
