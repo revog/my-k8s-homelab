@@ -28,7 +28,7 @@ defaultDashboards:
     spec:
       instanceSelector:
         matchLabels:
-          dashboards: grafana
+          grafana.internal/instance: grafana
       allowCrossNamespaceImport: true
 
 external:
