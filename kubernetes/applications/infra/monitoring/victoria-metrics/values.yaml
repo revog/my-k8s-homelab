@@ -25,11 +25,12 @@ defaultDashboards:
     namespace: infra-grafana
     labels:
       grafana.internal/instance: grafana
-    instanceSelector:
-      matchLabels:
-        grafana.internal/instance: grafana
     spec:
+      instanceSelector:
+        matchLabels:
+          dashboards: grafana
       allowCrossNamespaceImport: true
+
 external:
   grafana:
     host: "grafana.internal.${CLUSTER_DOMAIN}"
