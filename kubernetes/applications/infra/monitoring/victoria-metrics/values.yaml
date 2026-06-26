@@ -25,7 +25,8 @@ defaultDashboards:
     namespace: infra-grafana
     labels:
       grafana.internal/instance: grafana
-
+    spec:
+      allowCrossNamespaceImport: true
 external:
   grafana:
     host: "grafana.internal.${CLUSTER_DOMAIN}"
