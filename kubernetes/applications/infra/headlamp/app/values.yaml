@@ -33,10 +33,3 @@ settings:
         homelab:
           prometheusEndpoint: "infra-monitoring/vmsingle-vm:8428"
           prometheusSubpath: ""
-
-volumeMounts:
-  - name: headlamp-plugins
-    mountPath: /build/plugins
-volumes:
-  - name: headlamp-plugins
-    emptyDir: {}
