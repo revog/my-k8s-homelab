@@ -12,6 +12,12 @@ config:
       name: headlamp-oidc-secret
   watchPlugins: true
 
+persistentVolumeClaim:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 100Mi
+
 pluginsManager:
   enabled: true
   configContent: |
