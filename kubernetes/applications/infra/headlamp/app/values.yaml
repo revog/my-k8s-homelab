@@ -14,7 +14,7 @@ config:
 
 initContainers:
   - name: headlamp-plugins
-    image: ghcr.io/headlamp-k8s/headlamp-plugins:latest
+    image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:latest
     imagePullPolicy: Always
     command:
       - /bin/sh
@@ -28,6 +28,13 @@ initContainers:
     volumeMounts:
       - name: headlamp-plugins
         mountPath: /build/plugins
+
+pluginsManager:
+  enabled: true
+  configContent:
+    - name: sample-plugin
+      source: https://example.com/plugin.tar.gz
+      version: 1.0.0
 
 serviceAccount:
   create: false
