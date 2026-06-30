@@ -3,13 +3,14 @@ clusterRoleBinding:
 
 config:
   inClusterContextName: "homelab"
-  pluginsDir: /build/plugins
+  pluginsDir: /headlamp/plugins
   oidc:
     secret:
       create: false
     externalSecret:
       enabled: true
       name: headlamp-oidc-secret
+  watchPlugins: true
 
 pluginsManager:
   enabled: true
