@@ -2,6 +2,8 @@ clusterRoleBinding:
   create: false
 
 config:
+  args:
+    - "-cluster-name=homelab"
   pluginsDir: /build/plugins
   oidc:
     secret:
@@ -12,7 +14,7 @@ config:
 
 initContainers:
   - name: headlamp-plugins
-    image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:latest
+    image: ghcr.io/headlamp-k8s/headlamp-plugins:latest
     imagePullPolicy: Always
     command:
       - /bin/sh
@@ -29,6 +31,14 @@ initContainers:
 
 serviceAccount:
   create: false
+
+settings:
+  configuration:
+    plugins:
+      "@kinvolk/kubernetes-prometheus":
+        homelab:
+          prometheusEndpoint: "infra-monitoring/vmsingle-vm:8428"
+          prometheusSubpath: ""
 
 volumeMounts:
   - name: headlamp-plugins
