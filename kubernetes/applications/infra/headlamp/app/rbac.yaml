@@ -8,7 +8,9 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
 subjects:
-  - apiGroup: rbac.authorization.k8s.io
-    kind: User
-    name: "akadmin"
-    # name: https://auth.${my_domain}/application/o/headlamp/#david
+  # - kind: User
+  #   name: "oidc:you@example.com"   # must match oidc-username-prefix + email claim exactly
+  #   apiGroup: rbac.authorization.k8s.io
+  - kind: Group
+    name: "oidc:admin"   # must match oidc-groups-prefix + whatever group/role comes from Zitadel
+    apiGroup: rbac.authorization.k8s.io
