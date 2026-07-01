@@ -3,7 +3,6 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: reloader
-  namespace: infra-flux
 spec:
   url: https://stakater.github.io/stakater-charts
   interval: 12h
