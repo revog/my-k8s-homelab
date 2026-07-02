@@ -1,1 +1,3 @@
 ---
+auth:
+  existingSecret: redis-secret
