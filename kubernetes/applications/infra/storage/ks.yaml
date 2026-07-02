@@ -36,8 +36,8 @@ spec:
   interval: 15m
   retryInterval: 1m
   timeout: 3m
-  prune: true
-  wait: true
+  prune: false
+  wait: false
   sourceRef:
     kind: GitRepository
     name: homelab
