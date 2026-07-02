@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: storage
+  name: longhorn
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/infra/storage/longhorn
@@ -14,6 +14,7 @@ spec:
   wait: true
   dependsOn:
     - name: cilium
+    - name: snapshot
   sourceRef:
     kind: GitRepository
     name: homelab
@@ -21,3 +22,22 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: snapshot
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/infra/storage/snapshot
+  targetNamespace: infra-storage
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
