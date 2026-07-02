@@ -69,7 +69,7 @@ controllers:
                 key: PAPERLESS_ADMIN_PASSWORD
         envFrom:
           - secretRef:
-              name: paperless-secrets
+              name: paperless-secret
           - secretRef:
               name: redis
         probes:
