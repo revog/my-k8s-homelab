@@ -10,11 +10,7 @@ controllers:
           tag: 2.20.15
         env:
           # Configure application
-          PAPERLESS_SECRET_KEY:
-            valueFrom:
-              secretKeyRef:
-                name: paperless-secret
-                key: PAPERLESS_SECRET_KEY
+          PAPERLESS_SECRET_KEY: $(PAPERLESS_SECRET_KEY)
           PAPERLESS_URL: "https://paperless.internal.${CLUSTER_DOMAIN}"
           PAPERLESS_ALLOWED_HOSTS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.private.${CLUSTER_DOMAIN}"
           PAPERLESS_CORS_ALLOWED_HOSTS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.private.${CLUSTER_DOMAIN}"
@@ -39,39 +35,22 @@ controllers:
           PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text # do not create archived version if embedded text found
           PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
           # Configure redis integration
-          REDIS_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: redis
-                key: redis-password
           PAPERLESS_REDIS: "redis://:$(redis-password)@redis:6379"
           # Configure user
           USERMAP_GID: "100" # gladius:users
           PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${CLUSTER_DOMAIN}/logout"
           PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "false"
           PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
-          PAPERLESS_SOCIALACCOUNT_PROVIDERS:
-            valueFrom:
-              secretKeyRef:
-                name: paperless-secret
-                key: PAPERLESS_OIDC_CONFIG
+          PAPERLESS_SOCIALACCOUNT_PROVIDERS: $(PAPERLESS_OIDC_CONFIG)
           # Configure admin user
           PAPERLESS_ADMIN_MAIL: "admin@${CLUSTER_DOMAIN}"
-          PAPERLESS_ADMIN_USER:
-            valueFrom:
-              secretKeyRef:
-                name: paperless-secret
-                key: PAPERLESS_ADMIN_USER
-          PAPERLESS_ADMIN_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: paperless-secret
-                key: PAPERLESS_ADMIN_PASSWORD
+          PAPERLESS_ADMIN_USER: $(PAPERLESS_ADMIN_USER)
+          PAPERLESS_ADMIN_PASSWORD: $(PAPERLESS_ADMIN_PASSWORD)
         envFrom:
           - secretRef:
               name: paperless-secret
           - secretRef:
-              name: redis
+              name: redis-secret
         probes:
           liveness:
             enabled: true

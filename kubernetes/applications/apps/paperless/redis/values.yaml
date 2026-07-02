@@ -1,7 +1,7 @@
 ---
 auth:
   enabled: true
-  existingSecret: "redis"
+  existingSecret: "redis-secret"
   existingSecretPasswordKey: "redis-password"
 persistence:
   enabled: true
