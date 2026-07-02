@@ -39,7 +39,7 @@ controllers:
           PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text # do not create archived version if embedded text found
           PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
           # Configure redis integration
-          PAPERLESS_REDIS: redis://paperless-dragonfly:6379
+          PAPERLESS_REDIS: redis://redis:6379
           # Configure user
           USERMAP_GID: "100" # gladius:users
           PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${CLUSTER_DOMAIN}/logout"
