@@ -6,3 +6,5 @@ auth:
 persistence:
   enabled: true
   size: 256Mi
+podAnnotations:
+  reloader.stakater.com/auto: "true"
