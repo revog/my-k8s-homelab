@@ -1,4 +1,8 @@
 ---
+auth:
+  enabled: true
+  existingSecret: "redis"
+  existingSecretPasswordKey: "redis-password"
 persistence:
   enabled: true
   size: 256Mi
