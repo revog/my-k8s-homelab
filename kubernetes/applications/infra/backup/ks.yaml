@@ -12,8 +12,7 @@ spec:
   timeout: 3m
   prune: true
   dependsOn:
-    - name: storage
-      namespace: infra-flux
+    - name: longhorn
   wait: true
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
