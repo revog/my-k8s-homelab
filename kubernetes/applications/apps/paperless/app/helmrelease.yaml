@@ -7,7 +7,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: paperless-ngx
+    name: app-template
   install:
     crds: CreateReplace
     remediation:

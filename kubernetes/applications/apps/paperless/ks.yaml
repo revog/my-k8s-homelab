@@ -5,7 +5,7 @@ metadata:
   name: paperless
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/app/paperless/app
+  path: ./kubernetes/applications/apps/paperless/app
   targetNamespace: app-paperless-ngx
   interval: 15m
   retryInterval: 1m
@@ -15,7 +15,16 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  # components:
+  #   - ../../components/volsync
   decryption:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      APP: paperless
+      APP_UID: "1000"
+      APP_GID: "65542"
+      VOLSYNC_CLAIM: paperless-data
+      VOLSYNC_CAPACITY: 15Gi

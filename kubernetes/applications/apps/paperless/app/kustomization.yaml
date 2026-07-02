@@ -6,10 +6,11 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+  - secret.age.enc.yaml
 
 configMapGenerator:
   - name: paperless-ngx-values
     files:
-      - values.yaml=./values.yaml
+      - values.yaml
     options:
       disableNameSuffixHash: true
