@@ -6,7 +6,6 @@ resources:
   - helmrelease.yaml
   - helmrepository.yaml
   - httproute.yaml
-  - namespace.yaml
   - storageclass.yaml
   - volumesnapshotclass.yaml
 
