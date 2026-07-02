@@ -44,7 +44,7 @@ controllers:
               secretKeyRef:
                 name: redis
                 key: redis-password
-          PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
+          PAPERLESS_REDIS: "redis://:$(redis-password)@redis:6379"
           # Configure user
           USERMAP_GID: "100" # gladius:users
           PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${CLUSTER_DOMAIN}/logout"
@@ -70,6 +70,8 @@ controllers:
         envFrom:
           - secretRef:
               name: paperless-secrets
+          - secretRef:
+              name: redis
         probes:
           liveness:
             enabled: true
