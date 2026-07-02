@@ -42,7 +42,7 @@ controllers:
           REDIS_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: redis-secret
+                name: redis
                 key: redis-password
           PAPERLESS_REDIS: "redis://:$(REDIS_PASSWORD)@redis:6379"
           # Configure user

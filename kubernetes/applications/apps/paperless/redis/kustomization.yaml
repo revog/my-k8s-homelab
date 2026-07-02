@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - ocirepository.yaml
-  - secret.age.enc.yaml
 
 configMapGenerator:
   - name: redis-values
