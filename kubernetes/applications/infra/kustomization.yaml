@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - auth/ks.yaml
+  - backup/ks.yaml
   - cert-manager/ks.yaml
   - cilium/ks.yaml
   - cloudflare/ks.yaml
