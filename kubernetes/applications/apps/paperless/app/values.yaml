@@ -38,7 +38,6 @@ controllers:
           PAPERLESS_REDIS: "redis://:$(redis-password)@redis:6379"
           # Configure user
           USERMAP_GID: "100" # gladius:users
-          PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${CLUSTER_DOMAIN}/logout"
           PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "true"
           PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
           PAPERLESS_SOCIALACCOUNT_PROVIDERS: $(PAPERLESS_OIDC_CONFIG)
