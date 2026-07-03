@@ -11,7 +11,6 @@ controllers:
         env:
           # Configure application
           PAPERLESS_SECRET_KEY: $(PAPERLESS_SECRET_KEY)
-          PAPERLESS_URL: "https://paperless.internal.${CLUSTER_DOMAIN}"
           PAPERLESS_ALLOWED_HOSTS: "paperless.internal.${CLUSTER_DOMAIN},paperless.private.${CLUSTER_DOMAIN}"
           PAPERLESS_CORS_ALLOWED_HOSTS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.private.${CLUSTER_DOMAIN}"
           PAPERLESS_CSRF_TRUSTED_ORIGINS: "https://paperless.internal.${CLUSTER_DOMAIN},https://paperless.private.${CLUSTER_DOMAIN}"
