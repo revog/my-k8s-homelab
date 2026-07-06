@@ -51,7 +51,8 @@ persistence:
             subPath: bookmarks.yaml
           - path: /app/config/widgets.yaml
             subPath: widgets.yaml
-          - path: /app/config/kubernet
+          - path: /app/config/kubernetes.yaml
+            subPath: kubernetes.yaml
   logs:
     type: emptyDir
     globalMounts:
