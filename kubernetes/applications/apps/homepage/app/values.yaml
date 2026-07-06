@@ -45,7 +45,7 @@ route:
         namespace: infra-tailscale
     rules:
       - backendRefs:
-          - identifier: homepage
+          - identifier: app
             port: 3000
 
 service:
