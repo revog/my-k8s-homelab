@@ -1,0 +1,15 @@
+- Home Automation: []
+
+- Office: []
+
+- Applications: []
+
+- Development: []
+
+- Security: []
+
+- Storage:
+      - QNAP:
+            icon: qnap.png
+            href: https://${STORAE_IP}
+            description: SMB, NFS, etc.
