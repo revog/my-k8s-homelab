@@ -56,7 +56,7 @@ persistence:
   logs:
     type: emptyDir
     globalMounts:
-      - path: /app/logs
+      - path: /app/config/logs
 
 route:
   app:
