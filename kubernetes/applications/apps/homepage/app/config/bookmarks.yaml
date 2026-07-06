@@ -3,7 +3,3 @@
         - abbr: CF
           icon: https://dash.cloudflare.com/favicon-16x16.png
           href: https://dash.cloudflare.com
-    - Headlamp
-        - abbr: CF
-          icon: https://headlamp.private.${CLUSTER_DOMAIN}/favicon-16x16.png
-          href: https://headlamp.private.${CLUSTER_DOMAIN}
