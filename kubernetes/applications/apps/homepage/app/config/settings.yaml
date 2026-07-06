@@ -1,0 +1,27 @@
+# background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
+# backgroundOpacity: 0.5
+
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey
+  longhorn:
+    url: https://longhorn.${CLUSTER_DOMAIN}
+
+layout:
+  Media:
+    style: row
+    columns: 4
+  Home Automation:
+    style: row
+    columns: 4
+  Office:
+    style: row
+    columns: 4
+  Applications:
+    style: row
+    columns: 4
+  Development:
+  Security:
+  Operations:
+  DNS:
+  Storage:
