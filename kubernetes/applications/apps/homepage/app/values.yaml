@@ -1,0 +1,55 @@
+---
+controllers:
+  app:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      app:
+        image:
+          repository: ghcr.io/gethomepage/homepage
+          tag: v1.
+        env:
+          PUID: 1000
+          GUID: 1000
+          HOMEPAGE_ALLOWED_HOSTS: start.internal.${CLUSTER_DOMAIN},start.private.${CLUSTER_DOMAIN}
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            memory: 1Gi
+
+persistence:
+  config:
+    existingClaim: homepage
+        
+route:
+  app:
+    hostnames:
+      - start.internal.${CLUSTER_DOMAIN}
+      - start.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+    rules:
+      - backendRefs:
+          - identifier: homepage
+            port: 3000
+
+service:
+  app:
+    ports:
+      http:
+        port: 3000
