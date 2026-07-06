@@ -38,8 +38,20 @@ persistence:
   config:
     type: configMap
     name: homepage-config
-    globalMounts:
-      - path: /app/config
+    # globalMounts:
+    #   - path: /app/config
+    advancedMounts:
+      app:
+        app:
+          - path: /app/config/settings.yaml
+            subPath: settings.yaml
+          - path: /app/config/services.yaml
+            subPath: services.yaml
+          - path: /app/config/bookmarks.yaml
+            subPath: bookmarks.yaml
+          - path: /app/config/widgets.yaml
+            subPath: widgets.yaml
+          - path: /app/config/kubernet
   logs:
     type: emptyDir
     globalMounts:
