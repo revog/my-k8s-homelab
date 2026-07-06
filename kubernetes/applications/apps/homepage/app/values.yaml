@@ -30,8 +30,35 @@ controllers:
             memory: 1Gi
 
 persistence:
+  base-config:
+    enabled: "true"
+    type: "custom"
+    volumeSpec:
+      emptyDir: {}
+    mountPath: /app/config
   config:
-    existingClaim: homepage-config
+    enabled: "true"
+    type: "custom"
+    volumeSpec:
+      configMap:
+        name: homepage-config
+    subPath:
+      - path: bookmarks.yaml
+        mountPath: /app/config/bookmarks.yaml
+      # - path: docker.yaml
+      #   mountPath: /app/config/docker.yaml
+      - path: kubernetes.yaml
+        mountPath: /app/config/kubernetes.yaml
+      - path: services.yaml
+        mountPath: /app/config/services.yaml
+      - path: settings.yaml
+        mountPath: /app/config/settings.yaml
+      - path: widgets.yaml
+        mountPath: /app/config/widgets.yaml
+  logs:
+    enabled: true
+    type: emptyDir
+    mountPath: /app/config/logs
         
 route:
   app:
