@@ -18,3 +18,8 @@ configMapGenerator:
       - config/widgets.yaml
     options:
       disableNameSuffixHash: true
+  - name: homepage-values
+    files:
+      - values.yaml
+    options:
+      disableNameSuffixHash: true
