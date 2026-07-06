@@ -31,7 +31,7 @@ controllers:
 
 persistence:
   config:
-    existingClaim: homepage
+    existingClaim: homepage-config
         
 route:
   app:
