@@ -7,7 +7,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/gethomepage/homepage
-          tag: v1.
+          tag: v1.13.2
         env:
           PUID: 1000
           GUID: 1000
@@ -28,39 +28,31 @@ controllers:
             memory: 64Mi
           limits:
             memory: 1Gi
-    securityContext:
-      fsGroup: 1000
-      runAsUser: 1000
+    pod:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
 
 persistence:
-  base-config:
-    enabled: true
-    type: "custom"
-    volumeSpec:
-      emptyDir: {}
-    mountPath: /app/config
   config:
-    enabled: true
-    type: "custom"
-    volumeSpec:
-      configMap:
-        name: homepage-config
-    subPath:
-      - path: bookmarks.yaml
-        mountPath: /app/config/bookmarks.yaml
-      - path: kubernetes.yaml
-        mountPath: /app/config/kubernetes.yaml
-      - path: services.yaml
-        mountPath: /app/config/services.yaml
-      - path: settings.yaml
-        mountPath: /app/config/settings.yaml
-      - path: widgets.yaml
-        mountPath: /app/config/widgets.yaml
+    type: configMap
+    name: homepage-config
+    advancedMounts:
+      app:
+        app:
+          - path: /app/config/settings.yaml
+            subPath: settings.yaml
+  base-config:
+    type: configMap
+    name: homepage-base-config
+    globalMounts:
+      - path: /app/config
   logs:
-    enabled: true
     type: emptyDir
-    mountPath: /app/config/logs
-        
+    globalMounts:
+      - path: /app/logs
+
 route:
   app:
     hostnames:
