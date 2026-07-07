@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${APP}
+spec:
+  sourcePVC: "${VOLSYNC_CLAIM:=${APP}}"
+  trigger:
+    schedule: "0 * * * *" # hourly backup
+  kopia:
+    accessModes:
+      - "${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"
+    compression: zstd-fastest
+    copyMethod: Direct
+    moverSecurityContext:
+      runAsUser: ${APP_UID:=1000}
+      runAsGroup: ${APP_GID:=1000}
+      fsGroup: ${APP_GID:=1000}
+    moverVolumes:
+      - name: nfs-repository
+        mountPath: /repository
+        volumeSource:
+          nfs:
+            path: /volsync
+            server: ${STORAGE_IP}
+    parallelism: 2
+    repository: "${APP}-volsync-secret"
+    retain:
+      hourly: 24
+      daily: 7
+    subPath: "${APP}" # app-specific subfolder on backup target
+    storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"

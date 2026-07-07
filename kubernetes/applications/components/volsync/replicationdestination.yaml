@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: "${APP}-bootstrap"
+  labels:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  trigger:
+    manual: restore-once
+  kopia:
+    accessModes:
+      - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
+    capacity: "${VOLSYNC_CAPACITY:=2Gi}"
+    cacheCapacity: "2Gi"
+    cacheStorageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
+    cleanupCachePVC: true
+    cleanupTempPVC: true
+    copyMethod: Snapshot
+    enableFileDeletion: true
+    moverSecurityContext:
+      runAsUser: ${APP_UID:=1000}
+      runAsGroup: ${APP_GID:=1000}
+      fsGroup: ${APP_GID:=1000}
+    moverVolumes:
+      - name: nfs-repository
+        mountPath: /repository
+        volumeSource:
+          nfs:
+            path: /volsync
+            server: ${STORAGE_IP}
+    repository: "${APP}-volsync-secret"
+    sourceIdentity:
+      sourceName: ${APP}
+    subPath: "${APP}" # app-specific subfolder on backup target
+    storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"
