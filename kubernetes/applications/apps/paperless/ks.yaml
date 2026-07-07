@@ -16,7 +16,7 @@ spec:
     kind: GitRepository
     name: homelab
   components:
-    - ../../components/volsync
+    - ../../../components/volsync
   decryption:
     provider: sops
     secretRef:
