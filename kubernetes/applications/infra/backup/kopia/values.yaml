@@ -44,7 +44,8 @@ controllers:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: {drop: ["ALL"]}
+          capabilities:
+            drop: ["ALL"]
         resources:
           requests:
             cpu: 10m
@@ -65,12 +66,12 @@ service:
     ports:
       http:
         port: *port
-        
+
 route:
   app:
     hostnames:
-      - {{ .Release.Name }}.internal.${CLUSTER_DOMAIN}
-      - {{ .Release.Name }}.private.${CLUSTER_DOMAIN}
+      - kopia.internal.${CLUSTER_DOMAIN}
+      - kopia.private.${CLUSTER_DOMAIN}
     parentRefs:
       - name: internal
         namespace: infra-gateway
@@ -122,4 +123,3 @@ persistence:
             subPath: logs
           - path: /tmp
             subPath: tmp
-  
