@@ -12,9 +12,11 @@ spec:
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
-    capacity: "${VOLSYNC_CAPACITY:=2Gi}"
+    cacheAccessModes:
+      - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
     cacheCapacity: "2Gi"
     cacheStorageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
+    capacity: "${VOLSYNC_CAPACITY:=2Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
     copyMethod: Snapshot
