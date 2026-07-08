@@ -22,9 +22,9 @@ spec:
     copyMethod: Snapshot
     enableFileDeletion: true
     moverSecurityContext:
-      runAsUser: ${APP_UID:=1000}
-      runAsGroup: ${APP_GID:=1000}
-      fsGroup: ${APP_GID:=1000}
+      runAsUser: ${APP_UID:=1003}
+      runAsGroup: ${APP_GID:=1003}
+      fsGroup: ${APP_GID:=1003}
     moverVolumes:
       - name: nfs-repository
         mountPath: /repository
