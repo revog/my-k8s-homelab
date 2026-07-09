@@ -21,13 +21,26 @@ controllers:
           - |
             export HOME=/tmp
             export USER=kopia
-            # Initialize repository if it doesn't exist
-            if ! kopia repository connect filesystem --path=/repository 2>/dev/null; then
-              echo "Initializing new Kopia repository..."
-              kopia repository create filesystem --path=/repository
+            # Trying to connect with provided password (using variable in Secret 'kopia-secret')
+            if ! kopia repository connect filesystem --path=/repository --password="$KOPIA_PASSWORD" 2>/dev/null; then
+              echo "Connection failed or repository does not exist."
+
+              # Check folder if empty before creatingf new repositoryr
+              if [ -z "$(ls -A /repository)" ]; then
+                echo "Repository is empty. Initializing new Kopia repository..."
+                kopia repository create filesystem --path=/repository --password="$KOPIA_PASSWORD"
+              else
+                echo "WARNING: Data found in repository but connection failed. Initializing stopped."
+                echo "Please verify password in secret 'kopia-secret'."
+              fi
             fi
-            # Start the server (disable CSRF for reverse proxy compatibility)
-            exec kopia server start --without-password --insecure --disable-csrf-token-checks
+
+            # Starting server
+            exec kopia server start \
+              --address="0.0.0.0:51515" \
+              --without-password \
+              --insecure \
+              --disable-csrf-token-checks
         probes:
           liveness:
             enabled: true
