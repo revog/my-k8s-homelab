@@ -127,7 +127,7 @@ persistence:
     type: configMap
     identifier: config
     globalMounts:
-      - path: /config/repository.config
+      - path: /configmap/repository.config
         subPath: repository.config
   config-dir:
     type: emptyDir
