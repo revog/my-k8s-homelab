@@ -8,6 +8,9 @@ resources:
   - ocirepository.yaml
   - secret.age.enc.yaml
 
+components:
+  - ../../../components/volsync
+
 configMapGenerator:
   - name: paperless-ngx-values
     files:
