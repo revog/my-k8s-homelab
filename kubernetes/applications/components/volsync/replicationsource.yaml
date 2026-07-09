@@ -10,10 +10,10 @@ spec:
     schedule: "${VOLSYNC_MINUTE:=0} * * * *" # hourly backup
   kopia:
     accessModes:
-      - "${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"
+      - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
-    cacheCapacity: ${VOLSYNC_CAPACITY:=5Gi}
+    cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}
     compression: zstd-fastest
     copyMethod: ${VOLSYNC_COPYMETHOD:=Direct}
@@ -29,9 +29,9 @@ spec:
             path: /volsync
             server: ${STORAGE_IP}
     parallelism: 2
-    repository: "${APP}-volsync-secret"
+    repository: ${APP}-volsync-secret
     retain:
       hourly: 24
       daily: 7
-    storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"
+    storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
+    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}

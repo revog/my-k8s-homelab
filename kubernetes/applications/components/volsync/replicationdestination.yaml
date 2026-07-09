@@ -14,7 +14,7 @@ spec:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
-    cacheCapacity: "2Gi"
+    cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
     cacheStorageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
     capacity: "${VOLSYNC_CAPACITY:=2Gi}"
     cleanupCachePVC: true
@@ -32,8 +32,8 @@ spec:
           nfs:
             path: /volsync
             server: ${STORAGE_IP}
-    repository: "${APP}-volsync-secret"
+    repository: ${APP}-volsync-secret
     sourceIdentity:
       sourceName: ${APP}
-    storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"
+    storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
+    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
