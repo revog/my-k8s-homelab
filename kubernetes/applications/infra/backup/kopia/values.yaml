@@ -10,7 +10,7 @@ controllers:
           tag: 0.23.1@sha256:27da0a33b44e1b902150a6c963514237217464bb13118a95bb056667be93cda5
         env:
           KOPIA_WEB_ENABLED: true
-          KOPIA_WEB_PORT: &port 80
+          KOPIA_WEB_PORT: &port 51515
           TZ: ${CLUSTER_TIMEZONE}
         envFrom:
           - secretRef:
@@ -33,10 +33,9 @@ controllers:
             enabled: true
             custom: true
             spec:
-              httpGet:
-                path: /
+              tcpSocket:
                 port: *port
-              initialDelaySeconds: 300
+              initialDelaySeconds: 30
               periodSeconds: 30
               timeoutSeconds: 5
               failureThreshold: 3
@@ -44,10 +43,9 @@ controllers:
             enabled: true
             custom: true
             spec:
-              httpGet:
-                path: /
+              tcpSocket:
                 port: *port
-              initialDelaySeconds: 30
+              initialDelaySeconds: 15
               periodSeconds: 10
               timeoutSeconds: 5
               failureThreshold: 30
@@ -90,7 +88,7 @@ route:
     rules:
       - backendRefs:
           - identifier: app
-            port: http
+            port: 51515
 
 configMaps:
   config:
