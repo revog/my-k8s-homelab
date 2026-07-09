@@ -22,7 +22,7 @@ spec:
       runAsGroup: ${VOLSYNC_GID:=1003}
       fsGroup: ${VOLSYNC_GID:=1003}
     moverVolumes:
-      - mountPath: /repository
+      - mountPath: repository
         volumeSource:
           nfs:
             path: /volsync
