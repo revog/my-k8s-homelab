@@ -26,8 +26,7 @@ spec:
       runAsGroup: ${APP_GID:=1003}
       fsGroup: ${APP_GID:=1003}
     moverVolumes:
-      - name: nfs-repository
-        mountPath: /repository
+      - mountPath: /repository
         volumeSource:
           nfs:
             path: /volsync
