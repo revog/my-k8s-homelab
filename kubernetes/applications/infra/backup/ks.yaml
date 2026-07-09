@@ -13,6 +13,7 @@ spec:
   prune: true
   dependsOn:
     - name: longhorn
+    - name: kopia
   wait: true
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
