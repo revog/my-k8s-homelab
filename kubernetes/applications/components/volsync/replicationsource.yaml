@@ -18,9 +18,9 @@ spec:
     compression: zstd-fastest
     copyMethod: ${VOLSYNC_COPYMETHOD:=Direct}
     moverSecurityContext:
-      runAsUser: ${APP_UID:=1003}
-      runAsGroup: ${APP_GID:=1003}
-      fsGroup: ${APP_GID:=1003}
+      runAsUser: ${VOLSYNC_UID:=1003}
+      runAsGroup: ${VOLSYNC_GID:=1003}
+      fsGroup: ${VOLSYNC_GID:=1003}
     moverVolumes:
       - name: nfs-repository
         mountPath: /repository
@@ -33,6 +33,5 @@ spec:
     retain:
       hourly: 24
       daily: 7
-    subPath: "${APP}" # app-specific subfolder on backup target
     storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"

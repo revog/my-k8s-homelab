@@ -35,6 +35,5 @@ spec:
     repository: "${APP}-volsync-secret"
     sourceIdentity:
       sourceName: ${APP}
-    subPath: "${APP}" # app-specific subfolder on backup target
     storageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}"
