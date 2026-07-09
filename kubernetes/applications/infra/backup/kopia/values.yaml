@@ -21,26 +21,28 @@ controllers:
           - |
             export HOME=/tmp
             export USER=kopia
-            # Trying to connect with provided password (using variable in Secret 'kopia-secret')
-            if ! kopia repository connect filesystem --path=/repository --password="$KOPIA_PASSWORD" 2>/dev/null; then
-              echo "Connection failed or repository does not exist."
 
-              # Check folder if empty before creatingf new repositoryr
-              if [ -z "$(ls -A /repository)" ]; then
-                echo "Repository is empty. Initializing new Kopia repository..."
-                kopia repository create filesystem --path=/repository --password="$KOPIA_PASSWORD"
-              else
-                echo "WARNING: Data found in repository but connection failed. Initializing stopped."
-                echo "Please verify password in secret 'kopia-secret'."
-              fi
+            # Copy template config from read-only configMap to writable /config dir if missing
+            if [ ! -f /config/repository.config ] && [ -f /configmap/repository.config ]; then
+              cp /configmap/repository.config /config/repository.config
             fi
 
-            # Starting server
+            # Attempt to connect to the existing repository using the secret password
+            if ! kopia repository connect filesystem --path=/repository --password="$KOPIA_PASSWORD" 2>/dev/null; then
+              echo "Existing repository not found. Initializing a fresh one..."
+
+              # Automatically handle race-conditioned Kopia fragments before creation
+              rm -rf /repository/* /repository/.[!.]*
+              kopia repository create filesystem --path=/repository --password="$KOPIA_PASSWORD"
+            fi
+
+            # Start the Kopia server exposed to the cluster network
             exec kopia server start \
               --address="0.0.0.0:51515" \
               --without-password \
               --insecure \
-              --disable-csrf-token-checks
+              --disable-csrf-token-checks \
+              --allow-extremely-dangerous-unauthenticated-server-on-the-network
         probes:
           liveness:
             enabled: true
@@ -127,6 +129,10 @@ persistence:
     globalMounts:
       - path: /config/repository.config
         subPath: repository.config
+  config-dir:
+    type: emptyDir
+    globalMounts:
+      - path: /config
   repository:
     type: nfs
     server: ${STORAGE_IP}
