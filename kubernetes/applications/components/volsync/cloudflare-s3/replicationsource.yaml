@@ -22,8 +22,11 @@ spec:
       runAsGroup: ${VOLSYNC_GID:=1003}
       fsGroup: ${VOLSYNC_GID:=1003}
     parallelism: 2
+    pruneIntervalDays: 5
     repository: ${APP}-volsync-s3-secret
     retain:
-      daily: 14
+      daily: 7
+      weekly: 4
+      monthly: 3
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
