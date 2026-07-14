@@ -8,8 +8,9 @@ metadata:
 
 allowVolumeExpansion: true
 parameters:
-  dataEngine: "v2" # use longhorn v2 (SPDK)
-  dataLocality: "disabled"
+  dataEngine: "v2" # Enforces the usage of the high-performance V2 Data Engine (SPDK)
+  dataLocality: "best-effort" # Forces Longhorn to keep a local data copy on the same node where the Pod runs. This prevents disk reads from being choked by network latencies.
+  frontend: "ublk" # Configures ublk as the high-throughput block device frontend for SPDK
   fsType: "ext4"
   numberOfReplicas: "2"
   staleReplicaTimeout: "30"

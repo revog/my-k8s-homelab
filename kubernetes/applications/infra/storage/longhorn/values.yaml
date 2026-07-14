@@ -1,34 +1,35 @@
 ---
 defaultSettings:
+  autoDeleteWorkloadPod: true          # Force-deletes stuck pods if the Pi 5 NVMe hat suffers a momentary PCIe power drop
   defaultDataPath: /var/mnt/nvme       # set falllback path
   createDefaultDiskLabeledNodes: true  # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
 
   defaultReplicaCount: 2
 
-  # Prevent rebuild storms  per node and optimize limits
-  concurrentReplicaRebuildPerNodeLimit: 1
+  concurrentReplicaRebuildPerNodeLimit: 1   # Prevent rebuild storms  per node and optimize limits
   concurrentVolumeBackupRestorePerNodeLimit: 1
+  defaultUblkQueueDepth: 64           # Resource optimization: lowers queue depth to save CPU cycles and RAM overhead
+  defaultUblkNumberOfQueue: 1
   disableRevisionCounter: true
+  replicaAutoBalance: "best-effort"   # Automatically redistributes replicas evenly across nodes when a broken node recovers
   replicaSoftAntiAffinity: true
-  replicaAutoBalance: best-effort
-  guaranteedInstanceManagerCPU: 5  # amount of allocated CPU on a node for instance manager (interpreted in %)
+  guaranteedInstanceManagerCPU: 5     # amount of allocated CPU on a node for instance manager (interpreted in %)
 
   backupTarget: ""
   backupTargetCredentialSecret: ""
 
-  # enable V2 engine
-  v2DataEngine: true
+  v2DataEngine: true                  # enable V2 engine
 
 # Reduce resource usage for Pi nodes
 longhornManager:
   priorityClassName: system-cluster-critical
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 200m
+      memory: 384Mi
 longhornDriver:
   resources:
     requests:
@@ -47,7 +48,7 @@ longhornUI:
   replicas: 1
 
 ingress:
-  enabled: false              # setup done with dedicated httproute yaml manifest
+  enabled: false               # setup done with dedicated httproute yaml manifest
 
 # Default StorageClass options
 persistence:
