@@ -27,5 +27,5 @@ spec:
       daily: 7
       weekly: 4
       monthly: 3
-    storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
-    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
+    # storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
+    # volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
