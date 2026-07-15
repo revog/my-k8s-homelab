@@ -23,6 +23,6 @@ spec:
     enableFileDeletion: true
     repository: ${APP}-volsync-s3-secret
     sourceIdentity:
-      sourceName: ${APP}-s3
+      sourceName: ${APP}
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
