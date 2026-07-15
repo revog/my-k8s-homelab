@@ -37,7 +37,8 @@ controllers:
           # Configure redis integration
           PAPERLESS_REDIS: "redis://:$(redis-password)@redis:6379"
           # Configure user
-          USERMAP_GID: "100" # gladius:users
+          USERMAP_GID: "1001"
+          USERMAP_UID: "1001"
           PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "true"
           PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
           PAPERLESS_SOCIALACCOUNT_PROVIDERS: $(PAPERLESS_OIDC_CONFIG)

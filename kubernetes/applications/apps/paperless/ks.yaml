@@ -26,7 +26,9 @@ spec:
       APP: *app
       VOLSYNC_CLAIM: paperless-ngx
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_MINUTE: "10"
+      VOLSYNC_MINUTE: "15"
+      VOLSYNC_UID: "1001"
+      VOLSYNC_GID: "1001"
 
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
