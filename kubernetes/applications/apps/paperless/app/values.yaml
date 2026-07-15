@@ -17,7 +17,7 @@ controllers:
           PAPERLESS_PORT: "8000"
           PAPERLESS_TIME_ZONE: ${CLUSTER_TIMEZONE}
           PAPERLESS_WEBSERVER_WORKERS: "2"
-          PAPERLESS_TASK_WORKERS: "2"
+          PAPERLESS_TASK_WORKERS: "1"
           # Configure folders
           PAPERLESS_CONSUMPTION_DIR: /data/local/incoming # /data/nas/incoming
           PAPERLESS_DATA_DIR: /data/local/data
