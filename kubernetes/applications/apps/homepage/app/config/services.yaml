@@ -9,7 +9,7 @@
 - Security: []
 
 - Storage:
-      - QNAP:
-            icon: qnap.png
-            href: https://${STORAE_IP}
-            description: SMB, NFS, etc.
+  - QNAP:
+    icon: qnap.png
+    href: https://${STORAGE_IP}
+    description: SMB, NFS, etc.
