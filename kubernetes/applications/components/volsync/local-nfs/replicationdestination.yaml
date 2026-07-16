@@ -15,16 +15,17 @@ spec:
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
     cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
-    cacheStorageClassName: "${VOLSYNC_STORAGECLASS:=longhorn-v2}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}"
     capacity: "${VOLSYNC_CAPACITY:=2Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
-    copyMethod: Snapshot
+    copyMethod: Direct
     enableFileDeletion: true
     moverSecurityContext:
       runAsUser: ${APP_UID:=1003}
       runAsGroup: ${APP_GID:=1003}
       fsGroup: ${APP_GID:=1003}
+      fsGroupChangePolicy: "OnRootMismatch"
     moverVolumes:
       - mountPath: repository
         volumeSource:
@@ -35,4 +36,4 @@ spec:
     sourceIdentity:
       sourceName: ${APP}
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
-    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
+    # volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
