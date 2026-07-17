@@ -5,6 +5,8 @@ kind: ReplicationDestination
 metadata:
   name: "${APP}-bootstrap-s3"
   labels: {}
+  annotations:
+    volsync.backube/paused: "true"
 spec:
   trigger:
     manual: restore-once

@@ -6,6 +6,8 @@ metadata:
   name: "${APP}-bootstrap"
   labels:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+  annotations:
+    volsync.backube/paused: "true"
 spec:
   trigger:
     manual: restore-once
