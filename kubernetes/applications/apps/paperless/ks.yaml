@@ -27,6 +27,8 @@ spec:
       VOLSYNC_CLAIM: paperless-ngx
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_MINUTE: "15"
+      VOLSYNC_S3_HOUR: "4"
+      VOLSYNC_S3_MINUTE: "0"
       VOLSYNC_UID: "1001"
       VOLSYNC_GID: "1001"
 
