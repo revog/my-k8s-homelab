@@ -4,11 +4,10 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
   name: "${APP}-bootstrap-s3"
-  labels:
-    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+  labels: {}
 spec:
-  trigger: {}
-    # manual: ${VOLSYNC_TRIGGER_MANUAL:=} #restore-once
+  trigger:
+    manual: ${VOLSYNC_TRIGGER_MANUAL:=} #restore-once
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
@@ -22,12 +21,11 @@ spec:
     copyMethod: Direct
     enableFileDeletion: true
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_UID:=1003}
-      runAsGroup: ${VOLSYNC_GID:=1003}
+      runAsUser: ${VOLSYNC_SHARE_UID:=1003}
+      runAsGroup: ${VOLSYNC_SHARE_GID:=1003}
       fsGroup: ${VOLSYNC_GID:=1003}
       fsGroupChangePolicy: "OnRootMismatch"
     repository: ${APP}-volsync-s3-secret
     sourceIdentity:
       sourceName: ${APP}-s3
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
-    # volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}

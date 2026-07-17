@@ -16,10 +16,10 @@ spec:
     cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}
     compression: zstd-fastest
-    copyMethod: ${VOLSYNC_COPYMETHOD:=Direct}
+    copyMethod: ${VOLSYNC_COPYMETHOD:=Snapshot}
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_UID:=1003}
-      runAsGroup: ${VOLSYNC_GID:=1003}
+      runAsUser: ${VOLSYNC_SHARE_UID:=1003}
+      runAsGroup: ${VOLSYNC_SHARE_GID:=1003}
       fsGroup: ${VOLSYNC_GID:=1003}
       fsGroupChangePolicy: "OnRootMismatch"
     parallelism: 2
@@ -29,4 +29,4 @@ spec:
       weekly: 4
       monthly: 3
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
-    # volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
+    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}

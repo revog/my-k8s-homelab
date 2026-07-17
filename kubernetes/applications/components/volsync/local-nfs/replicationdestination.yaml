@@ -8,7 +8,6 @@ metadata:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   trigger: {}
-    # manual: ${VOLSYNC_TRIGGER_MANUAL:=} #restore-once
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
@@ -22,8 +21,8 @@ spec:
     copyMethod: Direct
     enableFileDeletion: true
     moverSecurityContext:
-      runAsUser: ${APP_UID:=1003}
-      runAsGroup: ${APP_GID:=1003}
+      runAsUser: ${VOLSYNC_SHARE_UID:=1003}
+      runAsGroup: ${VOLSYNC_SHARE_GID:=1003}
       fsGroup: ${APP_GID:=1003}
       fsGroupChangePolicy: "OnRootMismatch"
     moverVolumes:
@@ -36,4 +35,3 @@ spec:
     sourceIdentity:
       sourceName: ${APP}
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn-v2}
-    # volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=longhorn-v2-snapshots}
