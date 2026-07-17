@@ -6,7 +6,8 @@ metadata:
   name: "${APP}-bootstrap-s3"
   labels: {}
 spec:
-  trigger: {}
+  trigger:
+    manual: restore-once
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"

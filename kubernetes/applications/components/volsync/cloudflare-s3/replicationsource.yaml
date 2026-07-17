@@ -21,7 +21,7 @@ spec:
       runAsUser: ${VOLSYNC_SHARE_UID:=1003}
       runAsGroup: ${VOLSYNC_SHARE_GID:=1003}
       fsGroup: ${VOLSYNC_GID:=1003}
-      fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: "Always"
     parallelism: 2
     repository: ${APP}-volsync-s3-secret
     retain:
