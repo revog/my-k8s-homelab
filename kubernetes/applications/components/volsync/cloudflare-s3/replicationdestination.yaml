@@ -6,16 +6,15 @@ metadata:
   name: "${APP}-bootstrap-s3"
   labels: {}
 spec:
-  trigger:
-    manual: ${VOLSYNC_TRIGGER_MANUAL:=} #restore-once
+  trigger: {}
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
-    cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
+    cacheCapacity: ${VOLSYNC_CAPACITY:=1Gi}
     cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}"
-    capacity: "${VOLSYNC_CAPACITY:=2Gi}"
+    capacity: "${VOLSYNC_CAPACITY:=1Gi}"
     cleanupCachePVC: false
     cleanupTempPVC: false
     copyMethod: Direct

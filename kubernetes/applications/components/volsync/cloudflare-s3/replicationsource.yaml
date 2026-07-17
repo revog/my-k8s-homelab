@@ -7,13 +7,13 @@ metadata:
 spec:
   sourcePVC: ${VOLSYNC_CLAIM:=${APP}}
   trigger:
-    schedule: "${VOLSYNC_R2_MINUTE:=0} 4 * * *" # daily backup at 4am
+    schedule: "${VOLSYNC_S3_MINUTE:=0} ${VOLSYNC_S3_HOUR:=4} * * *" # daily backup
   kopia:
     accessModes:
       - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
-    cacheCapacity: ${VOLSYNC_CAPACITY:=2Gi}
+    cacheCapacity: ${VOLSYNC_CAPACITY:=1Gi}
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}
     compression: zstd-fastest
     copyMethod: ${VOLSYNC_COPYMETHOD:=Snapshot}
