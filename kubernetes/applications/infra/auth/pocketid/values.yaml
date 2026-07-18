@@ -1,0 +1,44 @@
+analyticsDisabled: true
+
+config:
+  ui:
+    # -- Whether to enable default settings for the UI or allow customizations
+    useDefaults: true
+    settings:
+      email:
+        loginNotificationEnabled: false # send an email notification when a user logs in from a new devices
+        oneTimeAccessAsAdminEnabled: false # allow admins to send one-time access sign-in links to the user's email
+        apiKeyExpirationEnabled: false # Send an email to the user when their API key is about to expire
+        verificationEnabled: false # Send a verification email to users when they sign up or change their email address
+      smtp:
+        host: ""
+        port: ""
+        from: ""
+        user: ""
+        password: ""
+        tls: "none"
+
+extraEnvFrom:
+  - secretRef:
+      name: pocketid-secrets
+
+host: pocketid.${CLUSTER_DOMAIN}
+
+ingress:
+  enabled: false
+
+persistence:
+  data:
+    enabled: true
+    size: "1Gi"
+    storageClass: "longhorn-v2" # Deine StorageClass (z.B. longhorn, standard, local-path)
+
+pocketID:
+  image:
+    repository: ghcr.io/pocket-id/pocket-id
+    tag: "v2.9.0"
+
+secret:
+  create: false
+
+timeZone: ${CLUSTER_TIMEZONE}
