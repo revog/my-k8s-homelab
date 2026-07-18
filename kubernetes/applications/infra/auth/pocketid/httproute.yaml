@@ -16,5 +16,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: pocket-id
+        - name: pocketid
           port: 80

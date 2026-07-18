@@ -27,7 +27,7 @@ host: pocketid.${CLUSTER_DOMAIN}
 ingress:
   enabled: false
 
-nameOverride: "pocketid"
+nameOverride: "pocket-id"
 
 persistence:
   data:
