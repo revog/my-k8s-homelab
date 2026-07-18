@@ -26,9 +26,8 @@ spec:
       APP: *app
       VOLSYNC_CLAIM: paperless-ngx
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_MINUTE: "15"
-      VOLSYNC_S3_HOUR: "4"
-      VOLSYNC_S3_MINUTE: "0"
+      VOLSYNC_SCHEDULE: "30 0 * * *" # 0:30am
+      VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
       VOLSYNC_UID: "1001"
       VOLSYNC_GID: "1001"
 
