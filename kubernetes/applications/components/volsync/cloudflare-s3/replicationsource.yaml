@@ -7,7 +7,7 @@ metadata:
 spec:
   sourcePVC: ${VOLSYNC_CLAIM:=${APP}}
   trigger:
-    schedule: "${VOLSYNC_S3_MINUTE:=0} ${VOLSYNC_S3_HOUR:=4} * * *" # daily backup
+    schedule: "${VOLSYNC_S3_SCHEDULE_}:=0 4 * * *" # daily backup at 4am (default)
   kopia:
     accessModes:
       - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}
