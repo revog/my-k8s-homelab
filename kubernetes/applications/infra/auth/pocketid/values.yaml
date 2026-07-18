@@ -27,6 +27,8 @@ host: pocketid.${CLUSTER_DOMAIN}
 ingress:
   enabled: false
 
+nameOverride: "pocketid"
+
 persistence:
   data:
     enabled: true
@@ -40,5 +42,6 @@ pocketID:
 
 secret:
   create: false
+  name: pocketid-secrets
 
 timeZone: ${CLUSTER_TIMEZONE}
