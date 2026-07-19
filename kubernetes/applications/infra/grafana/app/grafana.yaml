@@ -22,20 +22,19 @@ spec:
       auto_login: "true"
       # For variables see https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#env-provider
       enabled: "true"
-      name: "Zitadel SSO"
+      name: "Pocket ID"
       allow_sign_up: "true"
       client_id: "${GRAFANA_AUTH_GENERIC_CLIENT_ID}"
       client_secret: "${GRAFANA_AUTH_GENERIC_CLIENT_SECRET}"
-      scopes: "openid email profile offline_access roles"
+      scopes: "openid email profile groups"
       email_attribute_path: email
       login_attribute_path: username
       name_attribute_path: fullname
       groups_attribute_path: groups
-      auth_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/authorize"
-      token_url: "https://auth.${CLUSTER_DOMAIN}/oauth/v2/token"
-      api_url: "https://auth.${CLUSTER_DOMAIN}/oidc/v1/userinfo"
+      auth_url: "https://auth.${CLUSTER_DOMAIN}/authorize"
+      token_url: "https://auth.${CLUSTER_DOMAIN}/api/oidc/token"
       #role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
-      role_attribute_path: "contains('user-roles[*]', 'monitoring') && 'Editor' || 'admin'"
+      role_attribute_path: "contains(groups, 'infra-admins') && 'Admin' || 'Viewer'"
     log:
       mode: console
     metrics:
