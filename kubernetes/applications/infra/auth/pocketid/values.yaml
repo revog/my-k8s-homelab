@@ -22,7 +22,7 @@ extraEnvFrom:
   - secretRef:
       name: pocketid-secrets
 
-host: pocketid.${CLUSTER_DOMAIN}
+host: auth.${CLUSTER_DOMAIN}
 
 ingress:
   enabled: false

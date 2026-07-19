@@ -9,7 +9,7 @@ spec:
     - name: public
       namespace: infra-gateway
   hostnames:
-    - 'pocketid.${CLUSTER_DOMAIN}'
+    - 'auth.${CLUSTER_DOMAIN}'
   rules:
     - matches:
         - path:
