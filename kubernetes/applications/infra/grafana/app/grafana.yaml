@@ -35,6 +35,7 @@ spec:
       token_url: "https://auth.${CLUSTER_DOMAIN}/api/oidc/token"
       #role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
       role_attribute_path: "contains(groups, 'infra-admins') && 'Admin' || 'Viewer'"
+      use_pkce: "true"
     log:
       mode: console
     metrics:
