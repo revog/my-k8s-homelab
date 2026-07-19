@@ -28,6 +28,7 @@ controllers:
           PAPERLESS_CONSUMER_POLLING: "120"
           PAPERLESS_CONSUMER_RECURSIVE: "true"
           PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+          PAPERLESS_FILENAME_FORMAT: "{document_type}/{owner_username}/{created_year}/{created_year}{created_month}{created_day}_{correspondent}-{title}"
           # Configure OCR
           PAPERLESS_OCR_LANGUAGE: deu
           PAPERLESS_OCR_LANGUAGES: "deu eng"
@@ -46,16 +47,14 @@ controllers:
           PAPERLESS_ADMIN_MAIL: "admin@${CLUSTER_DOMAIN}"
           PAPERLESS_ADMIN_USER: $(PAPERLESS_ADMIN_USER)
           PAPERLESS_ADMIN_PASSWORD: $(PAPERLESS_ADMIN_PASSWORD)
-          # # Configure mail & document handling
-          # PAPERLESS_EMAIL_PARSE_DEFAULT_LAYOUT: "2"   # HTML, then text
-          # PAPERLESS_FILENAME_FORMAT: "{{ `{{ created_year }}/{{ document_type }}/{{ created_year }}-{{ created_month }}-{{ created_day }}_{{correspondent}}_{{ title }}` }}"
-          # PAPERLESS_EMPTY_TRASH_DELAY: 30
-          # PAPERLESS_AUDIT_LOG_ENABLED: "true"
-          # PAPERLESS_EMAIL_TASK_CRON: "*/15 * * * *"     # poll inbox every 15 min
-          # PAPERLESS_INDEX_TASK_CRON: "0 2 * * *"        # nightly index rebuild at 2 AM
-          # PAPERLESS_TRAIN_TASK_CRON: "0 3 * * 0"        # weekly auto-match retrain Sun @ 3 AM
-          # PAPERLESS_SANITY_TASK_CRON: "0 4 * * *"       # daily sanity checks @ 4 AM
-          # PAPERLESS_EMPTY_TRASH_TASK_CRON: "0 5 * * *"  # purge trash @ 5 AM
+          # Configure cron schedules
+          PAPERLESS_EMPTY_TRASH_DELAY: 30
+          PAPERLESS_AUDIT_LOG_ENABLED: "true"
+          PAPERLESS_EMAIL_TASK_CRON: "*/10 * * * *"     # poll inbox every 10 min
+          PAPERLESS_INDEX_TASK_CRON: "0 0 * * *"        # nightly index rebuild at 12 AM
+          PAPERLESS_TRAIN_TASK_CRON: "0 3 * * 0"        # weekly auto-match retrain Sun @ 3 AM
+          PAPERLESS_SANITY_TASK_CRON: "0 4 * * 0"       # weekly sanity checks Sun @ 4 AM
+          PAPERLESS_EMPTY_TRASH_TASK_CRON: "0 5 * * *"  # purge trash @ 5 AM
         envFrom:
           - secretRef:
               name: paperless-secret
