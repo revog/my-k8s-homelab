@@ -10,6 +10,7 @@ config:
     externalSecret:
       enabled: true
       name: headlamp-oidc-secret
+    usePKCE: true
   watchPlugins: true
 
 persistentVolumeClaim:
