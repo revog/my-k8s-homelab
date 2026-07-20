@@ -24,7 +24,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: paperless-ngx
+      VOLSYNC_CLAIM: paperless-ngx-data
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_SCHEDULE: "30 0 * * *" # 0:30am
       VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am

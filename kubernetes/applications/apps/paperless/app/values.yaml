@@ -78,14 +78,6 @@ controllers:
             memory: 1.5Gi
 
 persistence:
-  data-old:
-    enabled: true
-    type: existingClaim
-    name: paperless-ngx
-    advancedMounts:
-      paperless:
-        app:
-          - path: /data/local-old
   data:
     type: persistentVolumeClaim
     accessMode: ReadWriteOnce
