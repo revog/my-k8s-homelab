@@ -18,6 +18,7 @@ resources:
   - headlamp/ks.yaml
   - metrics-server/ks.yaml
   - monitoring/ks.yaml
+  - node-feature-discovery/ks.yaml
   - reloader/ks.yaml
   - storage/ks.yaml
   - tailscale/ks.yaml
