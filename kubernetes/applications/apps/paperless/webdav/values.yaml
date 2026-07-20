@@ -31,7 +31,6 @@ controllers:
 
 persistence:
   consume:
-    enabled: true
     type: persistentVolumeClaim
     existingClaim: paperless-ngx-consume
     globalMounts:
