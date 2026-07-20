@@ -6,8 +6,8 @@ controllers:
     containers:
       main:
         image:
-          repository: bytemark/webdav
-          tag: "2.4"
+          repository: sfuhrm/docker-nginx-webdav
+          tag: "v1.3.0"
           pullPolicy: IfNotPresent
         env:
           AUTH_TYPE: "Digest"
@@ -34,7 +34,7 @@ persistence:
     type: persistentVolumeClaim
     existingClaim: paperless-ngx-consume
     globalMounts:
-      - path: /var/lib/dav
+      - path: /media/data
 
 route:
   app:
