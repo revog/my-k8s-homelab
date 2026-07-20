@@ -1,0 +1,60 @@
+---
+controllers:
+  main:
+    annotations:
+      secret.reloader.stakater.org/reload: "webdav-secret"
+    containers:
+      main:
+        image:
+          repository: bytemark/webdav
+          tag: "2.4"
+          pullPolicy: IfNotPresent
+        env:
+          AUTH_TYPE: "Digest"
+          USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: webdav-secret
+                key: WEBDAV_USERNAME
+          PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: webdav-secret
+                key: WEBDAV_PASSWORD
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 50m
+            memory: 6Mi
+
+persistence:
+  data:
+    enabled: true
+    type: existingClaim
+    name: paperless-ngx-consume
+    globalMounts:
+      - path: /var/lib/dav
+
+route:
+  app:
+    hostnames:
+      - paperless-webdav.internal.${CLUSTER_DOMAIN}
+      - paperless-webdav.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+    rules:
+      - backendRefs:
+          - identifier: main
+            port: 80
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 80
