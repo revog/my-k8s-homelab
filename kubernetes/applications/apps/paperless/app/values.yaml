@@ -28,7 +28,7 @@ controllers:
           PAPERLESS_CONSUMER_POLLING: "120"
           PAPERLESS_CONSUMER_RECURSIVE: "true"
           PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
-          PAPERLESS_FILENAME_FORMAT: "{document_type}/{owner_username}/{created_year}/{created_year}{created_month}{created_day}_{correspondent}-{title}"
+          PAPERLESS_FILENAME_FORMAT: "{{ document_type }}/{{ owner_username }}/{{ created_year }}/{{ created_year }}{{ created_month }}{{ created_day }}_{{ correspondent }}-{{ title }}"
           # Configure OCR
           PAPERLESS_OCR_LANGUAGE: deu
           PAPERLESS_OCR_LANGUAGES: "deu eng"
