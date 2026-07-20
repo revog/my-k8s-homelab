@@ -27,13 +27,13 @@ controllers:
             memory: 32Mi
           limits:
             cpu: 50m
-            memory: 6Mi
+            memory: 64Mi
 
 persistence:
   data:
     enabled: true
-    type: existingClaim
-    name: paperless-ngx-consume
+    type: persistentVolumeClaim
+    existingClaim: paperless-ngx-consume
     globalMounts:
       - path: /var/lib/dav
 
