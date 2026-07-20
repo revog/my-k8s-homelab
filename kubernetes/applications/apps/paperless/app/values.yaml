@@ -19,7 +19,7 @@ controllers:
           PAPERLESS_WEBSERVER_WORKERS: "2"
           PAPERLESS_TASK_WORKERS: "1"
           # Configure folders
-          PAPERLESS_CONSUMPTION_DIR: /data/local/incoming # /data/nas/incoming
+          PAPERLESS_CONSUMPTION_DIR: /data/local/incoming # with webdav container shared
           PAPERLESS_DATA_DIR: /data/local/data
           PAPERLESS_EXPORT_DIR: /data/local/export # /data/nas/export
           PAPERLESS_MEDIA_ROOT: /data/local/media
@@ -87,14 +87,14 @@ persistence:
       paperless:
         app:
           - path: /data/local
-  # nas:
-  #   type: nfs
-  #   path: /mnt/tank/apps/paperless
-  #   server: ${STORAGE_IP}
-  #   advancedMounts:
-  #     paperless:
-  #       app:
-  #         - path: /data/nas
+  consume:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteMany
+    size: 200Mi
+    advancedMounts:
+      paperless:
+        app:
+          - path: /data/local/incoming
 
 route:
   app:
