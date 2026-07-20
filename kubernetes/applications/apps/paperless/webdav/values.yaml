@@ -30,7 +30,7 @@ controllers:
             memory: 64Mi
 
 persistence:
-  data:
+  consume:
     enabled: true
     type: persistentVolumeClaim
     existingClaim: paperless-ngx-consume
