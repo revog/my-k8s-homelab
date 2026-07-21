@@ -31,7 +31,7 @@ controllers:
             memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false # Nginx benötigt Schreibrechte für temporäre WebDAV-Caches
+          readOnlyRootFilesystem: false # Nginx need write permission for temp cache
           capabilities:
             drop:
               - ALL
@@ -40,7 +40,7 @@ controllers:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
-        fsGroup: 1001 # Zwingt Kubernetes, die Rechte des angehängten PVCs auf GID 1001 anzupassen
+        fsGroup: 1001 # Enforce Kubernetes, modifying file permissions in pvc to gid
 
 persistence:
   consume:
