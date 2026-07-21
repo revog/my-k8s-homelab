@@ -37,7 +37,7 @@ controllers:
               - ALL
     pod:
       securityContext:
-        runAsNonRoot: true
+        # runAsNonRoot: true
         # runAsUser: 1001
         # runAsGroup: 1001
         fsGroup: 1001 # Enforce Kubernetes, modifying file permissions in pvc to gid
