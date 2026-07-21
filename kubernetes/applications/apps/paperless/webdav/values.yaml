@@ -38,9 +38,10 @@ controllers:
     pod:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1001
-        runAsGroup: 1001
+        # runAsUser: 1001
+        # runAsGroup: 1001
         fsGroup: 1001 # Enforce Kubernetes, modifying file permissions in pvc to gid
+        fsGroupChangePolicy: "Always" # Zwingt Kubernetes, das gesamte Volume beim Mounten auf GID 1001 zu setzen
 
 persistence:
   consume:
