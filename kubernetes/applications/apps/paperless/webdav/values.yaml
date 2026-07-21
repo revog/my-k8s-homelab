@@ -10,7 +10,7 @@ controllers:
           tag: "v1.3.0"
           pullPolicy: IfNotPresent
         env:
-          AUTH_TYPE: "Digest"
+          AUTH_TYPE: "Basic"
           USERNAME:
             valueFrom:
               secretKeyRef:
@@ -21,7 +21,6 @@ controllers:
               secretKeyRef:
                 name: webdav-secret
                 key: WEBDAV_PASSWORD
-          PORT: 8080
         resources:
           requests:
             cpu: 10m
@@ -29,10 +28,6 @@ controllers:
           limits:
             cpu: 50m
             memory: 64Mi
-    pod:
-      securityContext:
-        fsGroup: 1001 # Enforce Kubernetes, modifying file permissions in pvc to gid
-        fsGroupChangePolicy: "Always" # Enfoce Kubernetes, setting pvc gid on mount
 
 persistence:
   consume:
@@ -54,11 +49,11 @@ route:
     rules:
       - backendRefs:
           - identifier: main
-            port: 8080
+            port: 80
 
 service:
   main:
     controller: main
     ports:
       http:
-        port: 8080
+        port: 80
