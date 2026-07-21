@@ -32,14 +32,15 @@ controllers:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false # Nginx need write permission for temp cache
+          runAsNonRoot: true
           capabilities:
             drop:
               - ALL
     pod:
       securityContext:
-        # runAsNonRoot: true
-        # runAsUser: 1001
-        # runAsGroup: 1001
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
         fsGroup: 1001 # Enforce Kubernetes, modifying file permissions in pvc to gid
         fsGroupChangePolicy: "Always" # Zwingt Kubernetes, das gesamte Volume beim Mounten auf GID 1001 zu setzen
 
@@ -70,4 +71,4 @@ service:
     controller: main
     ports:
       http:
-        port: 80
+        port: 8080
