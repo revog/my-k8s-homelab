@@ -5,5 +5,5 @@ kind: HelmRepository
 metadata:
   name: anza-labs
 spec:
-  interval: 1h
+  interval: 12h
   url: https://anza-labs.github.io/charts

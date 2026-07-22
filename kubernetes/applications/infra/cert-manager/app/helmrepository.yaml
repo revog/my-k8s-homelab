@@ -5,5 +5,5 @@ metadata:
   name: jetstack
   namespace: infra-certmanager
 spec:
-  interval: 2h
+  interval: 12h
   url: https://charts.jetstack.io

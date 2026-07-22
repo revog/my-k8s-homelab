@@ -3,5 +3,5 @@ kind: HelmRepository
 metadata:
   name: node-feature-discovery
 spec:
-  interval: 1h
+  interval: 12h
   url: https://kubernetes-sigs.github.io/node-feature-discovery/charts

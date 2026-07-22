@@ -5,7 +5,7 @@ kind: HelmRepository
 metadata:
   name: zitadel
 spec:
-  interval: 1h
+  interval: 12h
   url: https://charts.zitadel.com
 
 ---
