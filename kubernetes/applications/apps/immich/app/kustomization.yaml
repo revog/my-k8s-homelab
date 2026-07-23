@@ -6,10 +6,11 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+  - pvc.yaml
   - secret.age.enc.yaml
 
-# components:
-#   - ../../../components/volsync
+components:
+  - ../../../components/volsync/local-nfs
 
 configMapGenerator:
   - name: immich-values

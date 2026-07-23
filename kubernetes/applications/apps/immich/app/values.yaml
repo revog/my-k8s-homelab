@@ -83,14 +83,9 @@ persistence:
             subPath: immich-config.yaml
             readOnly: true
   library:
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 200Gi
-    retain: true
-    advancedMounts:
-      immich:
-        app:
-          - path: /usr/src/app/upload
+    existingClaim: immich-library
+    globalMounts:
+      - path: /usr/src/app/upload
   tmp:
     type: emptyDir
     globalMounts:
