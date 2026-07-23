@@ -1,0 +1,10 @@
+---
+auth:
+  enabled: true
+  existingSecret: "redis-secret"
+  existingSecretPasswordKey: "redis-password"
+persistence:
+  enabled: true
+  size: 256Mi
+podAnnotations:
+  reloader.stakater.com/auto: "true"

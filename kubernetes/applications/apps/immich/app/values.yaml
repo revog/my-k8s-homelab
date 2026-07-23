@@ -1,0 +1,122 @@
+---
+controllers:
+  immich:
+    strategy: RollingUpdate
+    pod:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    containers:
+      app:
+        image:
+          repository: ghcr.io/immich-app/immich-server
+          tag: v3.0.3@sha256:c716dc20f957aafd89fa9d284a2ec63e25c9e2d8d8e87c6197d540a3dce237db
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+          IMMICH_MEDIA_LOCATION: &mediaLocation /library
+          IMMICH_HELMET_FILE: "true"
+          DB_DATABASE_NAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-secret
+                key: DB_DATABASE_NAME
+          DB_HOSTNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-secret
+                key: DB_URL
+          DB_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-secret
+                key: DB_USERNAME
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-secret
+                key: DB_PASSWORD
+          REDIS_HOST: redis
+          REDIS_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: redis-secret
+                key: redis-password
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 1
+            memory: 1.5Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1004
+    runAsGroup: 1004
+    fsGroup: 1004
+    fsGroupChangePolicy: OnRootMismatch
+    # supplementalGroups: [44, 10000]
+    seccompProfile: { type: RuntimeDefault }
+
+persistence:
+  config:
+    type: secret
+    name: immich-secret
+    advancedMounts:
+      immich:
+        app:
+          - path: /config/immich-config.yaml
+            subPath: immich-config.yaml
+            readOnly: true
+  library:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 200Gi
+    retain: true
+    advancedMounts:
+      immich:
+        app:
+          - path: /usr/src/app/upload
+  tmp:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+
+route:
+  app:
+    hostnames:
+      - photos.${CLUSTER_DOMAIN}
+      - photos.internal.${CLUSTER_DOMAIN}
+      - photos.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+      - name: public
+        namespace: infra-gateway
+    rules:
+      - backendRefs:
+          - identifier: immich
+            port: &port 2283
+
+service:
+  immich:
+    controller: immich
+    ports:
+      http:
+        port: *port
