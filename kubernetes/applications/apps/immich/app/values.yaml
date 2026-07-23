@@ -133,7 +133,9 @@ service:
 serviceMonitor:
   immich:
     enabled: true
-    serviceName: immich
+    service:
+      name: immich
+      identifier: immich
     endpoints:
       - port: metrics-api
         scheme: http
