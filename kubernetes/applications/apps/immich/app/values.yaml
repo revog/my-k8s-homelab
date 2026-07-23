@@ -72,6 +72,13 @@ defaultPodOptions:
     # supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }
 
+immich:
+  metrics:
+    enabled: true
+  persistence:
+    library:
+      existingClaim: immich-library
+
 persistence:
   config:
     type: secret
@@ -83,7 +90,10 @@ persistence:
             subPath: immich-config.yaml
             readOnly: true
   library:
-    existingClaim: immich-library
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 250Gi
+    retain: true
     globalMounts:
       - path: /usr/src/app/upload
   tmp:
