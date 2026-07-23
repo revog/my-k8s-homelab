@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app immich
-  namespace: infra-flux
+  namespace: app-immich
 spec:
   path: ./kubernetes/applications/apps/immich/app
   targetNamespace: app-immich
@@ -37,7 +37,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: redis
-  namespace: infra-flux
+  namespace: app-immich
 spec:
   path: ./kubernetes/applications/apps/immich/redis
   targetNamespace: app-immich
@@ -60,7 +60,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: postgres
-  namespace: infra-flux
+  namespace: app-immich
 spec:
   path: ./kubernetes/applications/apps/immich/postgres
   targetNamespace: app-immich
