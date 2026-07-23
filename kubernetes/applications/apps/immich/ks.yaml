@@ -15,21 +15,21 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
-  # dependsOn:
-  #   - name: volsync
+  dependsOn:
+    - name: volsync
   decryption:
     provider: sops
     secretRef:
       name: sops-age
-  # postBuild:
-  #   substitute:
-  #     APP: *app
-  #     VOLSYNC_CLAIM: paperless-ngx-data
-  #     VOLSYNC_CAPACITY: 5Gi
-  #     VOLSYNC_SCHEDULE: "30 0 * * *" # 0:30am
-  #     VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
-  #     VOLSYNC_UID: "1001"
-  #     VOLSYNC_GID: "1001"
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CLAIM: immich-library
+      VOLSYNC_CAPACITY: 250Gi
+      VOLSYNC_SCHEDULE: "30 2 * * *" # 2:30am
+      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+      VOLSYNC_UID: "1004"
+      VOLSYNC_GID: "1004"
 
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
