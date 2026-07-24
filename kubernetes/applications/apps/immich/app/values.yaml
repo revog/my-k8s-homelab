@@ -131,7 +131,7 @@ route:
 
 service:
   main:
-    controller: immich
+    controller: main
     ports:
       http:
         port: *port
