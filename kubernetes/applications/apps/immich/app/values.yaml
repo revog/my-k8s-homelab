@@ -61,6 +61,16 @@ controllers:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
+  # machine-learning:
+  #   enabled: true
+  #   strategy: RollingUpdate
+  #   containers:
+  #     main:
+  #       image:
+  #         repository: ghcr.io/immich-app/immich-machine-learning
+  #         tag: v3.0.3@sha256:1a2b3c... # <--- Setze hier das korrekte ML-Image-Tag deiner Immich-Version ein!
+  #       env:
+  #         TZ: ${CLUSTER_TIMEZONE}
 
 defaultPodOptions:
   securityContext:
@@ -99,19 +109,19 @@ persistence:
       main:
         app:
           - path: /usr/src/app/upload
-  cache:
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 10Gi
-    storageClass: "longhorn-v2"
-    forceRename: immich-cache
-    advancedMounts:
-      machine-learning:
-        main:
-          - path: /cache
-            subPath: cache
-          - path: /.cache
-            subPath: dotCache
+  # cache:
+  #   type: persistentVolumeClaim
+  #   accessMode: ReadWriteOnce
+  #   size: 10Gi
+  #   storageClass: "longhorn-v2"
+  #   forceRename: immich-cache
+  #   advancedMounts:
+  #     machine-learning:
+  #       main:
+  #         - path: /cache
+  #           subPath: cache
+  #         - path: /.cache
+  #           subPath: dotCache
   tmp:
     type: emptyDir
     globalMounts:
