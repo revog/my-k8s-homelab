@@ -120,29 +120,8 @@ route:
             port: &port 2283
 
 service:
-  immich:
+  main:
     controller: immich
     ports:
       http:
         port: *port
-      metrics-api:
-        port: 8081
-      metrics-ms:
-        port: 8082
-
-serviceMonitor:
-  immich:
-    enabled: true
-    service:
-      name: immich
-      identifier: immich
-    endpoints:
-      - port: metrics-api
-        scheme: http
-        path: /metrics
-      - port: metrics-ms
-        scheme: http
-        path: /metrics
-  main:
-    service:
-      name: main
