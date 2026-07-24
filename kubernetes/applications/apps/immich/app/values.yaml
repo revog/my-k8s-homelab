@@ -98,7 +98,7 @@ persistence:
     name: immich-secret
     advancedMounts:
       main:
-        app:
+        main:
           - path: /config/immich-config.yaml
             subPath: immich-config.yaml
             readOnly: true
