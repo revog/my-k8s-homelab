@@ -34,7 +34,7 @@ controllers:
               secretKeyRef:
                 name: immich-secret
                 key: DB_PASSWORD
-          REDIS_HOST: redis
+          REDIS_HOSTNAME: redis
           REDIS_PASSWORD:
             valueFrom:
               secretKeyRef:
