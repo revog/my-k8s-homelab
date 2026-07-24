@@ -94,8 +94,18 @@ persistence:
     accessMode: ReadWriteOnce
     size: 250Gi
     retain: true
-    globalMounts:
-      - path: /usr/src/app/upload
+    advancedMounts:
+      immich:
+        app:
+          - path: /usr/src/app/upload
+  machine-learning:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    advancedMounts:
+      machine-learning:
+        app:
+          - path: /usr/src/app/upload
   tmp:
     type: emptyDir
     globalMounts:
