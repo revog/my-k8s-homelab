@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: immich-library
+  annotations:
+    helm.sh/resource-policy: keep # avoid deletion by Flux/Helm
 spec:
   accessModes:
   - ReadWriteOnce
