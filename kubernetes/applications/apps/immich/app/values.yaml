@@ -143,3 +143,6 @@ serviceMonitor:
       - port: metrics-ms
         scheme: http
         path: /metrics
+  main:
+    service:
+      name: main
