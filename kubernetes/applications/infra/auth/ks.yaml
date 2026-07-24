@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: pocketid
+  name: &app pocketid
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/infra/auth/pocketid
@@ -22,6 +22,15 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CLAIM: pocketid-data-pocketid-0
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_SCHEDULE: "0 */4 * * *" # every 4 hour
+      VOLSYNC_S3_SCHEDULE: "15 */4 * * *" # every 4 hour
+      VOLSYNC_UID: "1000"
+      VOLSYNC_GID: "1000"
 
 # # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 # apiVersion: kustomize.toolkit.fluxcd.io/v1

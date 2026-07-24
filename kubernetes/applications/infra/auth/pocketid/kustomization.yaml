@@ -10,6 +10,9 @@ resources:
   - namespace.yaml
   - secret.age.enc.yaml
 
+components:
+  - ../../../components/volsync
+
 configMapGenerator:
   - name: pocketid-values
     files:
