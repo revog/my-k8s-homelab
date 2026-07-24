@@ -1,6 +1,6 @@
 ---
 controllers:
-  immich:
+  main:
     strategy: RollingUpdate
     pod:
       annotations:
@@ -84,7 +84,7 @@ persistence:
     type: secret
     name: immich-secret
     advancedMounts:
-      immich:
+      main:
         app:
           - path: /config/immich-config.yaml
             subPath: immich-config.yaml
@@ -102,7 +102,7 @@ persistence:
       - path: /tmp
 
 route:
-  immich:
+  main:
     hostnames:
       - photos.${CLUSTER_DOMAIN}
       - photos.internal.${CLUSTER_DOMAIN}
