@@ -94,6 +94,7 @@ persistence:
     accessMode: ReadWriteOnce
     size: 250Gi
     retain: true
+    volumeName: immich-library
     advancedMounts:
       main:
         app:
@@ -106,6 +107,17 @@ persistence:
   #     machine-learning:
   #       app:
   #         - path: /usr/src/app/upload
+  cache:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    advancedMounts:
+      machine-learning:
+        main:
+          - path: /cache
+            subPath: cache
+          - path: /.cache
+            subPath: dotCache
   tmp:
     type: emptyDir
     globalMounts:
