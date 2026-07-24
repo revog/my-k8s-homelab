@@ -98,14 +98,14 @@ persistence:
       main:
         app:
           - path: /usr/src/app/upload
-  machine-learning:
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 10Gi
-    advancedMounts:
-      machine-learning:
-        app:
-          - path: /usr/src/app/upload
+  # machine-learning:
+  #   type: persistentVolumeClaim
+  #   accessMode: ReadWriteOnce
+  #   size: 10Gi
+  #   advancedMounts:
+  #     machine-learning:
+  #       app:
+  #         - path: /usr/src/app/upload
   tmp:
     type: emptyDir
     globalMounts:
