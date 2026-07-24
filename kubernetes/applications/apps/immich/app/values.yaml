@@ -89,6 +89,9 @@ immich:
     library:
       existingClaim: immich-library
 
+machine-learning:
+  enabled: false
+
 persistence:
   config:
     type: secret
@@ -99,16 +102,12 @@ persistence:
           - path: /config/immich-config.yaml
             subPath: immich-config.yaml
             readOnly: true
-  library:
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 250Gi
-    storageClass: "longhorn-v2"
-    forceRename: immich-library
-    advancedMounts:
-      main:
-        app:
-          - path: /usr/src/app/upload
+  # library:
+  #   existingClaim: immich-library
+  #   advancedMounts:
+  #     main:
+  #       app:
+  #         - path: /usr/src/app/upload
   # cache:
   #   type: persistentVolumeClaim
   #   accessMode: ReadWriteOnce
