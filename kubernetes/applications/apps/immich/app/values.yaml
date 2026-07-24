@@ -93,24 +93,18 @@ persistence:
     type: persistentVolumeClaim
     accessMode: ReadWriteOnce
     size: 250Gi
-    retain: true
-    volumeName: immich-library
+    storageClass: "longhorn-v2"
+    forceRename: immich-library
     advancedMounts:
       main:
         app:
           - path: /usr/src/app/upload
-  # machine-learning:
-  #   type: persistentVolumeClaim
-  #   accessMode: ReadWriteOnce
-  #   size: 10Gi
-  #   advancedMounts:
-  #     machine-learning:
-  #       app:
-  #         - path: /usr/src/app/upload
   cache:
     type: persistentVolumeClaim
     accessMode: ReadWriteOnce
     size: 10Gi
+    storageClass: "longhorn-v2"
+    forceRename: immich-cache
     advancedMounts:
       machine-learning:
         main:
