@@ -102,7 +102,7 @@ persistence:
       - path: /tmp
 
 route:
-  app:
+  immich:
     hostnames:
       - photos.${CLUSTER_DOMAIN}
       - photos.internal.${CLUSTER_DOMAIN}
@@ -116,7 +116,7 @@ route:
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - identifier: immich
+          - identifier: main
             port: &port 2283
 
 service:
