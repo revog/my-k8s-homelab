@@ -150,3 +150,6 @@ service:
     ports:
       http:
         port: *port
+
+valkey:
+  enabled: false
