@@ -9,8 +9,8 @@ resources:
   # - pvc.yaml
   - secret.age.enc.yaml
 
-components:
-  - ../../../components/volsync/local-nfs
+# components:
+#   - ../../../components/volsync/local-nfs
 
 configMapGenerator:
   - name: immich-values
