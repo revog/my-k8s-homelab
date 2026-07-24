@@ -23,7 +23,7 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: immich-secret
-                key: DB_URL
+                key: DB_HOSTNAME
           DB_USERNAME:
             valueFrom:
               secretKeyRef:
