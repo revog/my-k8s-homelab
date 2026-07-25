@@ -11,9 +11,6 @@ controllers:
           repository: ghcr.io/immich-app/immich-server
           tag: v3.0.3@sha256:c716dc20f957aafd89fa9d284a2ec63e25c9e2d8d8e87c6197d540a3dce237db
         env:
-          TZ: ${CLUSTER_TIMEZONE}
-          IMMICH_MEDIA_LOCATION: &mediaLocation /data
-          IMMICH_HELMET_FILE: "true"
           DB_DATABASE_NAME:
             valueFrom:
               secretKeyRef:
@@ -34,12 +31,16 @@ controllers:
               secretKeyRef:
                 name: immich-secret
                 key: DB_PASSWORD
+          IMMICH_CONFIG_FILE: /config/immich-config.yaml
+          IMMICH_HELMET_FILE: "true"
+          IMMICH_MEDIA_LOCATION: &mediaLocation /data
           REDIS_HOSTNAME: redis
           REDIS_PASSWORD:
             valueFrom:
               secretKeyRef:
                 name: redis-secret
                 key: redis-password
+          TZ: ${CLUSTER_TIMEZONE}
         probes:
           liveness:
             enabled: true
