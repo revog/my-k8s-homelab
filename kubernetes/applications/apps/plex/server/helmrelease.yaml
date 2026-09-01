@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless-ngx
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: plex
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: longhorn
+      namespace: infra-storage
+    - name: volsync
+      namespace: storage
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: ConfigMap
+      name: plex-values
+      valuesKey: values.yaml
