@@ -19,3 +19,13 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      # APP: *app
+      # VOLSYNC_CLAIM: immich-library
+      # VOLSYNC_CAPACITY: 250Gi
+      # VOLSYNC_SCHEDULE: "30 2 * * *" # 2:30am
+      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+      PLEX_LBIP: "1.2.3.4"
+      VOLSYNC_UID: "1004"
+      VOLSYNC_GID: "1004"
