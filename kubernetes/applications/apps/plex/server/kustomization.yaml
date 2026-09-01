@@ -6,7 +6,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
-  - secret.age.enc.yaml
+#  - secret.age.enc.yaml
 
 configMapGenerator:
   - name: plex-values
