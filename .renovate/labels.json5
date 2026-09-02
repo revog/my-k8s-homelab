@@ -18,12 +18,13 @@
       labels: ["type/digest"],
     },
     {
-      matchDatasources: ["docker"],
-      addLabels: ["renovate/container"],
+      "matchDatasources": ["docker"],
+      "matchManagers": ["kubernetes", "dockerfile"], 
+      "addLabels": ["renovate/container"]
     },
     {
-      matchDatasources: ["helm"],
-      addLabels: ["renovate/helm"],
+      "matchManagers": ["flux", "helm-values", "helmv3"],
+      "addLabels": ["renovate/helm"]
     },
     {
       matchManagers: ["github-actions"],
