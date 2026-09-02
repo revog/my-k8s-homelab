@@ -2,6 +2,16 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      "description": "Bootstrap component Update group",
+      "matchFileNames": ["**/bootstrap/**"],
+      "groupName": "Bootstrap Components",
+      "group": {
+        "semanticCommitType": "feat",
+        "semanticCommitScope": "bootstrap",
+        "commitMessageTopic": "update charts and images"
+      }
+    },
+    {
       "description": "Cilium (CNI, Operator, Hubble & Chart) Update group",
       "groupName": "Cilium",
       "matchPackagePatterns": ["^quay.io/cilium/"],
