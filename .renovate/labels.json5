@@ -19,11 +19,14 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchManagers": ["kubernetes", "dockerfile"], 
       "addLabels": ["renovate/container"]
     },
     {
-      "matchManagers": ["flux", "helm-values", "helmv3"],
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
+    },
+    {
+      "matchManagers": ["helm-values", "helmv3"],
       "addLabels": ["renovate/helm"]
     },
     {
