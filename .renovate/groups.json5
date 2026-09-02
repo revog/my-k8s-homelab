@@ -2,6 +2,14 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      "description": "Cilium (CNI, Operator, Hubble & Chart) Update group",
+      "groupName": "Cilium",
+      "matchPackagePatterns": ["^quay.io/cilium/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
       description: "Flux group",
       groupName: "Flux",
       // matchDatasources: ["docker"],
@@ -9,7 +17,7 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 3,
+      minimumGroupSize: 1,
     },
     {
       description: "Intel Device Plugins group",
