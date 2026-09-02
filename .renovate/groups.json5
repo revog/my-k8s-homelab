@@ -2,24 +2,24 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Flux Operator group",
-      groupName: "Flux Operator",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/flux-operator/", "/flux-instance/", "/flux-operator-manifests/"],
+      description: "Flux group",
+      groupName: "Flux",
+      // matchDatasources: ["docker"],
+      matchPackagePatterns: ["^fluxcd/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 3,
     },
     {
-      description: "Intel Device Plugins Group",
+      description: "Intel Device Plugins group",
       groupName: "intel-device-plugins",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/intel-device-plugins-operator/", "/intel-device-plugins-gpu/"],
+      // matchDatasources: ["docker"],
+      "matchPackagePatterns": ["intel-gpu-resource-driver"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 2,
+      minimumGroupSize: 1,
     },
     {
       description: "Kubernetes group",
@@ -41,7 +41,10 @@
       description: "Talos group",
       groupName: "Talos",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/installer/", "/talosctl/"],
+      matchPackageNames: [
+        "installer", 
+        "talosctl",
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
