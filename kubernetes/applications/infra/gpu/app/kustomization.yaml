@@ -6,3 +6,10 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+
+configMapGenerator:
+  - name: intel-gpu-values
+    files:
+      - values.yaml
+    options:
+      disableNameSuffixHash: true
