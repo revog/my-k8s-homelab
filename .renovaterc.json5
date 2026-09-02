@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    "helpers:pinGitHubActionDigests",
+    "timezone": "Europe/Zurich",
+    "local>revog/my-k8s-homelab//.renovate/groups.json5",
+    "local>revog/my-k8s-homelab//.renovate/autoMerge.json5",
+    "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#8.1.0",
+    "github>home-operations/renovate-presets//apps/searxng.json5#8.1.0",
+    "github>home-operations/renovate-presets//apps/talosFactory.json5#8.1.0",
+  ],
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "ignorePaths": [
+    "**/*.sops.*",
+    "**/resources/**",
+    ".codex/**"
+  ],
+  "flux": {
+    "managerFilePatterns": ["/\\.yaml$/"]
+  },
+  "helm-values": {
+    "managerFilePatterns": ["/\\.yaml$/"]
+  },
+  "kubernetes": {
+    "managerFilePatterns": ["/\\.yaml$/"]
+  },
+}
