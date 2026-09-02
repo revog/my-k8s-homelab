@@ -13,11 +13,19 @@
       description: "Flux group",
       groupName: "Flux",
       // matchDatasources: ["docker"],
-      matchPackagePatterns: ["^fluxcd/"],
+      matchPackagePatterns: ["^fluxcd/", "^ghcr.io/fluxcd/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 1,
+      minimumGroupSize: 2,
+    },
+    {
+      "description": "Immich Update group",
+      "groupName": "Immich",
+      "matchPackagePatterns": ["immich"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     },
     {
       description: "Intel Device Plugins group",
@@ -26,8 +34,7 @@
       "matchPackagePatterns": ["intel-gpu-resource-driver"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 1,
+      }
     },
     {
       description: "Kubernetes group",
@@ -44,6 +51,14 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 5,
+    },
+    {
+      "description": "Prometheus (Exporter, CRDs, ...) Update group",
+      "groupName": "Prometheus",
+      "matchPackagePatterns": ["prometheus"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     },
     {
       description: "Talos group",
