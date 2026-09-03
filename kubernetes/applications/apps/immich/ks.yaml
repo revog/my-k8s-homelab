@@ -25,7 +25,7 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CLAIM: immich-library
-      VOLSYNC_CAPACITY: 250Gi
+      VOLSYNC_CAPACITY: 100Gi
       VOLSYNC_SCHEDULE: "30 2 * * *" # 2:30am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
       VOLSYNC_UID: "1004"
