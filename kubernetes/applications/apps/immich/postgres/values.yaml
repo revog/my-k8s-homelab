@@ -1,12 +1,12 @@
 ---
 auth:
   enablePostgresUser: true
-  existingSecret: "immich-postgres-auth"
+  existingSecret: immich-postgres-auth
   secretKeys:
-    adminPasswordKey: "admin-password"
-    userPasswordKey: "user-password"
-  database: "immich"
-  username: "immich"
+    adminPasswordKey: admin-password
+    userPasswordKey: user-password
+  database: immich
+  username: immich
 primary:
   persistence:
     enabled: true
@@ -15,8 +15,8 @@ primary:
     size: 4Gi
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: 100m
+      memory: 128Mi
     limits:
-      cpu: "500m"
-      memory: "512Mi"
+      cpu: 500m
+      memory: 1Gi
