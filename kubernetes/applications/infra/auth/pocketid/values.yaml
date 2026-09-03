@@ -38,7 +38,7 @@ persistence:
 pocketID:
   image:
     repository: ghcr.io/pocket-id/pocket-id
-    tag: "v2.9.0"
+    tag: "v2.14.0"
 
 secret:
   create: false
