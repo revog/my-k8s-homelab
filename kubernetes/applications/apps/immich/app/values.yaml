@@ -57,7 +57,7 @@ controllers:
             memory: 512Mi
           limits:
             cpu: 1
-            memory: 2Gi
+            memory: 4Gi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
