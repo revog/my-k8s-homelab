@@ -19,7 +19,7 @@ spec:
     cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=longhorn-v2}"
     capacity: "${VOLSYNC_CAPACITY:=1Gi}"
     cleanupCachePVC: false
-    cleanupTempPVC: false
+    cleanupTempPVC: true
     copyMethod: Direct
     enableFileDeletion: true
     moverSecurityContext:
