@@ -8,6 +8,9 @@ resources:
   - helmrepository.yaml
   - secret.age.enc.yaml
 
+components:
+  - ../../../components/volsync/local-nfs
+
 configMapGenerator:
   - name: postgres-values
     files:
