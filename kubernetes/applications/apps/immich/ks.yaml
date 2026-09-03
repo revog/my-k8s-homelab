@@ -83,5 +83,5 @@ spec:
       VOLSYNC_CAPACITY: 4Gi
       VOLSYNC_SCHEDULE: "15 2 * * *" # 2:15am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
-      VOLSYNC_UID: "1004"
-      VOLSYNC_GID: "1004"
+      VOLSYNC_UID: "1001"
+      VOLSYNC_GID: "1001"
