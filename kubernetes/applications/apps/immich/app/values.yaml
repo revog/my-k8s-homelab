@@ -57,13 +57,13 @@ controllers:
             memory: 512Mi
           limits:
             cpu: 1
-            memory: 1.5Gi
+            memory: 2Gi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
-  # machine-learning:
-  #   enabled: true
+  machine-learning:
+    enabled: false
   #   strategy: RollingUpdate
   #   containers:
   #     main:
