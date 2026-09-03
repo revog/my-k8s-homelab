@@ -6,7 +6,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
-  - pvc.yaml
+  # - pvc.yaml
   - secret.age.enc.yaml
 
 components:
