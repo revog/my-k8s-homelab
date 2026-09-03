@@ -62,8 +62,8 @@ controllers:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
-  machine-learning:
-    enabled: false
+  # machine-learning:
+  #   enabled: true
   #   strategy: RollingUpdate
   #   containers:
   #     main:
