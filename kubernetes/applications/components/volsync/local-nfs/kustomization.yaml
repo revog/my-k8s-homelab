@@ -3,7 +3,35 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
-  - pvc.yaml
   - replicationdestination.yaml
   - replicationsource.yaml
   - secret.age.enc.yaml
+
+# Patch application's PVC and add the dataSourceRef dynamically - except opted-out for backup (volsync.backube/backup=false)
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+      labelSelector: volsync.backube/backup=true
+    patch: |
+      - op: add
+        path: /spec/dataSourceRef
+        value:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: ${APP}-bootstrap
+
+# Synchronize app's actual PVC name directly into VolSync resources
+replacements:
+  - source:
+      kind: PersistentVolumeClaim
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: ReplicationSource
+        fieldPaths:
+          - spec.sourcePVC
+          - metadata.name
+      - select:
+          kind: ReplicationDestination
+        fieldPaths:
+          - metadata.name
