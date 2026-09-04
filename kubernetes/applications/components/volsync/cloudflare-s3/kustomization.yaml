@@ -3,7 +3,30 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
-  # - pvc.yaml                      # Inactive as main restore source is NFS - will be created manually on demand (e.g. for a s3 restore)
-  # - replicationdestination.yaml   # Inactive as main restore source is NFS - will be created manually on demand (e.g. for a s3 restore)
+  # - pvc.yaml  # Inactive as main restore source is NFS - will be created manually on demand (e.g. for a s3 restore)
+  - replicationdestination.yaml
   - replicationsource.yaml
   - secret.age.enc.yaml
+
+nameSuffix: -s3
+
+configurations:
+  - |
+    nameSuffix:
+      - kind: Secret
+        skip: true
+
+replacements:
+  - source:
+      kind: PersistentVolumeClaim
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: ReplicationSource
+        fieldPaths:
+          - spec.sourcePVC
+          - metadata.name
+      - select:
+          kind: ReplicationDestination
+        fieldPaths:
+          - metadata.name
