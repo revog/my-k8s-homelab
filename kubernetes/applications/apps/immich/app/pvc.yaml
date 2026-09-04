@@ -5,7 +5,7 @@ metadata:
   annotations:
     helm.sh/resource-policy: keep # avoid deletion by Flux/Helm
   labels:
-    volsync.backube/backup: "false" # disable until first backup done
+    volsync.backube/backup: "true"
 spec:
   accessModes:
   - ReadWriteOnce
