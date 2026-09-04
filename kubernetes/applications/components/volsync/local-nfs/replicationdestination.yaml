@@ -9,8 +9,8 @@ metadata:
   annotations:
     volsync.backube/paused: "true"
 spec:
-  trigger:
-    # Leave this empty/commented out by default! 
+  trigger: {}
+    # Leave this empty/commented out by default!
     # If set to a fixed string or schedule, a new deployment with no backups will freeze.
     # manual: ""
   kopia:
