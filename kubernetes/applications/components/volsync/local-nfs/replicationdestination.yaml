@@ -10,7 +10,9 @@ metadata:
     volsync.backube/paused: "true"
 spec:
   trigger:
-    manual: restore-once
+    # Leave this empty/commented out by default! 
+    # If set to a fixed string or schedule, a new deployment with no backups will freeze.
+    # manual: ""
   kopia:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
