@@ -14,7 +14,12 @@
     {
       "description": "Cilium (CNI, Operator, Hubble & Chart) Update group",
       "groupName": "Cilium",
-      "matchPackagePatterns": ["^quay.io/cilium/"],
+      // Matches both the container image registry and the Helm chart name
+      "matchPackageNames": ["cilium"],
+      "matchPackagePatterns": [
+        "^quay.io/cilium/",
+        "^cilium/"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       }
