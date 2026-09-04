@@ -11,7 +11,7 @@ resources:
 patches:
   - target:
       kind: PersistentVolumeClaim
-      labelSelector: "!volsync.backube/backup=false"
+      labelSelector: volsync.backube/backup=true
     patch: |
       - op: add
         path: /spec/dataSourceRef
