@@ -7,17 +7,20 @@ resources:
   - replicationsource.yaml
   - secret.age.enc.yaml
 
-# This block intercepts your application's PVC and adds the resource policy dynamically
+# Patch application's PVC and add the dataSourceRef dynamically - except opted-out for backup (volsync.backube/backup=false)
 patches:
   - target:
       kind: PersistentVolumeClaim
-      labelSelector: volsync.home.arpa/backup=true
+      labelSelector: "!volsync.backube/backup=false"
     patch: |
       - op: add
-        path: /metadata/annotations/helm.sh~1resource-policy
-        value: keep
+        path: /spec/dataSourceRef
+        value:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: ${APP}-bootstrap
 
-# This block synchronizes your app's actual PVC name directly into VolSync resources
+# Synchronize app's actual PVC name directly into VolSync resources
 replacements:
   - source:
       kind: PersistentVolumeClaim
