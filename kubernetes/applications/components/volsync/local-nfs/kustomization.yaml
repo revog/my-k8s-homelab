@@ -31,5 +31,4 @@ replacements:
       - select:
           kind: ReplicationDestination
         fieldPaths:
-          - spec.destinationPVC
           - metadata.name
