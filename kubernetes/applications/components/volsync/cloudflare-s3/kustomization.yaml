@@ -8,14 +8,6 @@ resources:
   - replicationsource.yaml
   - secret.age.enc.yaml
 
-nameSuffix: -s3
-
-configurations:
-  - |
-    nameSuffix:
-      - kind: Secret
-        skip: true
-
 # Patch application's PVC and add the dataSourceRef dynamically - except opted-out for backup (volsync.backube/backup=false)
 patches:
   - target:
