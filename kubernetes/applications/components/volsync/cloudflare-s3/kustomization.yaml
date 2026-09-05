@@ -30,5 +30,3 @@ replacements:
           kind: ReplicationDestination
         fieldPaths:
           - metadata.name
-    options:
-      rejectNoMatches: false
