@@ -36,6 +36,7 @@ metadata:
     volsync.backube/backup: "true"
     volsync.backube/restore: "true" # <-- Instructs Kustomize to inject the dataSourceRef
 ```
+Or use label `volsync.backube/restore-s3: "true"` if restore is done from S3.
 Commit and push. The new PVC will generate and enter a `Pending` state, safely waiting for the data payload.
 
 ### 2. Temporarily pause Flux reconciliation

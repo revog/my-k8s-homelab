@@ -16,17 +16,15 @@ configurations:
       - kind: Secret
         skip: true
 
-replacements:
-  - source:
+# Patch application's PVC and add the dataSourceRef dynamically - except opted-out for backup (volsync.backube/backup=false)
+patches:
+  - target:
       kind: PersistentVolumeClaim
-      fieldPath: metadata.name
-    targets:
-      - select:
-          kind: ReplicationSource
-        fieldPaths:
-          - spec.sourcePVC
-          - metadata.name
-      - select:
+      labelSelector: volsync.backube/restore-s3=true
+    patch: |
+      - op: add
+        path: /spec/dataSourceRef
+        value:
           kind: ReplicationDestination
-        fieldPaths:
-          - metadata.name
+          apiGroup: volsync.backube
+          name: ${APP}-bootstrap-s3

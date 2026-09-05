@@ -19,19 +19,3 @@ patches:
           kind: ReplicationDestination
           apiGroup: volsync.backube
           name: ${APP}-bootstrap
-
-# Synchronize app's actual PVC name directly into VolSync resources
-replacements:
-  - source:
-      kind: PersistentVolumeClaim
-      fieldPath: metadata.name
-    targets:
-      - select:
-          kind: ReplicationSource
-        fieldPaths:
-          - spec.sourcePVC
-          - metadata.name
-      - select:
-          kind: ReplicationDestination
-        fieldPaths:
-          - metadata.name
