@@ -17,6 +17,7 @@ resources:
   - gpu/ks.yaml
   - grafana/ks.yaml
   - headlamp/ks.yaml
+  - messaging/ks.yaml
   - metrics-server/ks.yaml
   - monitoring/ks.yaml
   - node-feature-discovery/ks.yaml

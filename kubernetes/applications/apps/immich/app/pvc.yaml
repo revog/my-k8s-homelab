@@ -4,10 +4,12 @@ metadata:
   name: immich-library
   annotations:
     helm.sh/resource-policy: keep # avoid deletion by Flux/Helm
+  labels:
+    volsync.backube/backup: "true"
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 250Gi
+      storage: 100Gi
   storageClassName: longhorn-v2

@@ -1,20 +1,15 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - helmrepository.yaml
-  - secret.age.enc.yaml
-
-components:
-  - ../../../components/volsync/local-nfs
+  - namespace.yaml
+  - ocirepository.yaml
 
 configMapGenerator:
-  - name: postgres-values
+  - name: simplerelay-values
     files:
       - values.yaml
-
-generatorOptions:
-  disableNameSuffixHash: true
+    options:
+      disableNameSuffixHash: true

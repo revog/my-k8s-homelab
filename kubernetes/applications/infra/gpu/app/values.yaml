@@ -1,7 +1,10 @@
 cdi:
   staticPath: /run/cdi
   dynamicPath: /run/cdi
+
 kubeletPlugin:
-  privileged: true
   healthMonitoring:
     enabled: false
+  nodeSelector:
+    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
+  privileged: true

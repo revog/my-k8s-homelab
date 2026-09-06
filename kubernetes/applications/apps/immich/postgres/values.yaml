@@ -10,6 +10,8 @@ auth:
 primary:
   persistence:
     enabled: true
+    labels:
+      volsync.backube/backup: "true"
     storageClass: longhorn-v2
     accessModes: ["ReadWriteOnce"]
     size: 4Gi
