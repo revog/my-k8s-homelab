@@ -2,14 +2,14 @@
 controllers:
   main:
     strategy: RollingUpdate
-    pod:
+    podOptions:
       annotations:
         reloader.stakater.com/auto: "true"
     containers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-server
-          tag: v3.1.0@sha256:b434cb9287eea1471c9974845914d4dd328c9c2d652e446ed4930f99944f0ceb
+          tag: v3.1.0@sha256:c716dc20f957aafd89fa9d284a2ec63e25c9e2d8d8e87c6197d540a3dce237db
         env:
           DB_DATABASE_NAME:
             valueFrom:
@@ -57,21 +57,11 @@ controllers:
             memory: 512Mi
           limits:
             cpu: 1
-            memory: 1.5Gi
+            memory: 4Gi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
-  # machine-learning:
-  #   enabled: true
-  #   strategy: RollingUpdate
-  #   containers:
-  #     main:
-  #       image:
-  #         repository: ghcr.io/immich-app/immich-machine-learning
-  #         tag: v3.0.3@sha256:1a2b3c... # <--- Setze hier das korrekte ML-Image-Tag deiner Immich-Version ein!
-  #       env:
-  #         TZ: ${CLUSTER_TIMEZONE}
 
 defaultPodOptions:
   securityContext:
@@ -80,7 +70,6 @@ defaultPodOptions:
     runAsGroup: 1004
     fsGroup: 1004
     fsGroupChangePolicy: OnRootMismatch
-    # supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }
 
 immich:
@@ -95,39 +84,18 @@ machine-learning:
 
 persistence:
   config:
-    type: secret
-    name: immich-secret
-    advancedMounts:
-      main:
-        main:
-          - path: /config/immich-config.yaml
-            subPath: immich-config.yaml
-            readOnly: true
-  # library:
-  #   existingClaim: immich-library
-  #   advancedMounts:
-  #     main:
-  #       app:
-  #         - path: /usr/src/app/upload
-  # cache:
-  #   type: persistentVolumeClaim
-  #   accessMode: ReadWriteOnce
-  #   size: 10Gi
-  #   storageClass: "longhorn-v2"
-  #   forceRename: immich-cache
-  #   advancedMounts:
-  #     machine-learning:
-  #       main:
-  #         - path: /cache
-  #           subPath: cache
-  #         - path: /.cache
-  #           subPath: dotCache
+    type: reference
+    identifier: immich-secret
+    globalMounts:
+      - path: /config/immich-config.yaml
+        subPath: immich-config.yaml
+        readOnly: true
   tmp:
     type: emptyDir
     globalMounts:
       - path: /tmp
 
-route:
+gateway:
   main:
     hostnames:
       - photos.${CLUSTER_DOMAIN}
@@ -142,7 +110,7 @@ route:
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - identifier: main
+          - name: main
             port: &port 2283
 
 service:
