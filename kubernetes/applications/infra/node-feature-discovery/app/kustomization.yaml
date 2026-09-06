@@ -4,9 +4,8 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - helmrepository.yaml
   - namespace.yaml
-  - rules.yaml
+  - helmrepository.yaml
 
 configMapGenerator:
   - name: nfd-values
