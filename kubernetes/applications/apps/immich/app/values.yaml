@@ -86,12 +86,14 @@ persistence:
   config:
     type: secret
     name: immich-secret
-    mountPath: /config/immich-config.yaml
-    subPath: immich-config.yaml
-    readOnly: true
+    globalMounts:
+      - path: /config/immich-config.yaml
+        subPath: immich-config.yaml
+        readOnly: true
   tmp:
     type: emptyDir
-    mountPath: /tmp
+    globalMounts:
+      - path: /tmp
 
 route:
   immich-server:
