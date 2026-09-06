@@ -2,7 +2,7 @@
 controllers:
   main:
     strategy: RollingUpdate
-    podOptions:
+    pod:
       annotations:
         reloader.stakater.com/auto: "true"
     containers:
@@ -84,9 +84,9 @@ machine-learning:
 
 persistence:
   config:
-    type: reference
-    identifier: immich-secret
-    globalMounts:
+    type: secret
+    name: immich-secret
+    advancedMounts:
       - path: /config/immich-config.yaml
         subPath: immich-config.yaml
         readOnly: true
