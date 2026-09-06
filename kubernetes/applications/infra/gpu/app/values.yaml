@@ -1,7 +1,10 @@
 cdi:
   staticPath: /run/cdi
   dynamicPath: /run/cdi
+
 kubeletPlugin:
-  privileged: true
   healthMonitoring:
     enabled: false
+  nodeSelector:
+    intel.feature.node.kubernetes.io/gpu: "true"
+  privileged: true
