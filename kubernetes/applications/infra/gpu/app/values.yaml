@@ -6,5 +6,5 @@ kubeletPlugin:
   healthMonitoring:
     enabled: false
   nodeSelector:
-    intel.feature.node.kubernetes.io/gpu: "true"
+    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
   privileged: true
