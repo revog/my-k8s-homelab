@@ -1,123 +1,132 @@
+---
 controllers:
   plex:
-  	annotations:
-  	  reloader.stakater.com/auto: "true"
-  	pod:
-  	  # Soft anti-affinity: prefer not to share node with other GPU apps
-  	  affinity:
-  		podAntiAffinity:
-  		  preferredDuringSchedulingIgnoredDuringExecution:
-  			- weight: 100
-  			  podAffinityTerm:
-  				labelSelector:
-  				  matchLabels:
-  					app.kubernetes.io/name: immich
-  				topologyKey: kubernetes.io/hostname
-	containers:
-	  app:
-  		image:
-  		  repository: ghcr.io/home-operations/plex
-  		  tag: 1.43.3.10828@sha256:0c0b6899339503af17cb190b25af6acf10f0030e2820985e16ee14ef428f49d7
-  		env:
-  		  TZ: ${CLUSTER_TIMEZONE}
-  		  PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443,http://${PLEX_LBIP}:32400
-  		probes:
-  		  liveness: &probes
-  			enabled: true
-  			custom: true
-  			spec:
-  			  httpGet:
-    				path: /identity
-    				port: &port 32400
-  			  initialDelaySeconds: 0
-  			  periodSeconds: 10
-  			  timeoutSeconds: 1
-  			  failureThreshold: 3
-  		  readiness: *probes
-  		  startup:
-    			enabled: true
-    			spec:
-    			  failureThreshold: 30
-    			  periodSeconds: 60
-  		securityContext:
-  		  allowPrivilegeEscalation: false
-  		  readOnlyRootFilesystem: true
-  		  capabilities: {drop: ["ALL"]}
-  		resources:
-  		  requests:
-    			cpu: 100m
-    			memory: 1500Mi
-  		  limits:
-    			gpu.intel.com/i915: 1
-    			memory: 6Gi
+    annotations:
+      reloader.stakater.com/auto: "true"
+    pod:
+      # Soft anti-affinity: prefer not to share node with other GPU apps
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: immich
+                topologyKey: kubernetes.io/hostname
+#    resourceClaims:
+#    - name: gpu
+#      resourceClaimTemplateName: jellyfin-gpu
+  containers:
+    plex:
+      image:
+        repository: ghcr.io/home-operations/plex
+        tag: 1.43.3.10828@sha256:0c0b6899339503af17cb190b25af6acf10f0030e2820985e16ee14ef428f49d7
+      env:
+        TZ: ${CLUSTER_TIMEZONE}
+        PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443,http://${PLEX_LBIP}:32400
+      probes:
+        liveness: &probes
+          enabled: true
+          custom: true
+          spec:
+            httpGet:
+              path: /identity
+              port: &port 32400
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+        readiness: *probes
+        startup:
+          enabled: true
+          spec:
+            failureThreshold: 30
+            periodSeconds: 60
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities: {drop: ["ALL"]}
+      resources:
+        requests:
+          cpu: 100m
+          memory: 1500Mi
+        limits:
+          gpu.intel.com/i915: 1
+          memory: 6Gi
 
 defaultPodOptions:
   securityContext:
-  	runAsNonRoot: true
-    runAsUser: 1004
-    runAsGroup: 1004
-    fsGroup: 1004
-  	fsGroupChangePolicy: OnRootMismatch
-  	supplementalGroups: [44, 10000]
-  	seccompProfile: {type: RuntimeDefault}
+    runAsNonRoot: true
+    runAsUser: 1005
+    runAsGroup: 1005
+    fsGroup: 1005
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: [44, 10000]
+    seccompProfile: {type: RuntimeDefault}
   nodeSelector:
-  	intel.feature.node.kubernetes.io/gpu: "true"
+    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
 
 persistence:
   config:
-  	existingClaim: plex
-  	# TODO: If setting up Plex for the first time, you'll want to add the globalMounts section
-  	globalMounts:
-  	  - path: /config/Library/Application Support/Plex Media Server
-  # Separate PVC for cache to avoid backing up cache files
+    accessMode: ReadWriteOnce
+    storageClass: "longhorn-v2"
+    size: 10Gi
+    globalMounts:
+      - path: /config/Library/Application Support/Plex Media Server
   cache:
-  	existingClaim: plex-cache
-  	globalMounts:
-  	  - path: /config/Library/Application Support/Plex Media Server/Cache
-  logs:
-  	type: emptyDir
-  	globalMounts:
-  	  - path: /config/Library/Application Support/Plex Media Server/Logs
-  tmp:
-	  type: emptyDir
-  transcode:
-	  type: emptyDir
+    accessMode: ReadWriteOnce
+    storageClass: "longhorn-v2"
+    size: 20Gi
+    globalMounts:
+      - path: /config/Library/Application Support/Plex Media Server/Cache
   media:
-  	type: nfs
-  	server: ${STORAGE_IP}
-  	path: /mnt/storage0/media
-  	globalMounts:
-  	  - path: /media
+    type: nfs
+    server: ${STORAGE_IP}
+    path: /mnt/storage0/media
+    globalMounts:
+      - path: /media
         readOnly: true
-       
-route:
-  app:
-  	annotations:
-  	  gethomepage.dev/enabled: "true"
-  	  gethomepage.dev/group: Entertainment
-  	  gethomepage.dev/name: Plex
-  	  gethomepage.dev/app: *app
-  	  gethomepage.dev/icon: plex.png
-  	  gethomepage.dev/description: Media Player
-  	  gethomepage.dev/widget.type: plex
-  	  gethomepage.dev/widget.url: http://plex.entertainment:32400
-  	  gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_PLEX_TOKEN}}` }}"
-	hostnames:
-	  - plex.${CLUSTER_DOMAIN}
-    - plex.internal.${CLUSTER_DOMAIN}
-  parentRefs:
-    - name: internal
-      namespace: infra-gateway
-    - name: public
-      namespace: infra-gateway
-  rules:
-    - backendRefs:
-        - identifier: main
-          port: *port
+  logs:
+    type: emptyDir
+    globalMounts:
+      - path: /config/Library/Application Support/Plex Media Server/Logs
+  tmp:
+    type: emptyDir
+    advancedMounts:
+      plex:
+        plex:
+          - path: /tmp
+            subPath: tmp
+          - path: /transcode
+            subPath: transcode
+route: 
+  plex:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Entertainment
+      gethomepage.dev/name: Plex
+      gethomepage.dev/icon: plex.png
+      gethomepage.dev/description: Media Player
+      gethomepage.dev/widget.type: plex
+      gethomepage.dev/widget.url: http://plex.entertainment:32400
+      gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_PLEX_TOKEN}}` }}"
+    hostnames:
+      - plex.${CLUSTER_DOMAIN}
+      - plex.internal.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: public
+        namespace: infra-gateway
+    rules:
+      - backendRefs:
+          - name: plex # 'name' ist korrekt für v5 (früher 'identifier')
+            port: *port
 
 service:
-  app:
-  	controller: plex
-  	ports:
-  	  http:
-  		  port: *port
+  plex:
+    controller: plex
+    ports:
+      http:
+        port: *port
