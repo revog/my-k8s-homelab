@@ -9,13 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: plex
-  dependsOn:
-    - name: intel-gpu-resource-driver
-      namespace: infra-gpu
-    - name: longhorn
-      namespace: infra-storage
-    - name: volsync
-      namespace: storage
   install:
     remediation:
       retries: 3
