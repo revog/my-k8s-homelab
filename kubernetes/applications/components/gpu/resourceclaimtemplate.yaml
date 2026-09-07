@@ -10,5 +10,5 @@ spec:
         - name: gpu
           exactly:
             deviceClassName: gpu.intel.com
-            adminAccess: true
+            adminAccess: "${GPU_ADMIN_ACCESS:=false}"
             allocationMode: All
