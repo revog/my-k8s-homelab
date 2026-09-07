@@ -1,9 +1,9 @@
 ---
 controllers:
   plex:
-    annotations:
-      reloader.stakater.com/auto: "true"
     pod:
+      annotations:
+        reloader.stakater.com/auto: "true"
       # Soft anti-affinity: prefer not to share node with other GPU apps
       affinity:
         podAntiAffinity:
