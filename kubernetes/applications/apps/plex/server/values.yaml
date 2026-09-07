@@ -14,46 +14,47 @@ controllers:
                   matchLabels:
                     app.kubernetes.io/name: immich
                 topologyKey: kubernetes.io/hostname
-#    resourceClaims:
-#    - name: gpu
-#      resourceClaimTemplateName: jellyfin-gpu
-  containers:
-    plex:
-      image:
-        repository: ghcr.io/home-operations/plex
-        tag: 1.43.3.10828@sha256:0c0b6899339503af17cb190b25af6acf10f0030e2820985e16ee14ef428f49d7
-      env:
-        TZ: ${CLUSTER_TIMEZONE}
-        PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443,http://${PLEX_LBIP}:32400
-      probes:
-        liveness: &probes
-          enabled: true
-          custom: true
-          spec:
-            httpGet:
-              path: /identity
-              port: &port 32400
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
-            failureThreshold: 3
-        readiness: *probes
-        startup:
-          enabled: true
-          spec:
-            failureThreshold: 30
-            periodSeconds: 60
-      securityContext:
-        allowPrivilegeEscalation: false
-        readOnlyRootFilesystem: true
-        capabilities: {drop: ["ALL"]}
-      resources:
-        requests:
-          cpu: 100m
-          memory: 1500Mi
-        limits:
-          gpu.intel.com/i915: 1
-          memory: 6Gi
+      resourceClaims:
+        - name: intel-gpu
+          resourceClaimTemplateName: plex-gpu
+    containers:
+      plex:
+        image:
+          repository: ghcr.io/home-operations/plex
+          tag: 1.43.3.10828@sha256:0c0b6899339503af17cb190b25af6acf10f0030e2820985e16ee14ef428f49d7
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+          PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443,http://${PLEX_LBIP}:32400
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /identity
+                port: &port 32400
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 60
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1500Mi
+          limits:
+            memory: 6Gi
+          claims:
+            - name: intel-gpu
 
 defaultPodOptions:
   securityContext:
@@ -63,7 +64,7 @@ defaultPodOptions:
     fsGroup: 1005
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups: [44, 10000]
-    seccompProfile: {type: RuntimeDefault}
+    seccompProfile: { type: RuntimeDefault }
   nodeSelector:
     feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
 
@@ -100,7 +101,7 @@ persistence:
             subPath: tmp
           - path: /transcode
             subPath: transcode
-route: 
+route:
   plex:
     annotations:
       gethomepage.dev/enabled: "true"
