@@ -9,8 +9,6 @@ spec:
       requests:
         - name: gpu
           exactly:
-          exactCount:
             deviceClassName: gpu.intel.com
-            allocationMode: ExactCount
-            count: 1
             adminAccess: true
+            allocationMode: All
