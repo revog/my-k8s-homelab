@@ -10,7 +10,7 @@ resources:
 
 components:
   - ../../../components/gpu
-  - ../../../components/zeroscaler
+  # - ../../../components/zeroscaler # disabled until K8s 1.37 deployed (supports scaling to zero)
 
 configMapGenerator:
   - name: plex-values
