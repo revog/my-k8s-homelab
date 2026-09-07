@@ -12,11 +12,14 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
+    disableSchemaValidation: true
+    skipSchemaValidation: true # Bypass new helm validation due to issue in Flux' helm-controller (https://github.com/helm/helm/issues/32480)
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 3
-  skipSchemaValidation: true # Bypass new helm validation due to issue in Flux' helm-controller (https://github.com/helm/helm/issues/32480)
+    disableSchemaValidation: true
+    skipSchemaValidation: true # Bypass new helm validation due to issue in Flux' helm-controller (https://github.com/helm/helm/issues/32480)
   valuesFrom:
     - kind: ConfigMap
       name: immich-values
