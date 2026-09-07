@@ -108,7 +108,7 @@ route:
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - name: main
+          - name: immich-server
             port: &port 2283
 
 service:
