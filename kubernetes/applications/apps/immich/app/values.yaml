@@ -93,7 +93,7 @@ persistence:
     type: emptyDir
     mountPath: /tmp
 
-gateway:
+route:
   main:
     hostnames:
       - photos.${CLUSTER_DOMAIN}
