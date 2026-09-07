@@ -10,8 +10,8 @@ spec:
     kind: OCIRepository
     name: plex
   dependsOn:
-    - name: intel-device-plugin-gpu
-      namespace: kube-system
+    - name: intel-gpu-resource-driver
+      namespace: infra-gpu
     - name: longhorn
       namespace: infra-storage
     - name: volsync
