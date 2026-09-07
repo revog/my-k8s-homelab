@@ -94,7 +94,7 @@ persistence:
     mountPath: /tmp
 
 route:
-  main:
+  immich-server:
     hostnames:
       - photos.${CLUSTER_DOMAIN}
       - photos.internal.${CLUSTER_DOMAIN}
