@@ -81,13 +81,13 @@ persistence:
     size: 20Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server/Cache
-  media:
-    type: nfs
-    server: ${STORAGE_IP}
-    path: /mnt/storage0/media
-    globalMounts:
-      - path: /media
-        readOnly: true
+#  media:
+#    type: nfs
+#    server: ${STORAGE_IP}
+#    path: /mnt/storage0/media
+#    globalMounts:
+#      - path: /media
+#        readOnly: true
   logs:
     type: emptyDir
     globalMounts:
