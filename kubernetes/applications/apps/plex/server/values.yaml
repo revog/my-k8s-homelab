@@ -23,8 +23,9 @@ controllers:
           repository: ghcr.io/home-operations/plex
           tag: 1.43.3.10896@sha256:4f1d88882a9883cc525e7c84b22c67c57416b7d3b35c3412329eeb07786433a7
         env:
+          PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443
+          PLEX_ALLOWED_NETWORKS: "${HOMENET_CIDR},10.244.0.0/16,10.96.0.0/12" # Home Net, Cilium Pod, K8s Services
           TZ: ${CLUSTER_TIMEZONE}
-          PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443,http://${PLEX_LBIP}:32400
         probes:
           liveness: &probes
             enabled: true
@@ -130,7 +131,12 @@ route:
 
 service:
   plex:
+#    type: LoadBalancer
+#    annotations:
+#      lbipam.cilium.io/ips: ${CLUSTER_LB_PLEX}
+#    externalTrafficPolicy: Local
     controller: plex
     ports:
       http:
         port: *port
+        appProtocol: kubernetes.io/ws # Explicitly handles Plex's persistent WebSockets
