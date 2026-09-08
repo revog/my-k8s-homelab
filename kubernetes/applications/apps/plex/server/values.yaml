@@ -138,7 +138,7 @@ service:
   plex:
 #    type: LoadBalancer
 #    annotations:
-#      lbipam.cilium.io/ips: ${CLUSTER_LB_PLEX}
+#      lbipam.cilium.io/ips: 
 #    externalTrafficPolicy: Local
     controller: plex
     ports:
