@@ -25,11 +25,6 @@ controllers:
         env:
           PLEX_ADVERTISE_URL: https://plex.${CLUSTER_DOMAIN}:443
           PLEX_ALLOWED_NETWORKS: "${HOMENET_CIDR},10.244.0.0/16,10.96.0.0/12" # Home Net, Cilium Pod, K8s Services
-          PLEX_CLAIM:
-            valueFrom:
-              secretKeyRef:
-                name: plex-secrets
-                key: PLEX_CLAIM
           TZ: ${CLUSTER_TIMEZONE}
         probes:
           liveness: &probes
@@ -90,7 +85,7 @@ persistence:
 #  media:
 #    type: nfs
 #    server: ${STORAGE_IP}
-#    path: /mnt/storage0/media
+#    path: /mnt/videos
 #    globalMounts:
 #      - path: /media
 #        readOnly: true
@@ -138,7 +133,7 @@ service:
   plex:
 #    type: LoadBalancer
 #    annotations:
-#      lbipam.cilium.io/ips: 
+#      lbipam.cilium.io/ips:
 #    externalTrafficPolicy: Local
     controller: plex
     ports:
