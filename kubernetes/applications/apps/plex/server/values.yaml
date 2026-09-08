@@ -115,14 +115,17 @@ route:
     hostnames:
       - plex.${CLUSTER_DOMAIN}
       - plex.internal.${CLUSTER_DOMAIN}
+      - plex.private.${CLUSTER_DOMAIN}
     parentRefs:
       - name: internal
         namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
       - name: public
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - name: plex # 'name' ist korrekt für v5 (früher 'identifier')
+          - name: plex
             port: *port
 
 service:
