@@ -26,7 +26,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      PLEX_LBIP: "1.2.3.4"
       VOLSYNC_UID: "1005"
       VOLSYNC_GID: "1005"
       # VOLSYNC_CLAIM: immich-library
