@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: mail
+  name: messaging
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/infra/mail/app
+  path: ./kubernetes/applications/infra/messaging/smtprelay
   targetNamespace: infra-messaging
   interval: 15m
   retryInterval: 1m
