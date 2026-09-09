@@ -5,7 +5,7 @@ metadata:
   name: smarthome
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/app/smarthome/homeassistant
+  path: ./kubernetes/applications/apps/smarthome/app
   targetNamespace: app-smarthome
   interval: 15m
   retryInterval: 1m
