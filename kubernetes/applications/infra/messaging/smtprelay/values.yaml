@@ -1,0 +1,96 @@
+---
+controllers:
+  smtprelay:
+    # Recreate, not RollingUpdate: the queue PVC is RWO, so a rolling update would deadlock with the new pod waiting on a volume the
+    # outgoing pod still holds. SMTP senders retry, so the brief gap during a roll is harmless.
+    strategy: Recreate
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      smtprelay:
+        image:
+          repository: ghcr.io/foxcpp/maddy
+          tag: 0.9.5@sha256:de42151adff6388edb5e4ee88f60334fa1ab85e309485193ecb1c2db20203315
+        env:
+          SMTP_RELAY_SMTP_PORT: &port 25
+          SMTP_RELAY_METRICS_PORT: &metricsPort 8080
+          SMTP_RELAY_SERVER_PORT: 465
+        envFrom:
+          - secretRef:
+              name: smtprelay-secret
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 128Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1005
+    runAsGroup: 1005
+    fsGroup: 1005
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: [44, 10000]
+    seccompProfile: { type: RuntimeDefault }
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      nodeTaintsPolicy: Honor
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: *app
+
+persistence:
+  config:
+    type: configMap
+    name: smtprelay-configmap
+    globalMounts:
+      - path: /data/maddy.conf
+        subPath: maddy.conf
+        readOnly: true
+  queue:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 256Mi
+    storageClass: longhorn-v2
+    globalMounts:
+      - path: /queue
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: /cache
+
+service:
+  smtprelay:
+    controller: smtprelay
+#    type: LoadBalancer
+#    annotations:
+#      external-dns.alpha.kubernetes.io/hostname: smtprelay.${CLUSTER_DOMAIN}
+#      io.cilium/lb-ipam-ips: $ {SMTP_RELAY_LBIP}
+    ports:
+      http:
+        primary: true
+        port: *metricsPort
+      smtp:
+        port: *port
+
+serviceMonitor:
+  smtprelay:
+    serviceName: smtprelay
+    endpoints:
+      - port: http
+        scheme: http
+        path: /metrics
+        interval: 1m
+        scrapeTimeout: 10s
