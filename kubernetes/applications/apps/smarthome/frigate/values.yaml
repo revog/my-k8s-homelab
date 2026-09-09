@@ -1,0 +1,119 @@
+---
+controllers:
+  frigate:
+    pod:
+      annotations:
+        reloader.stakater.com/auto: "true"
+      # Soft anti-affinity: prefer not to share node with other GPU apps
+#      affinity:
+#        podAntiAffinity:
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#            - weight: 100
+#              podAffinityTerm:
+#                labelSelector:
+#                  matchLabels:
+#                    app.kubernetes.io/name: immich
+#                topologyKey: kubernetes.io/hostname
+      resourceClaims:
+        - name: intel-gpu
+          resourceClaimTemplateName: frigate-gpu
+    containers:
+      frigate:
+        image:
+          repository: ghcr.io/blakeblackshear/frigate
+          tag: 0.14.1@sha256:d8b7a69bcba2bcba853dc79bb9dc3184cd798b0f4ef547b746c10eb3354cb7b4 # Passe den Tag/Digest bei Bedarf an
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/version
+                port: &port 5000
+              initialDelaySeconds: 5
+              periodSeconds: 15
+              timeoutSeconds: 2
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              initialDelaySeconds: 10
+              failureThreshold: 30
+              periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1000Mi
+          limits:
+            memory: 4Gi
+          claims:
+            - name: intel-gpu
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1006
+    runAsGroup: 1006
+    fsGroup: 1006
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: [44, 10000]
+    seccompProfile: { type: RuntimeDefault }
+  nodeSelector:
+    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
+
+persistence:
+  config:
+    accessMode: ReadWriteOnce
+    storageClass: longhorn-v2
+    size: 2Gi
+    globalMounts:
+      - path: /config
+  shm: # Frigate uses shared-memory for camera raw data
+    type: emptyDir
+    medium: Memory
+    size: 2Gi
+    globalMounts:
+      - path: /dev/shm
+#  media:
+#    type: nfs
+#    server: ${STORAGE_IP}
+#    path: /mnt/recordings
+#    globalMounts:
+#      - path: /media/frigate
+
+route:
+  frigate:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Infrastructure
+      gethomepage.dev/name: Frigate
+      gethomepage.dev/icon: frigate.png
+      gethomepage.dev/description: NVR & AI Object Detection
+      gethomepage.dev/widget.type: frigate
+      gethomepage.dev/widget.url: http://frigate.infrastructure:5000
+    hostnames:
+      - frigate.internal.${CLUSTER_DOMAIN}
+      - frigate.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+    rules:
+      - backendRefs:
+          - name: frigate
+            port: *port
+
+service:
+  frigate:
+    controller: frigate
+    ports:
+      http:
+        port: *port
