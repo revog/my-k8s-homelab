@@ -8,3 +8,4 @@ resources:
   - immich/ks.yaml
   - paperless/ks.yaml
   - plex/ks.yaml
+  - smarthome/ks.yaml
