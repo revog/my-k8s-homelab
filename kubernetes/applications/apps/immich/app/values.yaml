@@ -5,6 +5,9 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
+      resourceClaims:
+        - name: intel-gpu
+          resourceClaimTemplateName: immich-gpu
     containers:
       main:
         image:
@@ -58,6 +61,8 @@ controllers:
           limits:
             cpu: 1
             memory: 2Gi
+          claims:
+            - name: intel-gpu
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -71,6 +76,8 @@ defaultPodOptions:
     fsGroup: 1004
     fsGroupChangePolicy: OnRootMismatch
     seccompProfile: { type: RuntimeDefault }
+  nodeSelector:
+    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
 
 immich:
   metrics:
