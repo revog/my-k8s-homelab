@@ -8,7 +8,7 @@ resources:
   - ocirepository.yaml
 
 configMapGenerator:
-  - name: simplerelay-values
+  - name: smtprelay-values
     files:
       - values.yaml
     options:
