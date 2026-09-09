@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - helmrelease.yaml
+  - namespace.yaml
+  - ocirepository.yaml
+#  - secret.age.enc.yaml
+
+components:
+  - ../../../components/gpu
+  # - ../../../components/zeroscaler # disabled until K8s 1.37 deployed (supports scaling to zero)
+
+configMapGenerator:
+  - name: frigate-values
+    files:
+      - values.yaml
+    options:
+      disableNameSuffixHash: true
