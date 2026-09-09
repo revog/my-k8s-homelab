@@ -8,8 +8,12 @@ resources:
   - ocirepository.yaml
 
 configMapGenerator:
+  - name: smtprelay-configmap
+    files:
+      - maddy.conf=./resources/maddy.conf
   - name: smtprelay-values
     files:
       - values.yaml
-    options:
-      disableNameSuffixHash: true
+
+generatorOptions:
+  disableNameSuffixHash: true
