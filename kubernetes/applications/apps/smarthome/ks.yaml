@@ -25,7 +25,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: frigate
+  name: &app frigate
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/apps/smarthome/frigate
@@ -42,3 +42,6 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      APP: *app
