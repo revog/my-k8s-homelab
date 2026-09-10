@@ -2,10 +2,33 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: smarthome
+  name: homeassistant
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/app/smarthome/homeassistant
+  path: ./kubernetes/applications/apps/smarthome/app
+  targetNamespace: app-smarthome
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: frigate
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/smarthome/frigate
   targetNamespace: app-smarthome
   interval: 15m
   retryInterval: 1m
