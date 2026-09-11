@@ -4,9 +4,8 @@ kind: ResourceClaim
 metadata:
   name: shared-intel-gpu
 spec:
-  spec:
-    devices:
-      requests:
-        - name: gpu
-          exactly:
-            deviceClassName: gpu.intel.com
+  devices:
+    requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.intel.com
