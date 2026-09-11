@@ -2,10 +2,7 @@ cdi:
   staticPath: /run/cdi
   dynamicPath: /run/cdi
 
-enableDRAExtendedResources: true
-
 kubeletPlugin:
-  extraArgs: "--shared-dev-num 4"
   healthMonitoring:
     enabled: false
   nodeSelector:
