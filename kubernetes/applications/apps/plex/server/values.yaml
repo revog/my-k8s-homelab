@@ -16,7 +16,7 @@ controllers:
                 topologyKey: kubernetes.io/hostname
       resourceClaims:
         - name: intel-gpu
-          resourceClaimTemplateName: plex-gpu
+          resourceClaimName: shared-intel-gpu
     containers:
       plex:
         image:

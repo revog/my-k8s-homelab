@@ -10,7 +10,6 @@ resources:
   - secret.age.enc.yaml
 
 components:
-  - ../../../components/gpu
   - ../../../components/volsync/local-nfs
 
 configMapGenerator:

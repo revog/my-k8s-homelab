@@ -7,7 +7,7 @@ controllers:
         reloader.stakater.com/auto: "true"
       resourceClaims:
         - name: intel-gpu
-          resourceClaimTemplateName: immich-gpu
+          resourceClaimName: shared-intel-gpu
     containers:
       main:
         image:
