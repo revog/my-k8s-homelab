@@ -78,7 +78,7 @@ persistence:
   shm: # Frigate uses shared-memory for camera raw data
     type: emptyDir
     medium: Memory
-    size: 2Gi
+    sizeLimit: 2Gi
     globalMounts:
       - path: /dev/shm
 #  media:
