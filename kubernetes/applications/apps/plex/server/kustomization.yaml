@@ -8,7 +8,7 @@ resources:
   - ocirepository.yaml
 #  - secret.age.enc.yaml
 
-components:
+#components:
   # - ../../../components/zeroscaler # disabled until K8s 1.37 deployed (supports scaling to zero)
 
 configMapGenerator:
