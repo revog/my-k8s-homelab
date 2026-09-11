@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+  - resourceclaim.yaml
 
 configMapGenerator:
   - name: intel-gpu-values
