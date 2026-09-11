@@ -14,9 +14,6 @@ controllers:
 #                  matchLabels:
 #                    app.kubernetes.io/name: immich
 #                topologyKey: kubernetes.io/hostname
-      resourceClaims:
-        - name: intel-gpu
-          resourceClaimTemplateName: frigate-gpu
     containers:
       frigate:
         image:
@@ -53,8 +50,6 @@ controllers:
             memory: 1000Mi
           limits:
             memory: 4Gi
-          claims:
-            - name: intel-gpu
 
 defaultPodOptions:
   securityContext:
@@ -75,6 +70,11 @@ persistence:
     size: 2Gi
     globalMounts:
       - path: /config
+  dri:
+    type: hostPath
+    hostPath: /dev/dri
+    globalMounts:
+      - path: /dev/dri
   shm: # Frigate uses shared-memory for camera raw data
     type: emptyDir
     medium: Memory
