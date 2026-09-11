@@ -20,3 +20,8 @@ tunnel:
   token: ""
   existingSecret: cloudflare-tunnel-creds
   existingSecretKey: token
+
+cloudflared:
+  extraArgs:
+    - "--protocol"
+    - "http2"
