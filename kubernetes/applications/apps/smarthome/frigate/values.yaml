@@ -4,6 +4,11 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
     containers:
       frigate:
         image:
@@ -31,9 +36,11 @@ controllers:
               failureThreshold: 30
               periodSeconds: 10
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true # s6-overlay must be able to change permissions
           readOnlyRootFilesystem: true
-          capabilities: { drop: ["ALL"] }
+          capabilities:
+            drop: ["ALL"]
+            add: ["CHOWN", "SETGID", "SETUID"] # s6-overlay needs this capabilities during startup
         resources:
           requests:
             cpu: 500m
@@ -67,6 +74,16 @@ persistence:
     sizeLimit: 1Gi
     globalMounts:
       - path: /dev/shm
+  run-s6:
+    type: emptyDir
+    medium: Memory
+    globalMounts:
+      - path: /run/s6
+  s6-rc-compiled:
+    type: emptyDir
+    medium: Memory
+    globalMounts:
+      - path: /run/s6-rc-compiled
 #  media:
 #    type: nfs
 #    server: ${STORAGE_IP}
