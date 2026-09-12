@@ -5,9 +5,6 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
-      resourceClaims:
-        - name: intel-gpu
-          resourceClaimName: shared-intel-gpu
     containers:
       main:
         image:
@@ -61,8 +58,7 @@ controllers:
           limits:
             cpu: 1
             memory: 2Gi
-          claims:
-            - name: intel-gpu
+            deviceclass.resource.kubernetes.io/gpu.intel.com: "1"
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
