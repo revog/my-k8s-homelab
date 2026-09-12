@@ -4,16 +4,6 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
-      # Soft anti-affinity: prefer not to share node with other GPU apps
-#      affinity:
-#        podAntiAffinity:
-#          preferredDuringSchedulingIgnoredDuringExecution:
-#            - weight: 100
-#              podAffinityTerm:
-#                labelSelector:
-#                  matchLabels:
-#                    app.kubernetes.io/name: immich
-#                topologyKey: kubernetes.io/hostname
     containers:
       frigate:
         image:
@@ -50,6 +40,7 @@ controllers:
             memory: 1000Mi
           limits:
             memory: 4Gi
+            deviceclass.resource.kubernetes.io/gpu.intel.com: "1"
 
 defaultPodOptions:
   securityContext:
@@ -61,7 +52,7 @@ defaultPodOptions:
     supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }
   nodeSelector:
-    feature.node.kubernetes.io/pci-0300_8086.present: "true"  # 0300 = Graphics Class, 8086 = Intel Vendor ID
+    intel.feature.node.kubernetes.io/gpu: "true"
 
 persistence:
   config:
@@ -70,11 +61,6 @@ persistence:
     size: 2Gi
     globalMounts:
       - path: /config
-  dri:
-    type: hostPath
-    hostPath: /dev/dri
-    globalMounts:
-      - path: /dev/dri
   shm: # Frigate uses shared-memory for camera raw data
     type: emptyDir
     medium: Memory
