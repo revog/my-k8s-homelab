@@ -18,7 +18,7 @@ controllers:
       frigate:
         image:
           repository: ghcr.io/blakeblackshear/frigate
-          tag: 0.14.1@sha256:22e3d0b486df52c3d669682254c2b1bf4205fa6ad8bd8f8c9f7fe76b1517005d # Passe den Tag/Digest bei Bedarf an
+          tag: 0.18.0@sha256:9678a83a76e4730ac7d9ea7428370e32ae656d6b312aaad30d6c69f3fef14d35 # Passe den Tag/Digest bei Bedarf an
         env:
           TZ: ${CLUSTER_TIMEZONE}
         probes:
