@@ -40,7 +40,7 @@ controllers:
               periodSeconds: 10
         securityContext:
           allowPrivilegeEscalation: true # s6-overlay must be able to change permissions
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false # set to false until better way found running frigate in non-root env
           capabilities:
             drop: ["ALL"]
             add: ["CHOWN", "SETGID", "SETUID", "FOWNER"] # s6-overlay needs this capabilities during startup
