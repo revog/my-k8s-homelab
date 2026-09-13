@@ -43,7 +43,7 @@ controllers:
           readOnlyRootFilesystem: true
           capabilities:
             drop: ["ALL"]
-            add: ["CHOWN", "SETGID", "SETUID"] # s6-overlay needs this capabilities during startup
+            add: ["CHOWN", "SETGID", "SETUID", "FOWNER"] # s6-overlay needs this capabilities during startup
         resources:
           requests:
             cpu: 500m
