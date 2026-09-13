@@ -83,6 +83,16 @@ persistence:
     medium: Memory
     globalMounts:
       - path: /run
+  nginx-conf:
+    type: emptyDir
+    medium: Memory
+    globalMounts:
+      - path: /usr/local/nginx/conf
+  letsencrypt:
+    type: emptyDir
+    medium: Memory
+    globalMounts:
+      - path: /etc/letsencrypt
 #  media:
 #    type: nfs
 #    server: ${STORAGE_IP}
