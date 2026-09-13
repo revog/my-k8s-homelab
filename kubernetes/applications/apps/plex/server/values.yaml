@@ -41,7 +41,11 @@ controllers:
             memory: 1500Mi
           limits:
             memory: 6Gi
-            deviceclass.resource.kubernetes.io/gpu.intel.com: "1"
+          claims:
+            - name: intel-gpu
+    resourceClaims:
+      - name: intel-gpu
+        resourceClaimTemplateName: plex-gpu
 
 defaultPodOptions:
   securityContext:

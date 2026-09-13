@@ -58,11 +58,15 @@ controllers:
           limits:
             cpu: 1
             memory: 2Gi
-            deviceclass.resource.kubernetes.io/gpu.intel.com: "1"
+          claims:
+            - name: intel-gpu
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
+    resourceClaims:
+      - name: intel-gpu
+        resourceClaimTemplateName: immich-gpu
 
 defaultPodOptions:
   securityContext:
