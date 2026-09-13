@@ -9,6 +9,9 @@ controllers:
         runAsUser: 0
         runAsGroup: 0
         fsGroup: 0
+      resourceClaims:
+        - name: intel-gpu
+          resourceClaimTemplateName: frigate-gpu
     containers:
       frigate:
         image:
@@ -49,9 +52,6 @@ controllers:
             memory: 4Gi
           claims:
             - name: intel-gpu
-    resourceClaims:
-      - name: intel-gpu
-        resourceClaimTemplateName: frigate-gpu
 
 defaultPodOptions:
   securityContext:

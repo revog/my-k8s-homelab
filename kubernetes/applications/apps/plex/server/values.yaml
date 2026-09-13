@@ -4,6 +4,9 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
+      resourceClaims:
+        - name: intel-gpu
+          resourceClaimTemplateName: plex-gpu
     containers:
       plex:
         image:
@@ -43,9 +46,6 @@ controllers:
             memory: 6Gi
           claims:
             - name: intel-gpu
-    resourceClaims:
-      - name: intel-gpu
-        resourceClaimTemplateName: plex-gpu
 
 defaultPodOptions:
   securityContext:
