@@ -22,13 +22,12 @@
     ".codex/**"
   ],
   "flux": {
-    "managerFilePatterns": ["/\\.yaml$/"],
-    "anyNamespace": true
+    "managerFilePatterns": ["\\.ya?ml$"]
   },
   "helm-values": {
-    "managerFilePatterns": ["/\\.yaml$/"]
+    "managerFilePatterns": ["\\.ya?ml$"]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/\\.yaml$/"]
+    "managerFilePatterns": ["\\.ya?ml$"]
   }
 }
