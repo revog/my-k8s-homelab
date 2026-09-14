@@ -78,27 +78,27 @@ persistence:
     sizeLimit: 1Gi
     globalMounts:
       - path: /dev/shm
-  run-dir:
-    type: emptyDir
-    medium: Memory
-    globalMounts:
-      - path: /run
-  nginx-conf:
-    type: emptyDir
-    medium: Memory
-    globalMounts:
-      - path: /usr/local/nginx/conf
-  letsencrypt:
-    type: emptyDir
-    medium: Memory
-    globalMounts:
-      - path: /etc/letsencrypt
-#  media:
-#    type: nfs
-#    server: ${STORAGE_IP}
-#    path: /mnt/recordings
-#    globalMounts:
-#      - path: /media/frigate
+  # media:
+  #   type: nfs
+  #   server: ${STORAGE_IP}
+  #   path: /mnt/recordings
+  #   globalMounts:
+  #     - path: /media/frigate
+  # run-dir:
+  #   type: emptyDir
+  #   medium: Memory
+  #   globalMounts:
+  #     - path: /run
+  # nginx-conf:
+  #   type: emptyDir
+  #   medium: Memory
+  #   globalMounts:
+  #     - path: /usr/local/nginx/conf
+  # letsencrypt:
+  #   type: emptyDir
+  #   medium: Memory
+  #   globalMounts:
+  #     - path: /etc/letsencrypt
 
 route:
   frigate:
@@ -128,4 +128,16 @@ service:
     controller: frigate
     ports:
       http:
+        appProtocol: kubernetes.io/ws
         port: *port
+        primary: true
+      # go2rtc:
+      #   port: 1984
+      rtsp:
+        port: 8554
+      webrtc-tcp:
+        port: 8555
+        protocol: TCP
+      webrtc-udp:
+        port: 8555
+        protocol: UDP
