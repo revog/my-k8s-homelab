@@ -23,6 +23,7 @@
   ],
   "flux": {
     "managerFilePatterns": ["/\\.yaml$/"]
+    "anyNamespace": true
   },
   "helm-values": {
     "managerFilePatterns": ["/\\.yaml$/"]
