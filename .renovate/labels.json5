@@ -18,6 +18,11 @@
       labels: ["type/digest"],
     },
     {
+      matchPackagePatterns: ["crd"], 
+      matchPackageNames: [], 
+      addLabels: ["type/crds"],
+    },
+    {
       "matchDatasources": ["docker"],
       "addLabels": ["renovate/container"]
     },
@@ -36,11 +41,6 @@
     {
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
-    },
-    {
-      matchPackagePatterns: ["crd"], 
-      matchPackageNames: [], 
-      addLabels: ["crds"],
     },
   ],
 }
