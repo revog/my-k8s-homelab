@@ -37,5 +37,10 @@
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
     },
+    {
+      matchPackagePatterns: ["crd"], 
+      matchPackageNames: [], 
+      addLabels: ["crds"],
+    },
   ],
 }
