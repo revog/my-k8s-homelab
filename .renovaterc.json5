@@ -22,7 +22,7 @@
     ".codex/**"
   ],
   "flux": {
-    "managerFilePatterns": ["/\\.yaml$/"]
+    "managerFilePatterns": ["/\\.yaml$/"],
     "anyNamespace": true
   },
   "helm-values": {
