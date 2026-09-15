@@ -10,8 +10,28 @@ config:
     externalSecret:
       enabled: true
       name: headlamp-oidc-secret
+      hasScopes: true
     usePKCE: true
   watchPlugins: true
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale # Explicitly points across namespaces to your Tailscale Gateway
+  hostnames:
+    - 'headlamp.internal.${CLUSTER_DOMAIN}'
+    - 'headlamp.private.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: headlamp
+          port: 80
 
 persistentVolumeClaim:
   enabled: true

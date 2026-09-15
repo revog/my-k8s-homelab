@@ -7,7 +7,6 @@ resources:
   - flux-plugin-rbac.yaml
   - helmrelease.yaml
   - helmrepository.yaml
-  - httproute.yaml
   - namespace.yaml
   - rbac.yaml
   - secrets.enc.age.yaml
