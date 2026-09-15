@@ -60,16 +60,16 @@ defaultPodOptions:
     intel.feature.node.kubernetes.io/gpu: "true"
 
 persistence:
-  config:
+  data:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
-    size: 10Gi
+    size: 20Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server
   cache:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
-    size: 20Gi
+    size: 10Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server/Cache
 #  media:
