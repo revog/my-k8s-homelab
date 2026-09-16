@@ -47,7 +47,7 @@ csi:
 longhornUI:
   replicas: 1
 
-httpRoute:
+httproute:
   enabled: true
   parentRefs:
     - name: internal
@@ -65,7 +65,7 @@ httpRoute:
       backendRefs:
         - name: longhorn-frontend
           port: 80
-  
+
 ingress:
   enabled: false               # setup done with dedicated httproute yaml manifest
 
