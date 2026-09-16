@@ -47,6 +47,25 @@ csi:
 longhornUI:
   replicas: 1
 
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale
+  hostnames:
+    - 'longhorn.internal.${CLUSTER_DOMAIN}'
+    - 'longhorn.private.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: longhorn-frontend
+          port: 80
+  
 ingress:
   enabled: false               # setup done with dedicated httproute yaml manifest
 
