@@ -60,25 +60,25 @@ defaultPodOptions:
     intel.feature.node.kubernetes.io/gpu: "true"
 
 persistence:
-  data:
-    accessMode: ReadWriteOnce
-    storageClass: "longhorn-v2"
-    size: 20Gi
-    globalMounts:
-      - path: /config/Library/Application Support/Plex Media Server
   cache:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
     size: 10Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server/Cache
-#  media:
-#    type: nfs
-#    server: ${STORAGE_IP}
-#    path: /mnt/videos
-#    globalMounts:
-#      - path: /media
-#        readOnly: true
+  data:
+    accessMode: ReadWriteOnce
+    storageClass: "longhorn-v2"
+    size: 20Gi
+    globalMounts:
+      - path: /config/Library/Application Support/Plex Media Server
+  media:
+    type: nfs
+    server: ${STORAGE_IP}
+    path: /mnt/videos
+    globalMounts:
+      - path: /media
+        readOnly: true
   logs:
     type: emptyDir
     globalMounts:
