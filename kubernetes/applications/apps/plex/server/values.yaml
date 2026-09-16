@@ -72,13 +72,6 @@ persistence:
     size: 20Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server
-  media:
-    type: nfs
-    server: ${STORAGE_IP}
-    path: /videos
-    globalMounts:
-      - path: /videos
-        readOnly: true
   logs:
     type: emptyDir
     globalMounts:
@@ -92,6 +85,20 @@ persistence:
             subPath: tmp
           - path: /transcode
             subPath: transcode
+  music:
+    type: nfs
+    server: ${STORAGE_IP}
+    path: /music
+    globalMounts:
+      - path: /music
+        readOnly: true
+  videos:
+    type: nfs
+    server: ${STORAGE_IP}
+    path: /videos
+    globalMounts:
+      - path: /videos
+        readOnly: true
 route:
   plex:
     annotations:
