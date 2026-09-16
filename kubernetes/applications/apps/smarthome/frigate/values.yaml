@@ -78,12 +78,12 @@ persistence:
     sizeLimit: 1Gi
     globalMounts:
       - path: /dev/shm
-  # media:
-  #   type: nfs
-  #   server: ${STORAGE_IP}
-  #   path: /mnt/recordings
-  #   globalMounts:
-  #     - path: /media/frigate
+  recordings:
+    type: nfs
+    server: ${STORAGE_IP}
+    path: /recordings
+    globalMounts:
+      - path: /recordings
   # run-dir:
   #   type: emptyDir
   #   medium: Memory
@@ -109,7 +109,7 @@ route:
       gethomepage.dev/icon: frigate.png
       gethomepage.dev/description: NVR & AI Object Detection
       gethomepage.dev/widget.type: frigate
-      gethomepage.dev/widget.url: http://frigate.infrastructure:5000
+      gethomepage.dev/widget.url: https://frigate.internal.${CLUSTER_DOMAIN}
     hostnames:
       - frigate.internal.${CLUSTER_DOMAIN}
       - frigate.private.${CLUSTER_DOMAIN}
