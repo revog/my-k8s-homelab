@@ -77,7 +77,7 @@ persistence:
     server: ${STORAGE_IP}
     path: /videos
     globalMounts:
-      - path: /media
+      - path: /videos
         readOnly: true
   logs:
     type: emptyDir
