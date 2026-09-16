@@ -75,7 +75,7 @@ persistence:
   media:
     type: nfs
     server: ${STORAGE_IP}
-    path: /mnt/videos
+    path: /videos
     globalMounts:
       - path: /media
         readOnly: true
