@@ -43,7 +43,7 @@ controllers:
           readOnlyRootFilesystem: false # set to false until better way found running frigate in non-root env
           capabilities:
             drop: ["ALL"]
-            add: ["CHOWN", "SETGID", "SETUID", "FOWNER", "NET_ADMIN"]
+            add: ["CHOWN", "SETGID", "SETUID", "FOWNER", "NET_ADMIN", "NET_RAW"]
         resources:
           requests:
             cpu: 500m
