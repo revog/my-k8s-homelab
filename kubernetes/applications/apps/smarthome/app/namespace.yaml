@@ -4,4 +4,7 @@ kind: Namespace
 metadata:
   name: app-smarthome
   labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
+    pod-security.kubernetes.io/audit: privileged
     resource.kubernetes.io/admin-access: "true"
