@@ -2,13 +2,12 @@
 ---
 controllers:
   # Live scrobbling
-  plextraktsync-watch:
+  watch:
     type: deployment
     replicas: 1
     strategy: Recreate
     containers:
       app:
-        nameOverride: watch
         image:
           repository: ghcr.io/taxel/plextraktsync
           tag: latest
@@ -17,14 +16,13 @@ controllers:
           PLEXAPI_HEADER_IDENTIFIER: "plextraktsync"
 
   # Regular sync
-  plextraktsync-sync:
+  sync:
     type: cronjob
     cronjob:
       schedule: "0 * * * *" # Run every hour
       concurrencyPolicy: Forbid
     containers:
       app:
-        nameOverride: sync
         image:
           repository: ghcr.io/taxel/plextraktsync
           tag: latest
