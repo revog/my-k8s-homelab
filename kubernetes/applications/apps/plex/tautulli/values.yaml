@@ -13,7 +13,6 @@ controllers:
           # Overwrite ENTRYPOINT & CMD to bypass start.sh
           command:
             - python
-          args:
             - /app/Tautulli.py
             - --datadir
             - /config
