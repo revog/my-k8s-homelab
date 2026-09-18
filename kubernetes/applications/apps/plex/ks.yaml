@@ -56,5 +56,32 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CLAIM: tautulli
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_SCHEDULE: "0 4 * * *"
+      VOLSYNC_S3_SCHEDULE: "15 4 * * *"
       VOLSYNC_UID: "1005"
       VOLSYNC_GID: "1005"
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app plextraktsync
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/plex/plextraktsync
+  targetNamespace: app-plex
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: plex
+  postBuild:
+    substitute:
+      APP: *app
