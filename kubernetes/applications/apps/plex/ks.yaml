@@ -84,6 +84,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: plex
   postBuild:
