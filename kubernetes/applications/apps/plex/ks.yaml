@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -32,3 +33,28 @@ spec:
       # VOLSYNC_CAPACITY: 250Gi
       # VOLSYNC_SCHEDULE: "30 2 * * *" # 2:30am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tautulli
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/plex/tautulli
+  targetNamespace: app-plex
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: plex
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_UID: "1005"
+      VOLSYNC_GID: "1005"
