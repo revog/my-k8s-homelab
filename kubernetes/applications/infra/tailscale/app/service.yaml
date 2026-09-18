@@ -5,6 +5,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true" # Expose this gateway to your Tailnet
     tailscale.com/hostname: "homelab-private-gateway"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}" # ExternalDNS configuration to push records automatically to Cloudflare
 spec:
   type: LoadBalancer

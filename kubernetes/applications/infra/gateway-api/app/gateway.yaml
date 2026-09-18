@@ -37,6 +37,7 @@ kind: Gateway
 metadata:
   name: internal
   annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     external-dns.alpha.kubernetes.io/hostname: &hostnames "internal.${CLUSTER_DOMAIN}, *.internal.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
