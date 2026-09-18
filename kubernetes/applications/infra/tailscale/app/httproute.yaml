@@ -5,6 +5,10 @@ kind: HTTPRoute
 metadata:
   name: global-private-http-redirect
   namespace: infra-tailscale
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: "*.private.${CLUSTER_DOMAIN}" 
+    external-dns.alpha.kubernetes.io/endpoints-type: Gateway
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   parentRefs:
     - name: private
