@@ -8,6 +8,7 @@ controllers:
     strategy: Recreate
     containers:
       app:
+        nameOverride: watch
         image:
           repository: ghcr.io/taxel/plextraktsync
           tag: latest
@@ -23,6 +24,7 @@ controllers:
       concurrencyPolicy: Forbid
     containers:
       app:
+        nameOverride: sync
         image:
           repository: ghcr.io/taxel/plextraktsync
           tag: latest
