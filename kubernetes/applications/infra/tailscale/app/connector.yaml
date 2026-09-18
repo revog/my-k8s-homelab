@@ -9,4 +9,4 @@ spec:
   hostnamePrefix: k8s-lan-gateway
   subnetRouter:
     advertiseRoutes:
-      - "${HOMENET_CIDR}/24"
+      - "${HOMENET_CIDR}"
