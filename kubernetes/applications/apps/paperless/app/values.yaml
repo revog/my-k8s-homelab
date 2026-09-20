@@ -24,16 +24,16 @@ controllers:
           PAPERLESS_EXPORT_DIR: /data/local/export # /data/nas/export
           PAPERLESS_MEDIA_ROOT: /data/local/media
           # Configure folder importer
-          PAPERLESS_CONSUMER_DELETE_DUPLICATES: 1
-          PAPERLESS_CONSUMER_POLLING: "120"
+          PAPERLESS_CONSUMER_DELETE_DUPLICATES: "true"
+          PAPERLESS_CONSUMER_POLLING_INTERVAL: "120"
           PAPERLESS_CONSUMER_RECURSIVE: "true"
           PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
           PAPERLESS_FILENAME_FORMAT: "{document_type}/{owner_username}/{created_year}/{created_year}{created_month}{created_day}_{correspondent}-{title}"
           # Configure OCR
           PAPERLESS_OCR_LANGUAGE: deu
           PAPERLESS_OCR_LANGUAGES: "deu eng"
-          PAPERLESS_OCR_MODE: skip # do not ocr if embedded text found
-          PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text # do not create archived version if embedded text found
+          PAPERLESS_OCR_MODE: auto
+          PAPERLESS_OCR_SKIP_ARCHIVE_FILE: auto
           PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
           # Configure redis integration
           PAPERLESS_REDIS: "redis://:$(redis-password)@redis:6379"
