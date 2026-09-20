@@ -1,15 +1,5 @@
 ---
 apiVersion: tailscale.com/v1alpha1
-kind: ProxyClass
-metadata:
-  name: host-network-proxy
-spec:
-  statefulSet:
-    pod:
-      hostNetwork: true
-
----
-apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
   name: homelab-lan-router
@@ -17,7 +7,6 @@ metadata:
 spec:
   replicas: 1
   hostnamePrefix: homelab-lan-router
-  proxyClass: host-network-proxy
   subnetRouter:
     advertiseRoutes:
       - "${HOMENET_CIDR}"
