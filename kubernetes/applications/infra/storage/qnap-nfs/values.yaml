@@ -1,1 +1,2 @@
 ---
+kubeletDir: /var/lib/kubelet
