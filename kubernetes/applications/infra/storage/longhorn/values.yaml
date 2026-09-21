@@ -11,6 +11,7 @@ defaultSettings:
   defaultUblkQueueDepth: 64           # Resource optimization: lowers queue depth to save CPU cycles and RAM overhead
   defaultUblkNumberOfQueue: 1
   disableRevisionCounter: true
+  nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
   replicaAutoBalance: "best-effort"   # Automatically redistributes replicas evenly across nodes when a broken node recovers
   replicaSoftAntiAffinity: true
   guaranteedInstanceManagerCPU: 5     # amount of allocated CPU on a node for instance manager (interpreted in %)
