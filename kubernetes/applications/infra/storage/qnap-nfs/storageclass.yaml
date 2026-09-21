@@ -4,11 +4,12 @@ kind: StorageClass
 metadata:
   name: nfs
 allowVolumeExpansion: true
-parameters:
-  server: ${STORAGE_IP}
-  share: /homelab-nfs
-reclaimPolicy: Delete
-volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=4.1
   - hard
+parameters:
+  server: ${STORAGE_IP}
+  share: /homelab-nfs
+provisioner: nfs.csi.k8s.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
