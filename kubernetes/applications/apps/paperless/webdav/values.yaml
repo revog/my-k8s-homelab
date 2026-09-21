@@ -7,7 +7,7 @@ controllers:
       main:
         image:
           repository: sfuhrm/docker-nginx-webdav
-          tag: "v1.3.0"
+          tag: "v2.0.0"
           pullPolicy: IfNotPresent
         env:
           AUTH_TYPE: "Basic"
@@ -49,11 +49,11 @@ route:
     rules:
       - backendRefs:
           - identifier: main
-            port: 80
+            port: 8080
 
 service:
   main:
     controller: main
     ports:
       http:
-        port: 80
+        port: 8080
