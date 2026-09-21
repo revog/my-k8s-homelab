@@ -6,4 +6,4 @@ spec:
   interval: 30m
   url: https://github.com/qnap-dev/QNAP-CSI-PlugIn.git
   ref:
-    branch: main
+    tag: v1.6.2
