@@ -5,9 +5,9 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-#  - job.yaml
+  - job.yaml
   - ocirepository.yaml
-#  - secret.enc.age.yaml
+  - secrets.enc.age.yaml
 
 configMapGenerator:
   - name: kromgo-values
