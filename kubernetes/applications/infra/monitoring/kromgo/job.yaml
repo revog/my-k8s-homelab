@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: git-badge-updater
-              image: alpine:3.20
+              image: alpine:3.24
               env:
                 # Internal Cluster URL completely bypassing Cloudflare
                 - name: KROMGO_URL
