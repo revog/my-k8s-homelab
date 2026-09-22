@@ -3,8 +3,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: icmp_devices_probe
+  name: icmp-devices-probe
 spec:
+  jobName: icmp-devices
   module: icmp
   prober:
     url: blackbox-exporter.infra-monitoring.svc.cluster.local:9115
@@ -18,8 +19,9 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: nfs_qnap_probe
+  name: nfs-qnap-probe
 spec:
+  jobName: nfs-qnap
   module: tcp_connect
   prober:
     url: blackbox-exporter.infra-monitoring.svc.cluster.local:9115
