@@ -10,6 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Grants permission to push the updated SVGs back to the repository
+    
+    strategy:
+      # matrix list contains all your badge IDs from your kromgo config
+      matrix:
+        badge:
+          - talos_version
+          - kubernetes_version
+          - flux_version
+          - cluster_node_count
+          - cluster_pod_count
+          - cluster_cpu_usage
+          - cluster_memory_usage
+          - cluster_age_days
+          - cluster_uptime_days
+          - cluster_alert_count
 
     steps:
       - name: Checkout Repository
@@ -18,19 +33,14 @@ jobs:
       - name: Create Badges Directory
         run: mkdir -p .github/badges
 
-      - name: Download All Badges From Kromgo
+      - name: Download Badge
         env:
-          KROMGO_SECRET_LIST: ${{ secrets.KROMGO_URLS }}
+          BASE_DOMAIN: ${{ secrets.KROMGO_DOMAIN }}
+          BADGE_ID: ${{ matrix.badge }}
         run: |
-          # Read line-by-line entries from the secret list
-          echo "$KROMGO_SECRET_LIST" | while IFS='=' read -r name url; do
-            # Skip empty lines
-            [ -z "$name" ] && continue
-            
-            echo "Fetching badge for: $name..."
-            # Download the SVG and save it using the key name
-            curl -sL "$url" -o ".github/badges/${name}.svg"
-          done
+          # Construct the full, uncensored URL dynamically in the background
+          echo "Fetching badge for: ${BADGE_ID}..."
+          curl -sL "${BASE_DOMAIN}/badges/${BADGE_ID}" -o ".github/badges/${BADGE_ID}.svg"
 
       - name: Commit and Push Changes
         run: |
@@ -43,6 +53,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes detected in badges."
           else
-            git commit -m "chore(badges): update kromgo status badges [skip ci]"
+            git commit -m "chore: update kromgo status badges [skip ci]"
             git push
           fi
