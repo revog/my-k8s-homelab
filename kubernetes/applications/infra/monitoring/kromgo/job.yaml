@@ -58,7 +58,7 @@ spec:
 
                   for badge in $BADGES; do
                     echo "Fetching badge: $badge"
-                    curl -sL "${KROMGO_URL}/$badge" -o ".github/badges/$badge.svg"
+                    curl -sL "$KROMGO_URL/$badge" -o ".github/badges/$badge.svg"
                   done
 
                   # 6. Configure local git author context
