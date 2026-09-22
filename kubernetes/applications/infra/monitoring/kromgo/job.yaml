@@ -40,16 +40,24 @@ spec:
                   # 1. Install required packages
                   apk add --no-cache git curl openssh-client
 
-                  # 2. Clone the repository into a temporary directory
+                  # 2. Setup SSH Config in writable directory
+                  mkdir -p /tmp/.ssh
+                  cp /root/.ssh/identity /tmp/.ssh/id_ed25519
+                  cp /root/.ssh/known_hosts /tmp/.ssh/known_hosts
+                  chmod 700 /tmp/.ssh
+                  chmod 600 /tmp/.ssh/id_ed25519
+                  chmod 644 /tmp/.ssh/known_hosts
+
+                  # 3. Clone the repository into a temporary directory
                   echo "Cloning repository..."
-                  export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/root/.ssh/known_hosts -i /root/.ssh/identity"
+                  export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/tmp/.ssh/known_hosts -i /tmp/.ssh/id_ed25519 -o IdentitiesOnly=yes"
                   git clone --depth 1 "$GIT_REPO" /tmp/repo
                   cd /tmp/repo
 
-                  # 3. Ensure the correct target directory layout exists
+                  # 4. Ensure the correct target directory layout exists
                   mkdir -p .github/badges
 
-                  # 4. Define space-separated badge IDs and fetch them sequentially via cluster DNS
+                  # 5. Define space-separated badge IDs and fetch them sequentially via cluster DNS
                   BADGES="talos_version kubernetes_version flux_version cluster_node_count cluster_pod_count cluster_cpu_usage cluster_memory_usage cluster_age_days cluster_uptime_days cluster_alert_count"
 
                   for badge in $BADGES; do
@@ -57,13 +65,13 @@ spec:
                     curl -sL "$KROMGO_URL/$badge" -o ".github/badges/$badge.svg"
                   done
 
-                  # 5. Configure local git author context
+                  # 6. Configure local git author context
                   git config user.name "homelab-cluster-bot"
                   git config user.email "bot@homelab.local"
 
                   git add .github/badges/*.svg
 
-                  # 6. Check for actual changes before committing to avoid empty loop commits
+                  # 7. Check for actual changes before committing to avoid empty loop commits
                   if git diff --staged --quiet; then
                     echo "No changes detected in badges. Exiting smoothly."
                   else
