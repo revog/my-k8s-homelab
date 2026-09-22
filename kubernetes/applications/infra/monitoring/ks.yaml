@@ -37,7 +37,6 @@ spec:
     kind: GitRepository
     name: homelab
 
-
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -58,4 +57,22 @@ spec:
   sourceRef:
     kind: GitRepository
 
-    name: homelab
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kromgo
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/infra/monitoring/kromgo
+  targetNamespace: infra-monitoring
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  dependsOn:
+    - name: victoria-metrics
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
