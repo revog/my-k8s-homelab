@@ -1,5 +1,5 @@
 config:
-  prometheus: http://vmsingle-vm.infra-monitoring.svc.cluster.local:9090
+  prometheus: http://vmsingle-vm.infra-monitoring.svc.cluster.local:8428
   badges:
     - id: talos_version
       icon: si:talos

@@ -18,31 +18,46 @@ jobs:
       - name: Create Badges Directory
         run: mkdir -p .github/badges
 
-      - name: Download All Badges From Kromgo
+      - name: Download All Badges
         env:
-          KROMGO_SECRET_LIST: ${{ secrets.KROMGO_URLS }}
+          BASE_DOMAIN: ${{ secrets.KROMGO_DOMAIN }}
         run: |
-          # Read line-by-line entries from the secret list
-          echo "$KROMGO_SECRET_LIST" | while IFS='=' read -r name url; do
-            # Skip empty lines
-            [ -z "$name" ] && continue
-            
-            echo "Fetching badge for: $name..."
-            # Download the SVG and save it using the key name
-            curl -sL "$url" -o ".github/badges/${name}.svg"
+          if [ -z "$BASE_DOMAIN" ]; then
+            echo "ERROR: The secret KROMGO_DOMAIN is not set or empty in GitHub Settings!"
+            exit 1
+          fi
+
+          # Define the list of badge IDs inside an array
+          BADGES=(
+            "talos_version"
+            "kubernetes_version"
+            "flux_version"
+            "cluster_node_count"
+            "cluster_pod_count"
+            "cluster_cpu_usage"
+            "cluster_memory_usage"
+            "cluster_age_days"
+            "cluster_uptime_days"
+            "cluster_alert_count"
+          )
+
+          # Loop through the list sequentially on a single runner
+          for badge in "${BADGES[@]}"; do
+            echo "Fetching badge for: ${badge}..."
+            curl -sL "${BASE_DOMAIN}/badges/${badge}" -o ".github/badges/${badge}.svg"
           done
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@://github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           git add .github/badges/*.svg
           
-          # Only commit if the badge files actually changed
+          # Only commit if any of the badge files actually changed
           if git diff --staged --quiet; then
             echo "No changes detected in badges."
           else
-            git commit -m "chore(badges): update kromgo status badges [skip ci]"
+            git commit -m "chore: update kromgo status badges [skip ci]"
             git push
           fi
