@@ -18,9 +18,8 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: nfs
+  name: nfs_qnap_probe
 spec:
-  jobName: nfs_qnap_probe
   module: tcp_connect
   prober:
     url: blackbox-exporter.infra-monitoring.svc.cluster.local:9115
