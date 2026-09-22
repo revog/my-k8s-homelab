@@ -7,20 +7,20 @@ _... managed with Flux, Renovate, GitHub Actions and others._
 
 <div align="center">
   
-[![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue)](https://kubernetes.io/)&nbsp;&nbsp;
-[![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue)](https://talos.dev)&nbsp;&nbsp;
-[![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fargocd_version&style=for-the-badge&logo=argocd&logoColor=white&color=blue)](https://fluxcd.io)&nbsp;&nbsp;
+[![Kubernetes](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/kubernetes_version.svg)](https://kubernetes.io/)&nbsp;&nbsp;
+[![Talos](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/talos_version.svg)](https://talos.dev)&nbsp;&nbsp;
+[![Flux](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/flux_version.svg)](https://fluxcd.io)&nbsp;&nbsp;
 
 </div>
 
 <div align="center">
   
-[![Age-Days](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_age_days&style=flat-square&label=Age)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
-[![Uptime-Days](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_uptime_days&style=flat-square&label=Uptime)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
-[![Node-Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_node_count&style=flat-square&label=Nodes)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
-[![Pod-Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_pod_count&style=flat-square&label=Pods)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
-[![CPU-Usage](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_cpu_usage&style=flat-square&label=CPU)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
-[![Memory-Usage](https://img.shields.io/endpoint?url=https%3A%2F%2Fsubdomain.TO-BE-DEFINED.tld%2Fcluster_memory_usage&style=flat-square&label=Memory)](https://github.com/kashalls/kromgo)&nbsp;&nbsp;
+![Age-Days](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_age_days.svg)&nbsp;&nbsp;
+![Uptime-Days](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_uptime_days.svg)&nbsp;&nbsp;
+![Node-Count](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_node_count.svg)&nbsp;&nbsp;
+![Pod-Count](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_pod_count.svg)&nbsp;&nbsp;
+![CPU-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_cpu_usage.svg)&nbsp;&nbsp;
+![Memory-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_memory_usage.svg)&nbsp;&nbsp;
 
 </div>
 
