@@ -42,6 +42,7 @@ spec:
 
                   # 2. Clone the repository into a temporary directory
                   echo "Cloning repository..."
+                  export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/root/.ssh/known_hosts -i /root/.ssh/identity"
                   git clone --depth 1 "$GIT_REPO" /tmp/repo
                   cd /tmp/repo
 
