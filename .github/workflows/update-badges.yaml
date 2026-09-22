@@ -1,0 +1,48 @@
+name: Update Kromgo Badges
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch: # Allows manual trigger via the GitHub dashboard
+
+jobs:
+  update-badges:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grants permission to push the updated SVGs back to the repository
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Badges Directory
+        run: mkdir -p .github/badges
+
+      - name: Download All Badges From Kromgo
+        env:
+          KROMGO_SECRET_LIST: ${{ secrets.KROMGO_URLS }}
+        run: |
+          # Read line-by-line entries from the secret list
+          echo "$KROMGO_SECRET_LIST" | while IFS='=' read -r name url; do
+            # Skip empty lines
+            [ -z "$name" ] && continue
+            
+            echo "Fetching badge for: $name..."
+            # Download the SVG and save it using the key name
+            curl -sL "$url" -o ".github/badges/${name}.svg"
+          done
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@://github.com"
+          
+          git add .github/badges/*.svg
+          
+          # Only commit if the badge files actually changed
+          if git diff --staged --quiet; then
+            echo "No changes detected in badges."
+          else
+            git commit -m "chore(badges): update kromgo status badges [skip ci]"
+            git push
+          fi
