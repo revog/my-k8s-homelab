@@ -1,0 +1,82 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kromgo-badges-update
+spec:
+  schedule: "*/10 * * * *" # Runs every 10 min
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: git-badge-updater
+              image: alpine:3.20
+              env:
+                # Internal Cluster URL completely bypassing Cloudflare
+                - name: KROMGO_URL
+                  value:  'kromgo.infra-monitoring.svc.cluster.local'
+                - name: GIT_REPO
+                  value: "git@github.com:revog/my-k8s-homelab.git"
+              volumeMounts:
+                - name: ssh-config
+                  mountPath: /root/.ssh
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  
+                  # 1. Install required packages
+                  apk add --no-cache git curl openssh-client
+
+                  # 2. Enforce secure permissions for the mounted SSH keys
+                  chmod 700 /root/.ssh
+                  chmod 600 /root/.ssh/identity
+                  chmod 600 /root/.ssh/known_hosts
+
+                  # 3. Clone the repository into a temporary directory
+                  echo "Cloning repository..."
+                  git clone --depth 1 "$GIT_REPO" /tmp/repo
+                  cd /tmp/repo
+
+                  # 4. Ensure the correct target directory layout exists
+                  mkdir -p .github/badges
+
+                  # 5. Define space-separated badge IDs and fetch them sequentially via cluster DNS
+                  BADGES="talos_version kubernetes_version flux_version cluster_node_count cluster_pod_count cluster_cpu_usage cluster_memory_usage cluster_age_days cluster_uptime_days cluster_alert_count"
+                  
+                  for badge in $BADGES; do
+                    echo "Fetching badge: ${badge}"
+                    curl -sL "${KROMGO_URL}/${badge}" -o ".github/badges/${badge}.svg"
+                  done
+
+                  # 6. Configure local git author context
+                  git config user.name "homelab-cluster-bot"
+                  git config user.email "bot@homelab.local"
+                  
+                  git add .github/badges/*.svg
+
+                  # 7. Check for actual changes before committing to avoid empty loop commits
+                  if git diff --staged --quiet; then
+                    echo "No changes detected in badges. Exiting smoothly."
+                  else
+                    echo "Changes detected. Committing and pushing to origin..."
+                    git commit -m "chore: auto-update cluster status badges [skip ci]"
+                    git push origin main
+                  fi
+          volumes:
+            - name: ssh-config
+              secret:
+                secretName: github-badge-bot-ssh
+                defaultMode: 0600
