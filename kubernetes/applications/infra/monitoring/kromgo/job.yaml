@@ -18,7 +18,7 @@ spec:
               env:
                 # Internal Cluster URL completely bypassing Cloudflare
                 - name: KROMGO_URL
-                  value:  'kromgo.infra-monitoring.svc.cluster.local'
+                  value: "kromgo.infra-monitoring.svc.cluster.local"
                 - name: GIT_REPO
                   value: "git@github.com:revog/my-k8s-homelab.git"
               volumeMounts:
@@ -36,7 +36,7 @@ spec:
                 - -c
                 - |
                   set -e
-                  
+
                   # 1. Install required packages
                   apk add --no-cache git curl openssh-client
 
@@ -55,16 +55,16 @@ spec:
 
                   # 5. Define space-separated badge IDs and fetch them sequentially via cluster DNS
                   BADGES="talos_version kubernetes_version flux_version cluster_node_count cluster_pod_count cluster_cpu_usage cluster_memory_usage cluster_age_days cluster_uptime_days cluster_alert_count"
-                  
+
                   for badge in $BADGES; do
-                    echo "Fetching badge: ${badge}"
-                    curl -sL "${KROMGO_URL}/${badge}" -o ".github/badges/${badge}.svg"
+                    echo "Fetching badge: $badge"
+                    curl -sL "${KROMGO_URL}/$badge" -o ".github/badges/$badge.svg"
                   done
 
                   # 6. Configure local git author context
                   git config user.name "homelab-cluster-bot"
                   git config user.email "bot@homelab.local"
-                  
+
                   git add .github/badges/*.svg
 
                   # 7. Check for actual changes before committing to avoid empty loop commits
