@@ -18,7 +18,7 @@ spec:
               env:
                 # Internal Cluster URL completely bypassing Cloudflare
                 - name: KROMGO_URL
-                  value: "kromgo.infra-monitoring.svc.cluster.local"
+                  value: "kromgo.infra-monitoring.svc.cluster.local:8080/badges"
                 - name: GIT_REPO
                   value: "git@github.com:revog/my-k8s-homelab.git"
               volumeMounts:
@@ -41,7 +41,7 @@ spec:
                   apk add --no-cache git curl openssh-client
 
                   # 2. Configure SSH for automated Ed25519 key authentication - StrictHostKeyChecking=no bypasses the interactive 'Host key verification failed' prompt
-                  export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /root/.ssh/identity"
+                  export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/root/.ssh/known_hosts -i /root/.ssh/identity"
 
                   # 3. Clone the repository into a temporary directory
                   echo "Cloning repository..."
