@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-adapter
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: prometheus-adapter
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  interval: 1h
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: ConfigMap
+      name: prometheus-adapter-values
+      valuesKey: values.yaml
