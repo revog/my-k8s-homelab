@@ -15,3 +15,7 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+  valuesFrom:
+    - kind: ConfigMap
+      name: blackbox-exporter-values
+      valuesKey: values.yaml
