@@ -31,7 +31,7 @@ config:
       valueExpr: humanizeCommas(result)
 
     - id: cluster_cpu_usage
-      colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
+      colorExpr: 'colorScale(result, [55.0, 85.0], ["green", "orange", "red"])'
       query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
       valueExpr: string(result) + "%"
       title: CPU
@@ -62,10 +62,10 @@ config:
 httpRoute:
   enabled: true
   parentRefs:
-    - name: public
+    - name: internal
       namespace: infra-gateway
   hostnames:
-    - 'kromgo.${CLUSTER_DOMAIN}'
+    - 'kromgo.internal.${CLUSTER_DOMAIN}'
 
 resources:
   requests:
