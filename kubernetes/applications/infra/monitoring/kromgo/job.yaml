@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: kromgo-badges-update
 spec:
-  schedule: "*/10 * * * *" # Runs every 10 min
+  schedule: "*/20 * * * *" # Runs every 20 min
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
@@ -68,7 +68,7 @@ spec:
                     echo "No changes detected in badges. Exiting smoothly."
                   else
                     echo "Changes detected. Committing and pushing to origin..."
-                    git commit -m "chore: auto-update cluster status badges [skip ci]"
+                    git commit -m "chore(badges): auto-update cluster status badges [skip ci]"
                     git push origin main
                   fi
           volumes:
