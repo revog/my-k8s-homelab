@@ -7,22 +7,20 @@ _... managed with Flux, Renovate, GitHub Actions and others._
 
 <div align="center">
   
-[![Kubernetes](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/kubernetes_version.svg)](https://kubernetes.io/)&nbsp;&nbsp;
-[![Talos](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/talos_version.svg)](https://talos.dev)&nbsp;&nbsp;
-[![Flux](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/flux_version.svg)](https://fluxcd.io)&nbsp;&nbsp;
+  [![Kubernetes](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/kubernetes_version.svg)](https://kubernetes.io/)&nbsp;&nbsp;
+  [![Talos](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/talos_version.svg)](https://talos.dev)&nbsp;&nbsp;
+  [![Flux](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/flux_version.svg)](https://fluxcd.io)&nbsp;&nbsp;
 
 </div>
 
-<div align="center">
-  
-![Age-Days](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_age_days.svg)&nbsp;&nbsp;
-![Uptime-Days](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_uptime_days.svg)&nbsp;&nbsp;
-![Node-Count](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_node_count.svg)&nbsp;&nbsp;
-![Pod-Count](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_pod_count.svg)&nbsp;&nbsp;
-![CPU-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_cpu_usage.svg)&nbsp;&nbsp;
-![Memory-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_memory_usage.svg)&nbsp;&nbsp;
-![Alerts](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_alert_count.svg)&nbsp;&nbsp;
-
+<div align="center"> 
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_age_days.svg" alt="Age-Days" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_uptime_days.svg" alt="Uptime-Days" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_node_count.svg" alt="Node-Count" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_pod_count.svg" alt="Pod-Count" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_cpu_usage.svg" alt="CPU-Usage" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_memory_usage.svg" alt="Memory-Usage" /></picture>&nbsp;&nbsp;
+  <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_alert_count.svg" alt="Alerts" />
 </div>
 
 # 📖 Overview
