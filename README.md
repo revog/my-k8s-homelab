@@ -21,6 +21,7 @@ _... managed with Flux, Renovate, GitHub Actions and others._
 ![Pod-Count](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_pod_count.svg)&nbsp;&nbsp;
 ![CPU-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_cpu_usage.svg)&nbsp;&nbsp;
 ![Memory-Usage](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_memory_usage.svg)&nbsp;&nbsp;
+![Alerts](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_alert_count.svg)&nbsp;&nbsp;
 
 </div>
 
