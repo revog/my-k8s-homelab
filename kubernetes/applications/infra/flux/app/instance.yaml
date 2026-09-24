@@ -4,7 +4,6 @@ metadata:
   name: flux
   namespace: infra-flux
 spec:
-  targetNamespace: infra-flux
   distribution:
     artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.60.0
     version: 2.x
