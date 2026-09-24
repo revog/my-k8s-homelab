@@ -5,7 +5,7 @@ metadata:
   namespace: infra-flux
 spec:
   distribution:
-    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.60.0
+    registry: "ghcr.io/fluxcd"
     version: 2.x
   cluster:
     networkPolicy: false
