@@ -82,9 +82,6 @@ defaultPodOptions:
 immich:
   metrics:
     enabled: true
-  persistence:
-    library:
-      existingClaim: immich-library
 
 machine-learning:
   enabled: false
@@ -97,6 +94,22 @@ persistence:
       - path: /config/immich-config.yaml
         subPath: immich-config.yaml
         readOnly: true
+  library:
+    enabled: true
+    type: persistentVolumeClaim
+    storageClass: "longhorn-v2"
+    accessMode: ReadWriteOnce
+    size: 100Gi
+    labels:
+      volsync.backube/backup: "true"
+    dataSourceRef:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: immich-bootstrap
+    advancedMounts:
+      main:
+        main:
+          - path: *mediaLocation
   tmp:
     type: emptyDir
     globalMounts:

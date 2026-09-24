@@ -7,6 +7,7 @@ auth:
     userPasswordKey: user-password
   database: immich
   username: immich
+
 primary:
   persistence:
     enabled: true
@@ -15,6 +16,10 @@ primary:
     storageClass: longhorn-v2
     accessModes: ["ReadWriteOnce"]
     size: 4Gi
+    dataSource:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: immich-postgres-bootstrap
   resources:
     requests:
       cpu: 100m
@@ -22,3 +27,6 @@ primary:
     limits:
       cpu: 500m
       memory: 1Gi
+
+volumePermissions:
+  enabled: true
