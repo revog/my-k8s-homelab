@@ -82,6 +82,9 @@ defaultPodOptions:
 immich:
   metrics:
     enabled: true
+  persistence:
+    library:
+      existingClaim: immich-library
 
 machine-learning:
   enabled: false
@@ -96,6 +99,7 @@ persistence:
         readOnly: true
   library:
     enabled: true
+    nameOverride: immich-library
     type: persistentVolumeClaim
     storageClass: "longhorn-v2"
     accessMode: ReadWriteOnce
