@@ -24,6 +24,8 @@ hubble:
       - policy-verdict:sourceContext=pod;destinationContext=pod;labelsContext=source_namespace,destination_namespace
   relay:
     enabled: true
+    gops:
+      enabled: false
   ui:
     enabled: true
 
