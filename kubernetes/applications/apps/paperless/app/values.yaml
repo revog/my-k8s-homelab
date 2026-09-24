@@ -87,6 +87,10 @@ persistence:
       paperless:
         app:
           - path: /data/local
+    dataSourceRef:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: paperless-bootstrap
   consume:
     type: persistentVolumeClaim
     accessMode: ReadWriteMany
