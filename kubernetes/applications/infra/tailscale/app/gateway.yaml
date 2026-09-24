@@ -11,6 +11,12 @@ spec:
   addresses:
     - type: IPAddress
       value: "${CLUSTER_LB_PRV_GATEWAY_API}"
+  infrastructure:
+    annotations:
+      tailscale.com/expose: "true"
+      tailscale.com/hostname: "homelab-private-gateway"
+      external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+      external-dns.alpha.kubernetes.io/hostname: "private.${CLUSTER_DOMAIN}, *.private.${CLUSTER_DOMAIN}"
   listeners:
     - name: http
       protocol: HTTP
