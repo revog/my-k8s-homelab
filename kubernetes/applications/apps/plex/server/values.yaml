@@ -61,21 +61,24 @@ defaultPodOptions:
 
 persistence:
   cache:
-    accessMode: ReadWriteOnce
-    storageClass: "longhorn-v2"
-    size: 10Gi
+    type: emptyDir
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server/Cache
   data:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
-    size: 20Gi
+    size: 25Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server
+    # dataSourceRef:
+    #   apiGroup: volsync.backube
+    #   kind: ReplicationDestination
+    #   name: plex-bootstrap
   logs:
     type: emptyDir
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server/Logs
+      - path: /config/Library/Application Support/Plex Media Server/Crash Reports
   tmp:
     type: emptyDir
     advancedMounts:
