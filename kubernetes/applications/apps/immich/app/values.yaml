@@ -110,10 +110,7 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: immich-bootstrap
-    advancedMounts:
-      main:
-        main:
-          - path: *mediaLocation
+
   tmp:
     type: emptyDir
     globalMounts:
