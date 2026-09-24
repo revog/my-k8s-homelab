@@ -9,7 +9,7 @@ spec:
   targetNamespace: app-immich
   interval: 15m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 20m
   prune: true
   wait: true
   sourceRef:
