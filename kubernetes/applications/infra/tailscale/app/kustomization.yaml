@@ -9,7 +9,6 @@ resources:
   - httproute.yaml
   - namespace.yaml
   - secrets.enc.age.yaml
-#  - service.yaml
 
 configMapGenerator:
   - name: tailscale-operator-values
