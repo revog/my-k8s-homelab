@@ -9,6 +9,7 @@ resources:
 
 components:
   - ../../../components/gpu
+  - ../../../components/volsync
   - ../../../components/zeroscaler
 
 configMapGenerator:
