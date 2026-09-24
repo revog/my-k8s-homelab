@@ -21,7 +21,7 @@ spec:
     capacity: "${VOLSYNC_CAPACITY:=1Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
-    copyMethod: Direct
+    copyMethod: Snapshot
     enableFileDeletion: true
     moverSecurityContext:
       runAsUser: ${VOLSYNC_SHARE_UID:=1003}
