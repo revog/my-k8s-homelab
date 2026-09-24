@@ -84,7 +84,7 @@ immich:
     enabled: true
   persistence:
     library:
-      existingClaim: immich-library
+      existingClaim: immich-server
 
 machine-learning:
   enabled: false
@@ -99,7 +99,7 @@ persistence:
         readOnly: true
   library:
     enabled: true
-    nameOverride: immich-library
+    nameOverride: immich-server
     type: persistentVolumeClaim
     storageClass: "longhorn-v2"
     accessMode: ReadWriteOnce
