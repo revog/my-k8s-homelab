@@ -70,10 +70,10 @@ persistence:
     size: 25Gi
     globalMounts:
       - path: /config/Library/Application Support/Plex Media Server
-    # dataSourceRef:
-    #   apiGroup: volsync.backube
-    #   kind: ReplicationDestination
-    #   name: plex-bootstrap
+    dataSourceRef:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: plex-bootstrap
   logs:
     type: emptyDir
     globalMounts:
