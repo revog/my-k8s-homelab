@@ -37,7 +37,7 @@ spec:
   prune: true
   wait: true
   dependsOn:
-    - name: cilium
+    - name: tailscale-operator
   sourceRef:
     kind: GitRepository
     name: homelab
