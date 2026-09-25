@@ -19,5 +19,5 @@ spec:
       retries: 3
     crds: CreateReplace
   values:
-    prometheus:
-      enabled: true
+    serviceMonitor:
+      create: true
