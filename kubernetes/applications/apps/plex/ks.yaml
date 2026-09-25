@@ -31,6 +31,7 @@ spec:
       VOLSYNC_GID: "1005"
       VOLSYNC_CLAIM: plex
       VOLSYNC_CAPACITY: 25Gi
+      VOLSYNC_CACHE_CAPACITY: 4Gi
       VOLSYNC_SCHEDULE: "30 3 * * *" # 2:30am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
 
