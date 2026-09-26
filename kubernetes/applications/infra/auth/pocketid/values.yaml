@@ -32,10 +32,12 @@ nameOverride: "pocketid"
 persistence:
   data:
     enabled: true
-    dataSourceRef:
-      apiGroup: volsync.backube
-      kind: ReplicationDestination
-      name: pocketid-bootstrap
+    # dataSourceRef:
+    #   apiGroup: volsync.backube
+    #   kind: ReplicationDestination
+    #   name: pocketid-bootstrap
+    labels:
+      volsync.backube/restore: "true"
     size: "1Gi"
     storageClass: "longhorn-v2"
 
