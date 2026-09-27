@@ -22,3 +22,16 @@ spec:
     - kind: ConfigMap
       name: pocketid-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: StatefulSet
+              name: pocketid
+            patch: |
+              - op: add
+                path: /spec/volumeClaimTemplates/0/spec/dataSourceRef
+                value:
+                  apiGroup: volsync.backube
+                  kind: ReplicationDestination
+                  name: pocketid-bootstrap
