@@ -20,3 +20,18 @@ configMapGenerator:
 
 generatorOptions:
   disableNameSuffixHash: true
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: pocketid
+    patch: |
+      - op: add
+        path: /spec/volumeClaimTemplates/0/metadata/labels/volsync.backube~1restore
+        value: "true"
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/dataSourceRef
+        value:
+          apiGroup: volsync.backube
+          kind: ReplicationDestination
+          name: pocketid-bootstrap
