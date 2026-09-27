@@ -7,15 +7,36 @@ resources:
   - replicationsource.yaml
   - secret.age.enc.yaml
 
-# Patch application's PVC and add the dataSourceRef dynamically - except opted-out for backup (volsync.backube/backup=false)
+# apply patch to every helmrelease and add postrender patch for setting dataSourceRef
 patches:
   - target:
-      kind: PersistentVolumeClaim
-      labelSelector: volsync.backube/restore=true
+      kind: HelmRelease
     patch: |
       - op: add
-        path: /spec/dataSourceRef
+        path: /spec/postRenderers
         value:
-          kind: ReplicationDestination
-          apiGroup: volsync.backube
-          name: ${APP}-bootstrap
+          - kustomize:
+              patches:
+                # Case for simple PVCs
+                - target:
+                    kind: PersistentVolumeClaim
+                    labelSelector: volsync.backube/restore=true
+                  patch: |
+                    - op: add
+                      path: /spec/dataSourceRef
+                      value:
+                        kind: ReplicationDestination
+                        apiGroup: volsync.backube
+                        name: ${APP}-bootstrap
+
+                # Case for PVCs created by StatefulSets
+                - target:
+                    kind: StatefulSet
+                    labelSelector: volsync.backube/restore=true
+                  patch: |
+                    - op: add
+                      path: /spec/volumeClaimTemplates/0/spec/dataSourceRef
+                      value:
+                        kind: ReplicationDestination
+                        apiGroup: volsync.backube
+                        name: ${APP}-bootstrap
