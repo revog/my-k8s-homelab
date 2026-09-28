@@ -12,27 +12,27 @@ controllers:
           PGID: ${VOLSYNC_GID}
           # include needed resources for ebook-convert/kindle-epub-fixer
           # DOCKER_MODS: "linuxserver/mods:universal-calibre"
-        # probes:
-        #   liveness: &probes
-        #     enabled: true
-        #     custom: true
-        #     spec:
-        #       httpGet:
-        #         path: /login
-        #         port: &port 8083
-        #       initialDelaySeconds: 15
-        #       periodSeconds: 15
-        #       timeoutSeconds: 3
-        #       failureThreshold: 3
-        #   readiness: *probes
-        #   startup:
-        #     enabled: true
-        #     spec:
-        #       failureThreshold: 30
-        #       periodSeconds: 10
-        #       httpGet:
-        #         path: /login
-        #         port: *port
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /login
+                port: &port 8083
+              initialDelaySeconds: 15
+              periodSeconds: 15
+              timeoutSeconds: 3
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+              httpGet:
+                path: /login
+                port: *port
         resources:
           requests:
             cpu: 100m
@@ -63,8 +63,8 @@ persistence:
     accessMode: ReadWriteOnce
     globalMounts:
       - path: /books
-    labels:
-      volsync.backube/restore: "true"
+    # labels:
+    #   volsync.backube/restore: "true"
     size: 2Gi
     storageClass: longhorn-v2
     type: persistentVolumeClaim
@@ -73,8 +73,8 @@ persistence:
     accessMode: ReadWriteOnce
     globalMounts:
       - path: /config
-    labels:
-      volsync.backube/restore: "true"
+    # labels:
+    #   volsync.backube/restore: "true"
     size: 1Gi
     storageClass: longhorn-v2
     type: persistentVolumeClaim
