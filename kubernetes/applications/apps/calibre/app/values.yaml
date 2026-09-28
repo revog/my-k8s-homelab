@@ -83,12 +83,13 @@ persistence:
     size: 1Gi
     storageClass: longhorn-v2
     type: persistentVolumeClaim
-#  ingest:
+  ingest:
+    type: emptyDir
 #    type: nfs
 #    server: ${STORAGE_IP}
 #    path: /Downloads/ebooks
-#    globalMounts:
-#      - path: /cwa-book-ingest
+    globalMounts:
+      - path: /cwa-book-ingest
   log:
     type: emptyDir
     globalMounts:
