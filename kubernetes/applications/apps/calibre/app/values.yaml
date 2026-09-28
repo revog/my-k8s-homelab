@@ -10,6 +10,8 @@ controllers:
           TZ: ${CLUSTER_TIMEZONE}
           PUID: ${VOLSYNC_UID}
           PGID: ${VOLSYNC_GID}
+          S6_READ_ONLY_ROOT: "1" # inform s6-overlay about read-only root fs
+          S6_VERBOSITY: "1"      # make s6 logging less chatty (only warnings & errors)
           # include needed resources for ebook-convert/kindle-epub-fixer
           # DOCKER_MODS: "linuxserver/mods:universal-calibre"
         probes:
