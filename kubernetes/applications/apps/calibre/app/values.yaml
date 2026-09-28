@@ -12,6 +12,7 @@ controllers:
           PGID: ${VOLSYNC_GID}
           S6_READ_ONLY_ROOT: "1" # inform s6-overlay about read-only root fs
           S6_VERBOSITY: "1"      # make s6 logging less chatty (only warnings & errors)
+          CACHE_DIR: "/tmp/cps-cache"
           # include needed resources for ebook-convert/kindle-epub-fixer
           # DOCKER_MODS: "linuxserver/mods:universal-calibre"
         probes:
@@ -64,7 +65,7 @@ persistence:
     enabled: true
     accessMode: ReadWriteOnce
     globalMounts:
-      - path: /books
+      - path: /calibre-library
     # labels:
     #   volsync.backube/restore: "true"
     size: 2Gi
@@ -103,7 +104,7 @@ persistence:
       - path: /tmp
 
 route:
-  plex:
+  calibre:
     annotations:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Entertainment
