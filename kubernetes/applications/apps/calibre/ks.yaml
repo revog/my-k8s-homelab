@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app calibre
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/bookstore/calibre-ng
+  targetNamespace: app-calibre
+  interval: 15m
+  retryInterval: 1m
+  timeout: 3m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  dependsOn:
+    - name: volsync
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CLAIM: calibre
+      VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_SCHEDULE: "45 1 * * *"
+      # VOLSYNC_S3_SCHEDULE: "15 4 * * *"
+      VOLSYNC_UID: "1007"
+      VOLSYNC_GID: "1007"
