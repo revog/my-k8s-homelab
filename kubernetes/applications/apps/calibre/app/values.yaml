@@ -90,10 +90,12 @@ persistence:
       - path: /var/log
   run:
     type: emptyDir
+    sizeLimit: 64Mi
     globalMounts:
-      - path: /var/run
+      - path: /run
   tmp:
     type: emptyDir
+    medium: Memory
     globalMounts:
       - path: /tmp
 
