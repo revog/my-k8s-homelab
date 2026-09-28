@@ -87,6 +87,12 @@ persistence:
 #    path: /Downloads/ebooks
 #    globalMounts:
 #      - path: /ingest
+  app:
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 10Mi
+    globalMounts:
+      - path: /app/calibre-web-automated
   log:
     type: emptyDir
     globalMounts:
