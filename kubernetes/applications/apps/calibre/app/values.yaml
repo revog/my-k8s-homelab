@@ -52,7 +52,7 @@ defaultPodOptions:
     runAsNonRoot: true
     runAsUser: ${VOLSYNC_UID}
     runAsGroup: ${VOLSYNC_GID}
-    fsGroup: 1005
+    fsGroup: ${VOLSYNC_GID}
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }
