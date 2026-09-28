@@ -1,0 +1,129 @@
+---
+controllers:
+  calibre-web-nextgen:
+    containers:
+      calibre:
+        image:
+          repository: ghcr.io/new-usemame/calibre-web-nextgen
+          tag: 4.1.44@sha256:24b1eb34ee7bbc7edd3b748d5e9886c03ecbdd33fca03053c8c1e36d401529fa
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+          PUID: ${VOLSYNC_UID}
+          PGID: ${VOLSYNC_GID}
+#          # include needed resources for ebook-convert/kindle-epub-fixer
+#          DOCKER_MODS: "linuxserver/mods:universal-calibre"
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /login
+                port: &port 8083
+              initialDelaySeconds: 15
+              periodSeconds: 15
+              timeoutSeconds: 3
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+              httpGet:
+                path: /login
+                port: *port
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: ${VOLSYNC_UID}
+    runAsGroup: ${VOLSYNC_GID}
+    fsGroup: 1005
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: [44, 10000]
+    seccompProfile: { type: RuntimeDefault }
+
+persistence:
+  books:
+    enabled: true
+    accessMode: ReadWriteOnce
+    globalMounts:
+      - path: /books
+    labels:
+      volsync.backube/restore: "true"
+    size: 2Gi
+    storageClass: longhorn-v2
+    type: persistentVolumeClaim
+  config:
+    enabled: true
+    accessMode: ReadWriteOnce
+    globalMounts:
+      - path: /config
+    labels:
+      volsync.backube/restore: "true"
+    size: 1Gi
+    storageClass: longhorn-v2
+    type: persistentVolumeClaim
+#  ingest:
+#    type: nfs
+#    server: ${STORAGE_IP}
+#    path: /Downloads/ebooks
+#    globalMounts:
+#      - path: /ingest
+  log:
+    type: emptyDir
+    globalMounts:
+      - path: /var/log
+  run:
+    type: emptyDir
+    globalMounts:
+      - path: /var/run
+  tmp:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+
+route:
+  plex:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Entertainment
+      gethomepage.dev/name: Calibre
+      gethomepage.dev/icon: calibre-web-ng.png
+      gethomepage.dev/description: Bookstore
+    hostnames:
+      - bookstore.${CLUSTER_DOMAIN}
+      - bookstore.internal.${CLUSTER_DOMAIN}
+      - bookstore.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+      - name: public
+        namespace: infra-gateway
+    rules:
+      - backendRefs:
+          - name: calibre
+            port: *port
+
+service:
+  calibre:
+    controller: calibre-web-nextgen
+    ports:
+      http:
+        port: *port
