@@ -6,7 +6,7 @@ metadata:
   name: &app calibre
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/apps/bookstore/calibre-ng
+  path: ./kubernetes/applications/apps/calibre/app
   targetNamespace: app-calibre
   interval: 15m
   retryInterval: 1m
