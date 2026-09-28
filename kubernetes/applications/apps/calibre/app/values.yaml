@@ -45,17 +45,21 @@ controllers:
             cpu: 500m
             memory: 1Gi
         securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: true # allow S6 dropping privileges
+          readOnlyRootFilesystem: false  # allow app writing into dirs
           capabilities:
             drop:
               - ALL
+            add:
+              - CHOWN
+              - SETUID
+              - SETGID
 
 defaultPodOptions:
   securityContext:
-    runAsNonRoot: true
-    runAsUser: ${VOLSYNC_UID}
-    runAsGroup: ${VOLSYNC_GID}
+    runAsNonRoot: false # run S6 as root, drops caps afterwards
+    runAsUser: 0
+    runAsGroup: 0
     fsGroup: ${VOLSYNC_GID}
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups: [44, 10000]
@@ -104,10 +108,7 @@ persistence:
     medium: Memory
     globalMounts:
       - path: /tmp
-      - path: /app/calibre-web-automated/cps/cache
-        subPath: cps-cache
-      - path: /app/calibre-web-automated/dirs.json
-        subPath: dirs.json
+
 route:
   calibre:
     annotations:
