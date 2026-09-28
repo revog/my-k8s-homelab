@@ -13,6 +13,8 @@ controllers:
           S6_READ_ONLY_ROOT: "1" # inform s6-overlay about read-only root fs
           S6_VERBOSITY: "1"      # make s6 logging less chatty (only warnings & errors)
           CACHE_DIR: "/tmp/cps-cache"
+          CWA_BOOK_INGEST: "/cwa-book-ingest"
+          CWA_INGEST_FOLDER: "/cwa-book-ingest"
           # include needed resources for ebook-convert/kindle-epub-fixer
           # DOCKER_MODS: "linuxserver/mods:universal-calibre"
         probes:
@@ -86,13 +88,7 @@ persistence:
 #    server: ${STORAGE_IP}
 #    path: /Downloads/ebooks
 #    globalMounts:
-#      - path: /ingest
-  app:
-    type: emptyDir
-    medium: Memory
-    sizeLimit: 10Mi
-    globalMounts:
-      - path: /app/calibre-web-automated
+#      - path: /cwa-book-ingest
   log:
     type: emptyDir
     globalMounts:
