@@ -12,7 +12,6 @@ controllers:
           PGID: ${VOLSYNC_GID}
           S6_READ_ONLY_ROOT: "1" # inform s6-overlay about read-only root fs
           S6_VERBOSITY: "1"      # make s6 logging less chatty (only warnings & errors)
-          CACHE_DIR: "/tmp/cps-cache"
           CWA_BOOK_INGEST: "/cwa-book-ingest"
           CWA_INGEST_FOLDER: "/cwa-book-ingest"
           # include needed resources for ebook-convert/kindle-epub-fixer
@@ -105,7 +104,10 @@ persistence:
     medium: Memory
     globalMounts:
       - path: /tmp
-
+      - path: /app/calibre-web-automated/cps/cache
+        subPath: cps-cache
+      - path: /app/calibre-web-automated/dirs.json
+        subPath: dirs.json
 route:
   calibre:
     annotations:
