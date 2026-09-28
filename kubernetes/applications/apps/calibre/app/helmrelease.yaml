@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: calibre-web-nextgen
+spec:
+  interval: 30m
+  timeout: 30m
+  chartRef:
+    kind: OCIRepository
+    name: plex
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - targetPath: values
+      kind: ConfigMap
+      name: calibre-web-nextgen-values
