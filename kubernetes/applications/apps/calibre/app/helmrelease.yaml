@@ -9,7 +9,7 @@ spec:
   timeout: 30m
   chartRef:
     kind: OCIRepository
-    name: plex
+    name: calibre-ng
   install:
     remediation:
       retries: 3
@@ -17,6 +17,6 @@ spec:
     remediation:
       retries: 3
   valuesFrom:
-    - targetPath: values
-      kind: ConfigMap
+    - kind: ConfigMap
       name: calibre-web-nextgen-values
+      valuesKey: values.yaml
