@@ -32,13 +32,13 @@ config:
 
     - id: cluster_cpu_usage
       colorExpr: 'colorScale(result, [55.0, 85.0], ["green", "orange", "red"])'
-      query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
+      query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 1)
       valueExpr: string(result) + "%"
       title: CPU
 
     - id: cluster_memory_usage
       colorExpr: 'colorScale(result, [400.0, 750.0], ["green", "orange", "red"])'
-      query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
+      query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 1)
       title: Memory
       valueExpr: string(result) + "%"
 
