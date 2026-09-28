@@ -45,21 +45,17 @@ controllers:
             cpu: 500m
             memory: 1Gi
         securityContext:
-          allowPrivilegeEscalation: true # allow S6 dropping privileges
-          readOnlyRootFilesystem: false  # allow app writing into dirs
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
-            add:
-              - CHOWN
-              - SETUID
-              - SETGID
 
 defaultPodOptions:
   securityContext:
-    runAsNonRoot: false # run S6 as root, drops caps afterwards
-    runAsUser: 0
-    runAsGroup: 0
+    runAsNonRoot: true
+    runAsUser: ${VOLSYNC_UID}
+    runAsGroup: ${VOLSYNC_GID}
     fsGroup: ${VOLSYNC_GID}
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups: [44, 10000]

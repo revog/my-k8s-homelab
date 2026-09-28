@@ -29,5 +29,5 @@ spec:
       VOLSYNC_CAPACITY: 2Gi
       VOLSYNC_SCHEDULE: "45 1 * * *"
       # VOLSYNC_S3_SCHEDULE: "15 4 * * *"
-      VOLSYNC_UID: "1007"
-      VOLSYNC_GID: "1007"
+      VOLSYNC_UID: "911"  # default id in LinuxServer-based images
+      VOLSYNC_GID: "1001" # default id in LinuxServer-based images
