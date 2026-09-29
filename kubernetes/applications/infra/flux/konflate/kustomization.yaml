@@ -6,3 +6,10 @@ kind: Kustomization
 resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
+
+configMapGenerator:
+  - name: konflate-values
+    files:
+      - values.yaml
+    options:
+      disableNameSuffixHash: true
