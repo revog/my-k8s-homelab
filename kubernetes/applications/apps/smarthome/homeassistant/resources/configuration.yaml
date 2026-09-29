@@ -1,5 +1,5 @@
-# Declarative half of the HA config (the imperative half lives in .storage on the PVC). 
-# Mounted read-only over /config/configuration.yaml; ${*} substitutes via Flux postBuild.
+# Declarative half of the HA config (the imperative half lives in .storage on the PVC).
+# Mounted read-only over /config/configuration.yaml; $${*} substitutes via Flux postBuild.
 
 # Loads default set of integations. Do not remove.
 default_config:
