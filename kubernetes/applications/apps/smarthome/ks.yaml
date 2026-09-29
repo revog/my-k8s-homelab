@@ -5,7 +5,7 @@ metadata:
   name: homeassistant
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/apps/smarthome/app
+  path: ./kubernetes/applications/apps/smarthome/homeassistant
   targetNamespace: app-smarthome
   interval: 15m
   retryInterval: 1m
@@ -19,7 +19,15 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_UID: "1008"
+      VOLSYNC_GID: "1008"
+      VOLSYNC_CLAIM: homeassistant-config
+      VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_SCHEDULE: "30 5 * * *" # 5:30am
+      VOLSYNC_S3_SCHEDULE: "45 5 * * *" # 5:45am
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -38,6 +46,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  dependsOn:
+    - name: homeassistant
   decryption:
     provider: sops
     secretRef:
@@ -49,5 +59,5 @@ spec:
       VOLSYNC_GID: "1006"
       VOLSYNC_CLAIM: frigate
       VOLSYNC_CAPACITY: 2Gi
-      VOLSYNC_SCHEDULE: "25 2 * * *" # 2:30am
+      VOLSYNC_SCHEDULE: "25 2 * * *" # 2:25am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
