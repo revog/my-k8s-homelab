@@ -126,6 +126,6 @@ service:
     ports:
       http:
       http:
-        port: haPort
+        port: *haPort
       code-server:
         port: &codePort 12321
