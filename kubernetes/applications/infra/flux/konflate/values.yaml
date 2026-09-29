@@ -1,5 +1,5 @@
 config:
-  repo: https://github.com/revog/my-k8s-homelab
+  repo: github://revog/my-k8s-homelab
   # statusChecks: true
   # prComments: true
   # verifyImages: true
