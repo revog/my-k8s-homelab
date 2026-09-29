@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: omni-backend
+spec:
+  parentRefs:
+    - name: private
+      namespace: infra-tailscale
+    - name: internal
+      namespace: infra-gateway
+  hostnames:
+    - 'omni.internal.${CLUSTER_DOMAIN}'
+    - 'omni.private.${CLUSTER_DOMAIN}'
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: omni-backend
+      port: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omni-backend
+spec:
+  ports:
+  - name: http2
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+    appProtocol: kubernetes.io/h2c # Force Cilium using HTTP/2 Cleartext to Omni container
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: omni-backend
+subsets:
+- addresses:
+  - ip: ${STORAGE_IP}
+  ports:
+  - name: http2
+    port: 8080
