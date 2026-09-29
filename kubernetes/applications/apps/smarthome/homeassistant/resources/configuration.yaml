@@ -1,5 +1,7 @@
 # Declarative half of the HA config (the imperative half lives in .storage on the PVC). 
 # Mounted read-only over /config/configuration.yaml; ${*} substitutes via Flux postBuild.
+
+# Loads default set of integations. Do not remove.
 default_config:
 
 homeassistant:
@@ -8,6 +10,10 @@ homeassistant:
   time_zone: ${CLUSTER_TIMEZONE}
   internal_url: https://homeassistant.internal.${CLUSTER_DOMAIN}
   external_url: https://homeassistant.private.${CLUSTER_DOMAIN}
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
 
 automation: !include automations.yaml
 script: !include scripts.yaml
