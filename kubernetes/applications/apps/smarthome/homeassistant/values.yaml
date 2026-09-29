@@ -125,7 +125,6 @@ service:
     controller: homeassistant
     ports:
       http:
-      http:
         appProtocol: kubernetes.io/ws
         port: *haPort
       code-server:
