@@ -1,0 +1,14 @@
+# Declarative half of the HA config (the imperative half lives in .storage on the PVC). 
+# Mounted read-only over /config/configuration.yaml; ${*} substitutes via Flux postBuild.
+default_config:
+
+homeassistant:
+  name: Home
+  unit_system: metric
+  time_zone: ${CLUSTER_TIMEZONE}
+  internal_url: https://homeassistant.internal.${CLUSTER_DOMAIN}
+  external_url: https://homeassistant.private.${CLUSTER_DOMAIN}
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
