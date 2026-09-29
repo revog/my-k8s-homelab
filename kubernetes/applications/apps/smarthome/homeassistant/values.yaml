@@ -23,7 +23,7 @@ controllers:
             custom: true
             spec:
               httpGet:
-                path: /manifest.json
+                path: /
                 port: &haPort 8123
               initialDelaySeconds: 30
               periodSeconds: 10
