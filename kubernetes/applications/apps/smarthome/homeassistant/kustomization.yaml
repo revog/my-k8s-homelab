@@ -8,9 +8,12 @@ resources:
   - ocirepository.yaml
 #  - secret.age.enc.yaml
 
+components:
+  - ../../../components/volsync
+
 generatorOptions:
   disableNameSuffixHash: true
-  
+
 configMapGenerator:
   - name: homeassistant-values
     files:

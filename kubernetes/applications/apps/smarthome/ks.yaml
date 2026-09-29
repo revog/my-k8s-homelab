@@ -24,7 +24,7 @@ spec:
       APP: *app
       VOLSYNC_UID: "1008"
       VOLSYNC_GID: "1008"
-      VOLSYNC_CLAIM: homeassistant
+      VOLSYNC_CLAIM: homeassistant-config
       VOLSYNC_CAPACITY: 2Gi
       VOLSYNC_SCHEDULE: "30 5 * * *" # 5:30am
       VOLSYNC_S3_SCHEDULE: "45 5 * * *" # 5:45am
