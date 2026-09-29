@@ -126,6 +126,7 @@ service:
     ports:
       http:
       http:
+        appProtocol: kubernetes.io/ws
         port: *haPort
       code-server:
         port: &codePort 12321
