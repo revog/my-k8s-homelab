@@ -40,47 +40,46 @@ The factory validates the schematic and calculates a deterministic hash from whi
 ##### Variant 1: Online Form
 The online form will guide through the process and will provide a unique schemantic ID for downloading the specific image.
 
-- Hardware Type: Single Board Computer (SBC)
-- Talos Linux Version: 1.13.0
-- Single Board Computer: Raspberry Pi 5
+- Hardware Type: Bare-metal Machine
+- Talos Linux Version: 1.14.1 (select latest available from list)
+- Machine Architecture: amd64
 - System Extensions:
   - siderolabs/iscsi-tools (required for Longhorn)
+  - siderolabs/tailscale (required for Tailscale on Node level)
   - siderolabs/util-linux-tools (required for Longhorn)
-  - siderolabs/hailort (required for Hailo NPU)
+  - siderolabs/xe (required for Intel GPU)
 
 ##### Variant 2: Local prep
 Alternatively it is possible to achieve the same with an manual/scriptable approach by creating a local YAML manifest, submitting it with `curl` and downloading it afterwards with the returned schematic id.
 
-**`rpi5-schematic.yaml`**
+**`beelink-amd64-schematic.yaml`**
 ```yaml
-overlay:
-  name: rpi_5
-  image: siderolabs/sbc-raspberrypi
 customization:
   systemExtensions
     officialExtensions:
       - siderolabs/iscsi-tools
+      - siderolabs/tailscale
       - siderolabs/util-linux-tools
-      - siderolabs/hailort
+      - siderolabs/xe
 ```
 
 Submit schematic to get schematic id:
 ```bash
-curl -s -X POST --data-binary @rpi5-schematic.yaml https://factory.talos.dev/schematics -H "Content-Type: application/x-yaml"
+curl -s -X POST --data-binary @beelink-amd64-schematic.yaml https://factory.talos.dev/schematics -H "Content-Type: application/x-yaml"
 ```
 
 #### Download image
 Use the returned schematic ID for downloading customized image and extract:
 ```bash
 SCHEMATIC="<schematic-id>"
-VERSION="v1.13.0"
+VERSION="v1.14.1"
 ```
 ```bash
-curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-arm64.raw.xz" -o metal-arm64.raw.xz -d metal-arm64.raw.xz
+curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-amd64.raw.xz" -o metal-amd64.raw.xz -d metal-amd64.raw.xz
 ```
 
-#### Install image on SD card
-Installation to SD card's can easily be done with local tools like `diskutil` and `dd`:
+#### Install image on USB Stick
+Installation to USB stick s can easily be done with local tools like `diskutil` and `dd`:
 ```bash
 # Identify SD card
 diskutil list
@@ -89,12 +88,12 @@ diskutil list
 diskutil unmountDisk /dev/diskX
 
 # Flash (using rdisk as it is faster on macOS)
-sudo dd if=metal-arm64.raw of=/dev/rdiskX bs=4m status=progress
+sudo dd if=metal-amd64.raw of=/dev/rdiskX bs=4m status=progress
 
 # Eject
 diskutil eject /dev/diskX
 ```
-Finally insert the SD card into the Raspberry Pi and boot up. It starts Talos Linux in **Maintenance Mode** and should be reachable through a DHCP IP.
+Finally plug in the USB stick into the computer and boot up. It starts Talos Linux in **Maintenance Mode** and should be reachable through a DHCP IP.
 
 ### Build Configuration
 The Talos configuration is deliberately separated. Separating configuration from secrets increases flexibility, security, and operational simplicity. The reasons for this are:
