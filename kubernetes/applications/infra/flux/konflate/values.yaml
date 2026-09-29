@@ -1,0 +1,27 @@
+config:
+  repo: https://github.com/revog/my-k8s-homelab
+  # statusChecks: true
+  # prComments: true
+  # verifyImages: true
+  # mcp: true
+
+# secret:
+#   existingSecret: konflate-secret
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: private
+      namespace: infra-tailscale
+    - name: internal
+      namespace: infra-gateway
+  hostnames:
+    - 'konflate.internal.${CLUSTER_DOMAIN}'
+    - 'konflate.private.${CLUSTER_DOMAIN}'
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 1Gi
