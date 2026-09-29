@@ -14,15 +14,13 @@ Talos is managed by a single, declarative gRPC API - no ssh, no bash. This is th
 ## Setup <tbd>
 Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
 
-My hardware setup is based on some Raspberry Pi 5 nodes extended with Storage respectively AI HATs:
-| Node | Role | Storage | Special |
-|---|---|---|---|
-| node01 | control-plane + worker | Raspberry Pi 5 8GB | Hailo AI HAT |
-| node02 | control-plane + worker | Raspberry Pi 5 8GB | M.2 NVMe HAT |
-| node03 | control-plane + worker | Raspberry Pi 5 16GB | M.2 NVMe HAT |
-| node04 | worker | (not yet in use) |  |
+My hardware setup is based on handy desktop computer nodes extended with Storage and built-in GPUs:
+| Node | Role | Model |
+|---|---|---|
+| node01 | control-plane + worker | [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) |
+| node02 | control-plane + worker | [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) |
+| node03 | control-plane + worker | [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) |
 
-**SD cards:** 64GB SanDisk High Endurance microSDHC (Class 10 / A1)  
 **NVMe:** M.2 2280 NVMe (PCIe Gen 3/4) for Longhorn SDS
 
 Due to the limited node count, I will use the control-plane nodes for workload scheduling aswell.
@@ -221,6 +219,46 @@ talosctl reboot --nodes $(host $NODE)
 # Omni
 Omni is a Kubernetes management platform that simplifies the creation and management of Kubernetes clusters on any environment to provide a simple, secure, and resilient platform. It automates cluster creation, management and upgrades, and integrates Kubernetes and Omni access into enterprise identity providers. While Omni does provide a powerful UI, tight integration with Talos Linux means the platform is 100% API-driven from Linux to Kubernetes to Omni.
 
-I run Omni .....
+I run Omni outside of my Kubernetes cluster on my Storage Appliance as Docker container to avoid chicken-egg-problem during bootstrapping. 
 
+## Deployment Architecture & Edge Cases
+To successfully run Omni outside the cluster on a storage appliance (e.g., QNAP) while routing traffic through a Kubernetes Ingress/Gateway, two critical network design choices were implemented:
 
+### 1. The SideroLink UDP Bypass (WireGuard)
+While UI and API traffic flow through the Kubernetes cluster, Talos nodes require a persistent WireGuard tunnel (`SideroLink`) to Omni. To ensure nodes can always reach the control plane - even if the Kubernetes network is temporarily down or restarting during an upgrade - **the WireGuard traffic completely bypasses Kubernetes**.
+
+* **API/UI Traffic:** `Talos Node` ──(HTTP/2 via Port 443)──> `Cilium Gateway` ──> `Storage Appliance (Omni Container)`
+* **SideroLink Traffic:** `Talos Node` ──(Direct UDP via Port 51820)──> `Storage Appliance (Omni Container)`
+
+This is achieved by explicitly advertising the storage appliance's static IP to the nodes using the `SIDEROLINK_WIREGUARD_ADVERTISED_ADDR` environment variable in the Docker container.
+
+### 2. Cilium Gateway API & HTTP/2 Cleartext (h2c)
+Omni relies heavily on **gRPC** for node communication. When terminating TLS at the cluster edge via **Cilium Gateway API** and **cert-manager**, Cilium must be explicitly instructed to maintain an HTTP/2 connection to the backend, rather than downgrading it to HTTP/1.1.
+
+* **External Endpoints:** The Storage Appliance is mapped inside Kubernetes using a headless `Service` and manual `Endpoints` targeting the appliance's static IP.
+* **Protocol Enforcement:** The Service uses `appProtocol: kubernetes.io/h2c` (HTTP/2 Cleartext). This tells Cilium's Envoy proxy to forward gRPC/HTTP/2 traffic cleanly to Omni's unencrypted port (`8080`).
+
+---
+
+## Configuration Reference
+
+### Kubernetes Backend (`omni-backend.yaml`)
+Code of needed YAML manifest is placed under [kubernetes/applications/infra/omni](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications/infra/omni) and will be deployed and managed by Flux.
+
+### Docker Compose (`docker-compose.yaml` on Storage Appliance)
+```yaml
+version: '3.8'
+services:
+  omni:
+    image: ghcr.io/siderolabs/omni:v0.36.0 # Use the latest stable version
+    environment:
+      - OMNI_AUTH_EXTERNAL_URL=https://omni.internal.${CLUSTER_DOMAIN} # Match your primary cluster domain
+      - OMNI_SIDEROLINK_API_CERT_REQUIRED=false # TLS is terminated by Cilium Gateway
+      - SIDEROLINK_WIREGUARD_ADVERTISED_ADDR=${STORAGE_IP}:51820 # Direct node-to-NAS UDP path
+    ports:
+      - "8080:8080"       # Inbound h2c traffic from Cilium Gateway
+      - "51820:51820/udp" # Inbound WireGuard traffic from Talos Nodes
+    volumes:
+      - ./data:/var/lib/omni
+    restart: unless-stopped
+```
