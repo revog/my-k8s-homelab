@@ -19,6 +19,9 @@ httpRoute:
     - 'konflate.internal.${CLUSTER_DOMAIN}'
     - 'konflate.private.${CLUSTER_DOMAIN}'
 
+networkPolicy:
+  enabled: true
+
 resources:
   requests:
     cpu: 50m
