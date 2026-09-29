@@ -83,6 +83,13 @@ persistence:
     size: 2Gi
     globalMounts:
       - path: /config
+  config-file:
+    type: configMap
+    name: homeassistant-configuration-yaml
+    globalMounts:
+      - path: /config/configuration.yaml
+        subPath: configuration.yaml
+        readOnly: true
   logs:
     type: emptyDir
     globalMounts:
@@ -95,6 +102,12 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /tmp
+  venv: # runtime-installed integration requirements survive restarts
+    accessMode: ReadWriteOnce
+    storageClass: longhorn-v2
+    size: 2Gi
+    globalMounts:
+      - path: /config/.venv
 
 route:
   homeassistant:
