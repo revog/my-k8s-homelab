@@ -8,9 +8,13 @@ resources:
   - ocirepository.yaml
 #  - secret.age.enc.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+  
 configMapGenerator:
   - name: homeassistant-values
     files:
       - values.yaml
-    options:
-      disableNameSuffixHash: true
+  - name: homeassistant-configuration-yaml
+    files:
+      - ./resources/configuration.yaml
