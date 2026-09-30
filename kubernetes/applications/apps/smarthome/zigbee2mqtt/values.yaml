@@ -1,0 +1,104 @@
+controllers:
+  zigbee2mqtt:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      zigbee2mqtt:
+        image:
+          repository: ghcr.io/koenkk/zigbee2mqtt
+          tag: 2.10.1@sha256:67c26dcf8346aced02fe1380a6afd1b57268bcef10faae3f6057c13d5d3dfa80
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+          ZIGBEE2MQTT_DATA: /config
+          ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+          ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
+          ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+          ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+          ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+          ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+          ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
+          ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee.internal.${CLUSTER_DOMAIN}
+          ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: true
+          ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+          ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+          ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
+          ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+          ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
+          ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto.app-smarthome.svc.cluster.local:1883
+          ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+          ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+          ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+          ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+          ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://to-be-entered.local # ${SLZB_IP}:7638
+          ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+          # DEBUG: "zigbee-herdsman*"
+        envFrom:
+          - secretRef:
+              name: "{{ .Release.Name }}-secret"
+        probes:
+          liveness:
+            enabled: true
+            spec:
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 5
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: *port
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 5
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 512Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1010
+    runAsGroup: 1010
+    fsGroup: 1010
+    fsGroupChangePolicy: OnRootMismatch
+
+persistence:
+  data:
+    accessMode: ReadWriteOnce
+    # labels:
+    #   volsync.backube/restore: "true"
+    storageClass: longhorn-v2
+    size: 1Gi
+    globalMounts:
+      - path: /data
+
+route:
+  zigbee2mqtt:
+    hostnames:
+      - zigbee2mqtt.internal.${CLUSTER_DOMAIN}
+      - zigbee2mqtt.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+
+service:
+  zigbee2mqtt:
+    ports:
+      http:
+        appProtocol: kubernetes.io/ws
+        port: *port
