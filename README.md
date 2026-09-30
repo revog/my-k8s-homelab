@@ -85,7 +85,7 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/) running o
 #### 😶 Core Components
 * Networking & Service Mesh: **cilium** provides eBPF-based networking, while istio powers service-to-service communication with L7 proxying and traffic management. cloudflared secures ingress traffic via Cloudflare, and external-dns keeps DNS records in sync automatically.
 * Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets, I use external-secrets with 1Password Connect to inject secrets into Kubernetes.
-* Storage & Data Protection: **longhorn** provides distributed storage for persistent volumes, with **velero/kasten (tbd?)** handling backups and restores. **spegel** improves reliability by running a stateless, cluster-local OCI image mirror.
+* Storage & Data Protection: **longhorn** provides distributed storage for persistent volumes, with **volsync** handling backups and restores. **spegel** improves reliability by running a stateless, cluster-local OCI image mirror.
 * Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
 
 #### ⚙ GitOps
