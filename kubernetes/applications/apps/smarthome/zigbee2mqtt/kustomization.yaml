@@ -7,8 +7,9 @@ resources:
   - ocirepository.yaml
   - secret.age.enc.yaml
 
-# components:
-#   - ../../../components/volsync
+components:
+  # - ../../../components/volsync
+  - ../../../components/zeroscaler
 
 generatorOptions:
   disableNameSuffixHash: true
