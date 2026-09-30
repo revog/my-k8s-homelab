@@ -89,16 +89,20 @@ persistence:
           - path: /transcode
             subPath: transcode
   music:
-    type: nfs
-    server: ${STORAGE_IP}
-    path: /music
+    type: custom
+    volumeSpec:
+      nfs:
+        server: ${STORAGE_IP}
+        path: /music
     globalMounts:
       - path: /music
         readOnly: true
   videos:
-    type: nfs
-    server: ${STORAGE_IP}
-    path: /videos
+    type: custom
+    volumeSpec:
+      nfs:
+        server: ${STORAGE_IP}
+        path: /videos
     globalMounts:
       - path: /videos
         readOnly: true

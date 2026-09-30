@@ -84,8 +84,6 @@ persistence:
     type: nfs
     server: ${STORAGE_IP}
     path: /recordings
-    globalMounts:
-      - path: /recordings
   # run-dir:
   #   type: emptyDir
   #   medium: Memory
