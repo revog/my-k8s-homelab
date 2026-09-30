@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - helmrelease.yaml
+  - ocirepository.yaml
+
+# components:
+#   - ../../../components/volsync
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: mosquitto-values
+    files:
+      - values.yaml
+  - name: mosquitto-conf
+    files:
+      - ./resources/mosquitto.conf
