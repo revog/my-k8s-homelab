@@ -94,7 +94,7 @@ spec:
       VOLSYNC_CAPACITY: 2Gi
       VOLSYNC_SCHEDULE: "35 5 * * *" # 5:35am
       VOLSYNC_S3_SCHEDULE: "45 5 * * *" # 5:50am
-      ZEROSCALER_JOB_NAME: icmp_slzb_probe
+
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -113,6 +113,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: homelab
+  dependsOn:
+    - name: mosquitto
   decryption:
     provider: sops
     secretRef:
@@ -126,3 +128,4 @@ spec:
       VOLSYNC_CAPACITY: 2Gi
       VOLSYNC_SCHEDULE: "40 5 * * *" # 5:40am
       VOLSYNC_S3_SCHEDULE: "50 5 * * *" # 5:55am
+      ZEROSCALER_JOB_NAME: icmp_slzb_probe
