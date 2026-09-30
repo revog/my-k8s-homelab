@@ -19,6 +19,22 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
+  name: icmp_slzb_probe
+spec:
+  jobName: icmp_slzb_probe
+  module: icmp
+  prober:
+    url: blackbox-exporter.infra-monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - ${SLZB_IP}
+
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
   name: nfs-qnap-probe
 spec:
   jobName: nfs-qnap
