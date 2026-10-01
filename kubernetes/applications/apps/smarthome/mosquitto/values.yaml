@@ -78,6 +78,7 @@ service:
   mosquitto-internal:
     controller: mosquitto
     type: ClusterIP
+    nameOverride: mosquitto-internal
     ports:
       mqtt-internal:
         port: 1884
