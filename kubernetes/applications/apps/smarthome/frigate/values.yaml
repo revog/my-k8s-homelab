@@ -82,10 +82,8 @@ persistence:
       - path: /dev/shm
   recordings:
     type: nfs
-    server: ${STORAGE_IP}
+    server: "${STORAGE_IP:-0.0.0.0}"
     path: /recordings
-    globalMounts:
-      - path: /recordings
   # run-dir:
   #   type: emptyDir
   #   medium: Memory
