@@ -8,7 +8,7 @@ resources:
   - secret.age.enc.yaml
 
 components:
-  # - ../../../components/volsync
+  - ../../../components/volsync
   - ../../../components/zeroscaler
 
 generatorOptions:
