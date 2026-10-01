@@ -90,12 +90,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_UID: "1009"
-      VOLSYNC_GID: "1009"
-      VOLSYNC_CLAIM: mosquitto-config
-      VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_SCHEDULE: "35 5 * * *" # 5:35am
-      VOLSYNC_S3_SCHEDULE: "45 5 * * *" # 5:50am
 
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
