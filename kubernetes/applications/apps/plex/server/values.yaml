@@ -92,7 +92,7 @@ persistence:
     type: custom
     volumeSpec:
       nfs:
-        server: "${STORAGE_IP}"
+        server: ${STORAGE_IP:=0.0.0.0}
         path: /music
     globalMounts:
       - path: /music
@@ -101,7 +101,7 @@ persistence:
     type: custom
     volumeSpec:
       nfs:
-        server: "${STORAGE_IP}"
+        server: ${STORAGE_IP:=0.0.0.0}
         path: /videos
     globalMounts:
       - path: /videos
