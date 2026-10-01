@@ -7,6 +7,9 @@ metadata:
   namespace: infra-cloudflare
 spec:
   interval: 12h
-  url: oci://ghcr.io/helmforgedev/helm/cloudflared
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
   ref:
     tag: "1.5.17"
+  url: oci://ghcr.io/helmforgedev/helm/cloudflared
