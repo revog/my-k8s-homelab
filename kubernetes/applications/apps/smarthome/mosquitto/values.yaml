@@ -67,6 +67,8 @@ service:
   mosquitto:
     controller: mosquitto
     type: LoadBalancer
+    annotations:
+      lbipam.cilium.io/ips: ${CLUSTER_LB_MQTT}
     externalTrafficPolicy: Local
     ports:
       mqtt:
