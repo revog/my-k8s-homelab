@@ -58,6 +58,7 @@ persistence:
   password-file:
     type: secret
     name: mosquitto-auth
+    defaultMode: 0600
     globalMounts:
       - path: /mosquitto/config/passwd
         subPath: passwd
