@@ -9,7 +9,7 @@ controllers:
           tag: 2.10.1@sha256:67c26dcf8346aced02fe1380a6afd1b57268bcef10faae3f6057c13d5d3dfa80
         env:
           TZ: ${CLUSTER_TIMEZONE}
-          ZIGBEE2MQTT_DATA: /config
+          ZIGBEE2MQTT_DATA: /data
           ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
           ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
           ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
@@ -85,6 +85,10 @@ persistence:
     size: 1Gi
     globalMounts:
       - path: /data
+  tmp:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
 
 route:
   zigbee2mqtt:
