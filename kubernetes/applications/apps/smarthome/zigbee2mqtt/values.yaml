@@ -79,8 +79,8 @@ defaultPodOptions:
 persistence:
   data:
     accessMode: ReadWriteOnce
-    # labels:
-    #   volsync.backube/restore: "true"
+    labels:
+      volsync.backube/restore: "true"
     storageClass: longhorn-v2
     size: 1Gi
     globalMounts:
