@@ -19,9 +19,9 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: icmp_slzb_probe
+  name: icmp-slzb-probe
 spec:
-  jobName: icmp_slzb_probe
+  jobName: icmp-slzb-probe
   module: icmp
   prober:
     url: blackbox-exporter.infra-monitoring.svc.cluster.local:9115
