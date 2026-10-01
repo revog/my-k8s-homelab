@@ -93,6 +93,8 @@ persistence:
 route:
   zigbee2mqtt:
     hostnames:
+      - zigbee.internal.${CLUSTER_DOMAIN}
+      - zigbee.private.${CLUSTER_DOMAIN}
       - zigbee2mqtt.internal.${CLUSTER_DOMAIN}
       - zigbee2mqtt.private.${CLUSTER_DOMAIN}
     parentRefs:
