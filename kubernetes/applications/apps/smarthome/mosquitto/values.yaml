@@ -1,0 +1,81 @@
+controllers:
+  mosquitto:
+    pod:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    containers:
+      mosquitto:
+        image:
+          repository: public.ecr.aws/docker/library/eclipse-mosquitto
+          tag: 2.0.22
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+        probes:
+          liveness: &probes
+            enabled: true
+            port: &port 1884
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              failureThreshold: 30
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 100Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1009
+    runAsGroup: 1009
+    fsGroup: 1009
+    fsGroupChangePolicy: OnRootMismatch
+
+persistence:
+  config-file:
+    type: configMap
+    name: mosquitto-conf
+    globalMounts:
+      - path: /mosquitto/config/mosquitto.conf
+        subPath: mosquitto.conf
+        readOnly: true
+  data:
+    type: emptyDir
+    globalMounts:
+      - path: /mosquitto/data
+  logs:
+    type: emptyDir
+    globalMounts:
+      - path: /mosquitto/log
+  password-file:
+    type: secret
+    name: mosquitto-auth
+    globalMounts:
+      - path: /mosquitto/config/passwd
+        subPath: passwd
+        readOnly: true
+
+service:
+  mosquitto:
+    controller: mosquitto
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    ports:
+      mqtt:
+        port: 1883
+        targetPort: 1883
+  mosquitto-internal:
+    controller: mosquitto
+    type: ClusterIP
+    ports:
+      mqtt-internal:
+        port: 1884
+        targetPort: 1884
