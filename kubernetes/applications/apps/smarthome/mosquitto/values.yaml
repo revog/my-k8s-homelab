@@ -13,7 +13,7 @@ controllers:
         probes:
           liveness: &probes
             enabled: true
-            port: &port 1883
+            port: &port 1884
           readiness: *probes
           startup:
             enabled: true
