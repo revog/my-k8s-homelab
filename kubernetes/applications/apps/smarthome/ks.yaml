@@ -121,7 +121,7 @@ spec:
       APP: *app
       VOLSYNC_UID: "1010"
       VOLSYNC_GID: "1010"
-      VOLSYNC_CLAIM: zigbee2mqtt-config
+      VOLSYNC_CLAIM: zigbee2mqtt
       VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_SCHEDULE: "40 5 * * *" # 5:40am
       VOLSYNC_S3_SCHEDULE: "50 5 * * *" # 5:55am
