@@ -125,4 +125,4 @@ spec:
       VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_SCHEDULE: "40 5 * * *" # 5:40am
       VOLSYNC_S3_SCHEDULE: "50 5 * * *" # 5:55am
-      ZEROSCALER_JOB_NAME: icmp_slzb_probe
+      ZEROSCALER_JOB_NAME: icmp-slzb-probe
