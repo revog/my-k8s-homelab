@@ -1,0 +1,97 @@
+---
+controllers:
+  musicassistant:
+    pod:
+      # annotations:
+      #   reloader.stakater.com/auto: "true"
+    containers:
+      musicassistant:
+        image:
+          repository: ghcr.io/music-assistant/server
+          tag: 2.10.5@sha256:28023f8c0d96ca2496391f3218a6d70d7ef3ba84db846b3a3f3cd9ce7ef8aedc
+        env:
+          TZ: ${CLUSTER_TIMEZONE}
+          MASS_MASS_IP: &lbip ${CLUSTER_LB_MUSICASSISTANT} # Music Assistant dedicated IP necessary for local player discovery (mDNS/uPnP/...)
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: &maPort 8095
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            spec:
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              failureThreshold: 30
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 2Gi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1011
+    runAsGroup: 1011
+    fsGroup: 1011
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: [44, 10000]
+    seccompProfile: { type: RuntimeDefault }
+
+persistence:
+  data:
+    accessMode: ReadWriteOnce
+    labels:
+      volsync.backube/restore: "true"
+    storageClass: longhorn-v2
+    size: 1Gi
+    globalMounts:
+      - path: /data
+  music:
+    type: nfs
+    server: "${STORAGE_IP:-0.0.0.0}"
+    path: /music
+    globalMounts:
+      - path: /music
+        readOnly: true
+
+route:
+  musicassistant:
+    hostnames:
+      - musicassistant.internal.${CLUSTER_DOMAIN}
+      - musicassistant.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+    rules:
+      - backendRefs:
+          - name: musicassistant
+            port: *maPort
+
+service:
+  musicassistant:
+    controller: musicassistant
+    type: LoadBalancer
+    annotations:
+      io.cilium/lb-ipam-ips: *lbip
+    ports:
+      http:
+        appProtocol: kubernetes.io/ws
+        port: *maPort
+      streaming:
+        port: 8097
