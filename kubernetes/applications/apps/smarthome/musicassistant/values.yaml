@@ -1,9 +1,6 @@
 ---
 controllers:
   musicassistant:
-    pod:
-      # annotations:
-      #   reloader.stakater.com/auto: "true"
     containers:
       musicassistant:
         image:
