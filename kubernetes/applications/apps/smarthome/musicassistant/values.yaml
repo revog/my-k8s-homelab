@@ -8,7 +8,6 @@ controllers:
           tag: 2.10.5@sha256:28023f8c0d96ca2496391f3218a6d70d7ef3ba84db846b3a3f3cd9ce7ef8aedc
         env:
           TZ: ${CLUSTER_TIMEZONE}
-          MASS_MASS_IP: &lbip ${CLUSTER_LB_MUSICASSISTANT} # Music Assistant dedicated IP necessary for local player discovery (mDNS/uPnP/...)
         probes:
           liveness: &probes
             enabled: true
@@ -85,7 +84,7 @@ service:
     controller: musicassistant
     type: LoadBalancer
     annotations:
-      io.cilium/lb-ipam-ips: *lbip
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_MUSICASSISTANT} # Music Assistant dedicated IP necessary for local player discovery (mDNS/uPnP/...)
     ports:
       http:
         appProtocol: kubernetes.io/ws
