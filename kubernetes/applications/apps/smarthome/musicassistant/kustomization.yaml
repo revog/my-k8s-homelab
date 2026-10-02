@@ -6,8 +6,8 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
 
-# components:
-#   - ../../../components/volsync
+components:
+  - ../../../components/volsync
 
 generatorOptions:
   disableNameSuffixHash: true
