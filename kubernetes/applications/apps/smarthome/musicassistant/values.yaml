@@ -56,13 +56,6 @@ persistence:
     size: 1Gi
     globalMounts:
       - path: /data
-  music:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /music
-    globalMounts:
-      - path: /music
-        readOnly: true
 
 route:
   musicassistant:
