@@ -53,10 +53,10 @@ controllers:
           repository: firbykirby/udp-broadcast-relay
           tag: v1.3.0-rc1@sha256:b4d9f842739878373c34d43c3ba2472c814fc3f674576735d1521d0a615a425a
         env:
-          ID: "1"
-          PORT: "1900"
-          DEV: "enp1s0 cilium_host" # Host's physical interface and Cilium gateway interface
-          MULTICAST: "239.255.255.250" # Sonos SSDP multicast group
+          RELAY_ID: "1"
+          BROADCAST_PORT: "1900"
+          INTERFACES: "enp1s0,cilium_host" # Host's physical interface and Cilium gateway interface
+          MULTICAST_GROUP: "239.255.255.250" # Sonos SSDP multicast group
         securityContext:
           privileged: true
           capabilities:
