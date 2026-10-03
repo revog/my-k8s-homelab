@@ -73,15 +73,14 @@ route:
             port: *maPort
 
 service:
-  musicassistant-ui:
+  ui:
     controller: musicassistant
-    type: LoadBalancer
     ports:
       http:
         primary: true
         appProtocol: kubernetes.io/ws
         port: *maPort
-  musicassistant-streaming:
+  streaming:
     controller: musicassistant
     type: LoadBalancer
     externalTrafficPolicy: Local # Crucial to preserve client source IPs for Sonos
