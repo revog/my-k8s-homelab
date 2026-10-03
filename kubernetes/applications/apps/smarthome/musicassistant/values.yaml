@@ -69,7 +69,7 @@ route:
         namespace: infra-tailscale
     rules:
       - backendRefs:
-          - name: musicassistant
+          - name: musicassistant-ui
             port: *maPort
 
 service:
