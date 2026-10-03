@@ -73,14 +73,20 @@ route:
             port: *maPort
 
 service:
-  musicassistant:
+  musicassistant-ui:
     controller: musicassistant
     type: LoadBalancer
+    ports:
+      http:
+        primary: true
+        appProtocol: kubernetes.io/ws
+        port: *maPort
+  musicassistant-streaming:
+    controller: musicassistant
+    type: LoadBalancer
+    externalTrafficPolicy: Local # Crucial to preserve client source IPs for Sonos
     annotations:
       io.cilium/lb-ipam-ips: ${CLUSTER_LB_MUSICASSISTANT} # Music Assistant dedicated IP necessary for local player discovery (mDNS/uPnP/...)
     ports:
-      http:
-        appProtocol: kubernetes.io/ws
-        port: *maPort
       streaming:
         port: 8097
