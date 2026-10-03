@@ -4,17 +4,17 @@ defaultSettings:
   defaultDataPath: /var/mnt/nvme       # set falllback path
   createDefaultDiskLabeledNodes: true  # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
 
-  defaultReplicaCount: 2
+  defaultReplicaCount: 3
 
-  concurrentReplicaRebuildPerNodeLimit: 1   # Prevent rebuild storms  per node and optimize limits
+  concurrentReplicaRebuildPerNodeLimit: 4
   concurrentVolumeBackupRestorePerNodeLimit: 1
-  defaultUblkQueueDepth: 64           # Resource optimization: lowers queue depth to save CPU cycles and RAM overhead
-  defaultUblkNumberOfQueue: 1
+  defaultUblkQueueDepth: 128
+  defaultUblkNumberOfQueue: 4
   disableRevisionCounter: true
   nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
   replicaAutoBalance: "best-effort"   # Automatically redistributes replicas evenly across nodes when a broken node recovers
   replicaSoftAntiAffinity: true
-  guaranteedInstanceManagerCPU: 5     # amount of allocated CPU on a node for instance manager (interpreted in %)
+  guaranteedInstanceManagerCPU: 10    # amount of allocated CPU on a node for instance manager (interpreted in %)
 
   backupTarget: ""
   backupTargetCredentialSecret: ""
@@ -26,19 +26,19 @@ longhornManager:
   priorityClassName: system-cluster-critical
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 100m
+      memory: 256Mi
     limits:
-      cpu: 200m
-      memory: 384Mi
+      cpu: 1000m
+      memory: 1Gi
 longhornDriver:
   resources:
     requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 200m
+      cpu: 100m
       memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 csi:
   attacherReplicaCount: 2
   provisionerReplicaCount: 2
@@ -73,4 +73,4 @@ ingress:
 # Default StorageClass options
 persistence:
   defaultClass: false          # setup done with dedicated yaml manifest
-  defaultClassReplicaCount: 2
+  defaultClassReplicaCount: 3
