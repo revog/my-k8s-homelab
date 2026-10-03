@@ -1,0 +1,30 @@
+---
+controllers:
+  avahi-reflector:
+    # Deployed as a DaemonSet to ensure the reflector runs on every node, allowing it to capture mDNS packets across the entire cluster.
+    type: daemonset
+    pod:
+      # Required to listen to multicast traffic directly on the host's physical interfaces
+      hostNetwork: true
+      # Ensures the pod can still resolve internal cluster services while using hostNetwork
+      dnsPolicy: ClusterFirstWithHostNet
+    containers:
+      avahi-reflector:
+        image:
+          repository: plungo/avahi-reflector
+          tag: v0.6.32@sha256:410900a532d528e4ee03dee888a6523b8aae466b03271c2720888c83d608981f
+        securityContext:
+          capabilities:
+            add:
+              # capability is mandatory for the Avahi daemon to manage multicast routing and bind to the network interfaces
+              - NET_ADMIN
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            memory: 64Mi
+
+service:
+  avahi-reflector:
+    enabled: false
