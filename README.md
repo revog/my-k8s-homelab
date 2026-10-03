@@ -1,19 +1,19 @@
 <div align="center">
-  
+
 # My K8s Homelab
 _... managed with Flux, Renovate, GitHub Actions and others._
 
 </div>
 
 <div align="center">
-  
+
   [![Kubernetes](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/kubernetes_version.svg)](https://kubernetes.io/)&nbsp;&nbsp;
   [![Talos](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/talos_version.svg)](https://talos.dev)&nbsp;&nbsp;
   [![Flux](https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/flux_version.svg)](https://fluxcd.io)&nbsp;&nbsp;
 
 </div>
 
-<div align="center"> 
+<div align="center">
   <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_age_days.svg" alt="Age-Days" /></picture>&nbsp;&nbsp;
   <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_uptime_days.svg" alt="Uptime-Days" /></picture>&nbsp;&nbsp;
   <picture><img src="https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/.github/badges/cluster_node_count.svg" alt="Node-Count" /></picture>&nbsp;&nbsp;
@@ -62,11 +62,11 @@ This repository leverages a range of cutting-edge open-source tools and platform
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Provider's Internet Router | Router/Gateway | 1 | - | - | - | - | - |
 | Network Gear | Network Switch | 1 | - | - | - | - | - |
-| [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) | Control Plane & Worker Nodes | 3 | 15 cores up to 4.3 GHz | 72GB | 3 x  512GB NVMe | amd64 | [Talos Linux](https://www.talos.dev/) |
+| [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) | Control Plane & Worker Nodes | 3 | 15 cores up to 4.3 GHz | 64GB | 3 x 512GB NVMe | amd64 | [Talos Linux](https://www.talos.dev/) |
 | NAS | Storage | 1 | 8 cores | 16GB | 48TB | arm64 | [QNAP](https://www.qnap.com/) |
 
 ## ☁️ Cloud Services
-I always try (whenever possible) to build and manage my infrastructure and workloads on-prem and on my own. But there are specific components of my setup that rely on cloud services. This saves me from having to worry about: 
+I always try (whenever possible) to build and manage my infrastructure and workloads on-prem and on my own. But there are specific components of my setup that rely on cloud services. This saves me from having to worry about:
 (1) Dealing with chicken/egg scenarios
 (2) services I critically need whether my cluster is online or not
 
