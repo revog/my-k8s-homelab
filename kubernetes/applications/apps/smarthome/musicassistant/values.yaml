@@ -37,6 +37,8 @@ controllers:
           limits:
             memory: 2Gi
   sonos-ssdp-relay:
+    # Deployed as a DaemonSet to ensure the reflector runs on every node, allowing it to capture mDNS packets across the entire cluster.
+    type: daemonset
     pod:
       # Required to listen to UPnP/SSDP traffic
       hostNetwork: true
