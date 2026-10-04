@@ -88,9 +88,10 @@ persistence:
       volsync.backube/restore: "true"
     storageClass: longhorn-v2
     size: 1Gi
-    globalMounts:
-      - path: /data
-
+    advancedMounts:
+      musicassistant:
+        musicassistant:
+          - path: /data
 route:
   musicassistant:
     hostnames:
