@@ -85,11 +85,11 @@ route:
         namespace: infra-tailscale
     rules:
       - backendRefs:
-          - name: esphome-ui
+          - name: esphome
             port: *port
 
 service:
-  ui: # Generiert den K8s Service 'esphome-ui'
+  ui:
     controller: esphome
     ports:
       http:
