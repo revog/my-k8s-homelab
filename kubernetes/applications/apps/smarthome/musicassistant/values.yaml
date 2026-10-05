@@ -36,40 +36,6 @@ controllers:
             cpu: 10m
           limits:
             memory: 2Gi
-  sonos-ssdp-relay:
-    # Deployed as a DaemonSet to ensure the reflector runs on every node, allowing it to capture mDNS packets across the entire cluster.
-    type: daemonset
-    pod:
-      # Required to listen to UPnP/SSDP traffic
-      hostNetwork: true
-      # Ensures the pod can still resolve internal cluster services while using hostNetwork
-      dnsPolicy: ClusterFirstWithHostNet
-      securityContext:
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
-        seccompProfile: { type: Unconfined }
-    containers:
-      relay:
-        image:
-          repository: firbykirby/udp-broadcast-relay
-          tag: v1.3.0-rc1@sha256:b4d9f842739878373c34d43c3ba2472c814fc3f674576735d1521d0a615a425a
-        command: ["/usr/local/bin/udp-broadcast-relay-redux"]
-        args:
-          - "--id"
-          - "1"
-          - "--port"
-          - "1900"
-          - "--dev"
-          - "enp1s0"          # Host's physical interface
-          - "--dev"
-          - "cilium_host"     # Cilium gateway interface
-          - "--multicast"
-          - "239.255.255.250" # Sonos SSDP multicast group
-        securityContext:
-          privileged: true
-          capabilities:
-            add: ["NET_ADMIN"]
 
 defaultPodOptions:
   securityContext:
