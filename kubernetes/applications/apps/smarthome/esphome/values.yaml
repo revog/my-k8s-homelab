@@ -7,8 +7,11 @@ controllers:
           repository: esphome/esphome
           tag: 2026.9@sha256:4ad55931c0186d2910dc128526237acabb422a662697a4e8bb356d390a1332a1
         env:
-          TZ: ${CLUSTER_TIMEZONE}
           # ESPHOME_DASHBOARD_USE_PING: "true"
+          PLATFORMIO_CORE_DIR: /home/esphome/.platformio
+          PLATFORMIO_GLOBALLIB_DIR: /home/esphome/.platformio/lib
+          PLATFORMIO_SETTING_ENABLE_TELEMETRY: "No"
+          TZ: ${CLUSTER_TIMEZONE}
         probes:
           liveness: &probes
             enabled: true
