@@ -74,7 +74,7 @@ persistence:
           - path: /home/esphome
   secrets-file:
     type: secret
-    name: esphome-secrets
+    name: esphome-secret
     advancedMounts:
       esphome:
         esphome:
