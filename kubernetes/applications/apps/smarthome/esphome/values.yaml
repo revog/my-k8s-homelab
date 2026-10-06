@@ -17,7 +17,6 @@ controllers:
               httpGet:
                 path: /
                 port: &port 6052
-              initialDelaySeconds: 30
               periodSeconds: 10
               timeoutSeconds: 5
               failureThreshold: 3
@@ -25,8 +24,7 @@ controllers:
           startup:
             enabled: true
             spec:
-              initialDelaySeconds: 30
-              periodSeconds: 10
+              periodSeconds: 5
               failureThreshold: 30
         securityContext:
           allowPrivilegeEscalation: false
