@@ -16,8 +16,12 @@ controllers:
         env:
           - name: REFLECTOR_ENABLE_REFLECTOR
             value: "yes"
+          - name: SERVER_PUBLISH_WORKSTATION
+            value: "no"
           - name: SERVER_USE_IFF_RUNNING
             value: "yes"
+          - name: SERVER_USE_IPV6
+            value: "no"
 
         securityContext:
           capabilities:
