@@ -8,6 +8,7 @@ controllers:
           tag: 2026.9@sha256:4ad55931c0186d2910dc128526237acabb422a662697a4e8bb356d390a1332a1
         env:
           # ESPHOME_DASHBOARD_USE_PING: "true"
+          CCACHE_DIR: /home/esphome/.ccache
           PLATFORMIO_CORE_DIR: /home/esphome/.platformio
           PLATFORMIO_GLOBALLIB_DIR: /home/esphome/.platformio/lib
           PLATFORMIO_SETTING_ENABLE_TELEMETRY: "No"
