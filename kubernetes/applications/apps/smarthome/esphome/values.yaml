@@ -72,6 +72,14 @@ persistence:
       esphome:
         esphome:
           - path: /home/esphome
+  secrets-file:
+    type: secret
+    name: esphome-secrets-file
+    advancedMounts:
+      esphome:
+        esphome:
+          - path: /config/secrets.yaml
+            subPath: secrets.yaml
 
 route:
   esphome:
