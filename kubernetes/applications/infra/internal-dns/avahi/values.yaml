@@ -13,6 +13,12 @@ controllers:
         image:
           repository: flungo/avahi
           tag: v0.6.32@sha256:410900a532d528e4ee03dee888a6523b8aae466b03271c2720888c83d608981f
+        env:
+          - name: REFLECTOR_ENABLE_REFLECTOR
+            value: "yes"
+          - name: SERVER_USE_IFF_RUNNING
+            value: "yes"
+
         securityContext:
           capabilities:
             add:
