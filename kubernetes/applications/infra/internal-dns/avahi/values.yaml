@@ -16,6 +16,8 @@ controllers:
         env:
           - name: REFLECTOR_ENABLE_REFLECTOR
             value: "yes"
+          - name: SERVER_ALLOW_INTERFACES
+            value: "enp1s0,cilium_host"
           - name: SERVER_PUBLISH_WORKSTATION
             value: "no"
           - name: SERVER_USE_IFF_RUNNING
