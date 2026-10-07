@@ -107,6 +107,12 @@ persistence:
             subPath: nginx-cache
           - path: /var/run
             subPath: nginx-run
+          - path: /var/lib/nginx
+            subPath: nginx-lib
+          - path: /etc/nginx
+            subPath: nginx-etc
+          - path: /app-root/_master_app/assets
+            subPath: app-assets
 
 route:
   api:
