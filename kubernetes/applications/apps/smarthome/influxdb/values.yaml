@@ -28,7 +28,7 @@ controllers:
               periodSeconds: 10
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: true # <-- Bleibt für die DB maximal sicher!
           capabilities: { drop: ["ALL"] }
         resources:
           requests:
@@ -44,7 +44,6 @@ controllers:
         args:
           - --mode=admin
         env:
-          DATABASE_URL: /tmp/sqlite.db
           INFLUXDB_URL: http://localhost:8181
           INFLUXDB_VERSION: "3"
         envFrom:
@@ -52,7 +51,7 @@ controllers:
               name: influxdb3-secrets
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false # Needed due to existing UI script assets and Nginx config
           capabilities: { drop: ["ALL"] }
         resources:
           requests:
@@ -95,24 +94,6 @@ persistence:
             subPath: data
           - path: /var/lib/influxdb3/plugins
             subPath: plugins
-  ui-tmp:
-    enabled: true
-    type: emptyDir
-    advancedMounts:
-      influxdb3:
-        explorer:
-          - path: /tmp
-            subPath: tmp
-          - path: /var/cache/nginx
-            subPath: nginx-cache
-          - path: /var/run
-            subPath: nginx-run
-          - path: /var/lib/nginx
-            subPath: nginx-lib
-          - path: /etc/nginx
-            subPath: nginx-etc
-          - path: /app-root/_master_app/assets
-            subPath: app-assets
 
 route:
   api:
