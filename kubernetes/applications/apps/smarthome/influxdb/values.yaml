@@ -62,7 +62,7 @@ controllers:
             memory: 128Mi
 
 service:
-  app:
+  influxdb3:
     controller: influxdb3
     ports:
       http:
@@ -104,7 +104,7 @@ route:
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - name: app
+          - name: influxdb3
             port: *port-api
   ui:
     hostnames:
@@ -117,5 +117,5 @@ route:
         namespace: infra-tailscale
     rules:
       - backendRefs:
-          - name: app
+          - name: influxdb3
             port: *port-ui
