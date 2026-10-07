@@ -1,0 +1,90 @@
+controllers:
+  influxdb3:
+    containers:
+      main:
+        image:
+          repository: influxdb
+          tag: 3.12.0-core
+        command:
+          - influxdb3
+          - serve
+          - --node-id=node0
+          - --object-store=file
+          - --data-dir=/var/lib/influxdb3/data
+          - --plugin-dir=/var/lib/influxdb3/plugins
+          - --disable-authz=health,ping,metrics
+        envFrom:
+          - secretRef:
+              name: influxdb3-secrets
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: &port-api 8181
+              initialDelaySeconds: 15
+              periodSeconds: 10
+      explorer:
+        image:
+          repository: influxdata/influxdb3-ui
+          tag: 1.0.0
+        args:
+          - --mode=admin
+        env:
+          INFLUXDB_URL: http://localhost:8181
+          INFLUXDB_VERSION: "3"
+        envFrom:
+          - secretRef:
+              name: influxdb3-secrets
+
+service:
+  app:
+    controller: influxdb3
+    ports:
+      http:
+        port: *port-api
+      ui:
+        port: &port-ui 8888
+        targetPort: 80
+
+persistence:
+  data:
+    enabled: true
+    type: persistentVolumeClaim
+    storageClass: longhorn-v2
+    accessMode: ReadWriteOnce
+    size: 15Gi
+    advancedMounts:
+      influxdb3:
+        main:
+          - path: /var/lib/influxdb3/data
+            subPath: data
+          - path: /var/lib/influxdb3/plugins
+            subPath: plugins
+
+route:
+  api:
+    hostnames:
+      - influx.internal.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+    rules:
+      - backendRefs:
+          - name: app
+            port: *port-api
+  ui:
+    hostnames:
+      - influx-ui.internal.${CLUSTER_DOMAIN}
+      - influx-ui.private.${CLUSTER_DOMAIN}
+    parentRefs:
+      - name: internal
+        namespace: infra-gateway
+      - name: private
+        namespace: infra-tailscale
+    rules:
+      - backendRefs:
+          - name: app
+            port: *port-ui
