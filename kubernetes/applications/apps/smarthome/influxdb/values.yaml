@@ -44,7 +44,8 @@ controllers:
         args:
           - --mode=admin
         env:
-          INFLUXDB_URL: http://localhost:8181
+          INFLUXDB_SERVER_NAME: "influxdb3.app-smarthome"
+          INFLUXDB_URL: https://influx.internal.${CLUSTER_DOMAIN}
           INFLUXDB_VERSION: "3"
           PORT: "8080"
         envFrom:
