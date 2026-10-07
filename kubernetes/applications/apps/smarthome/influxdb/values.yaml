@@ -29,7 +29,7 @@ controllers:
       explorer:
         image:
           repository: influxdata/influxdb3-ui
-          tag: 1.0.0
+          tag: 1.11.0
         args:
           - --mode=admin
         env:

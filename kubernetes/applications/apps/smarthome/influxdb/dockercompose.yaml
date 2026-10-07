@@ -40,7 +40,7 @@ services:
   # InfluxDB Data Explorer
   # Web-UI zur Interaktion mit InfluxDB v3 Daten
   influxdb-explorer:
-    image: influxdata/influxdb3-ui:1.0.0 # Offizielles Image für InfluxDB 3 UI
+    image: influxdata/influxdb3-ui:1.11.0 # Offizielles Image für InfluxDB 3 UI
     container_name: influxdb-data-explorer
     ports:
       - "8888:80" # Host 8888 auf Container 80 mappen, wie in der Doku
