@@ -28,7 +28,7 @@ controllers:
               periodSeconds: 10
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true # <-- Bleibt für die DB maximal sicher!
+          readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
         resources:
           requests:
@@ -46,6 +46,7 @@ controllers:
         env:
           INFLUXDB_URL: http://localhost:8181
           INFLUXDB_VERSION: "3"
+          PORT: "8080"
         envFrom:
           - secretRef:
               name: influxdb3-secrets
@@ -69,7 +70,7 @@ service:
         port: *port-api
       ui:
         port: &port-ui 8888
-        targetPort: 80
+        targetPort: 8080
 
 defaultPodOptions:
   securityContext:
