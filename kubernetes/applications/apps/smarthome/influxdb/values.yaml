@@ -26,6 +26,17 @@ controllers:
                 port: &port-api 8181
               initialDelaySeconds: 15
               periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 2000m
+            memory: 2Gi
       explorer:
         image:
           repository: influxdata/influxdb3-ui
@@ -33,11 +44,23 @@ controllers:
         args:
           - --mode=admin
         env:
+          DATABASE_URL: /tmp/sqlite.db
           INFLUXDB_URL: http://localhost:8181
           INFLUXDB_VERSION: "3"
         envFrom:
           - secretRef:
               name: influxdb3-secrets
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
 
 service:
   app:
@@ -48,6 +71,15 @@ service:
       ui:
         port: &port-ui 8888
         targetPort: 80
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1500
+    runAsGroup: 1500
+    fsGroup: 1500
+    fsGroupChangePolicy: OnRootMismatch
+    seccompProfile: { type: RuntimeDefault }
 
 persistence:
   data:
@@ -63,6 +95,18 @@ persistence:
             subPath: data
           - path: /var/lib/influxdb3/plugins
             subPath: plugins
+  ui-tmp:
+    enabled: true
+    type: emptyDir
+    advancedMounts:
+      influxdb3:
+        explorer:
+          - path: /tmp
+            subPath: tmp
+          - path: /var/cache/nginx
+            subPath: nginx-cache
+          - path: /var/run
+            subPath: nginx-run
 
 route:
   api:
