@@ -96,7 +96,14 @@ persistence:
             subPath: data
           - path: /var/lib/influxdb3/plugins
             subPath: plugins
-
+  ui-tmp:
+    enabled: true
+    type: emptyDir
+    advancedMounts:
+      influxdb3:
+        main:
+          - path: /tmp
+            subPath: tmp
 route:
   api:
     hostnames:
