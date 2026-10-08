@@ -23,7 +23,7 @@ controllers:
             spec:
               httpGet:
                 path: /health
-                port: &port-api 8181
+                port: &port 8181
               initialDelaySeconds: 15
               periodSeconds: 10
         securityContext:
@@ -37,41 +37,13 @@ controllers:
           limits:
             cpu: 2000m
             memory: 2Gi
-      # explorer:
-      #   image:
-      #     repository: influxdata/influxdb3-ui
-      #     tag: 1.11.0
-      #   args:
-      #     - --mode=admin
-      #   env:
-      #     INFLUXDB_SERVER_NAME: "influxdb3.app-smarthome"
-      #     INFLUXDB_URL: https://influx.internal.${CLUSTER_DOMAIN}
-      #     INFLUXDB_VERSION: "3"
-      #     PORT: "8080"
-      #   envFrom:
-      #     - secretRef:
-      #         name: influxdb3-secrets
-      #   securityContext:
-      #     allowPrivilegeEscalation: false
-      #     readOnlyRootFilesystem: false # Needed due to existing UI script assets and Nginx config
-      #     capabilities: { drop: ["ALL"] }
-      #   resources:
-      #     requests:
-      #       cpu: 10m
-      #       memory: 64Mi
-      #     limits:
-      #       cpu: 200m
-      #       memory: 256Mi
 
 service:
   influxdb3:
     controller: influxdb3
     ports:
       http:
-        port: *port-api
-      ui:
-        port: &port-ui 8888
-        targetPort: 8080
+        port: *port
 
 defaultPodOptions:
   securityContext:
@@ -105,20 +77,10 @@ persistence:
           - path: /tmp
             subPath: tmp
 route:
-  api:
+  influxdb3:
     hostnames:
       - influx.internal.${CLUSTER_DOMAIN}
-    parentRefs:
-      - name: internal
-        namespace: infra-gateway
-    rules:
-      - backendRefs:
-          - name: influxdb3
-            port: *port-api
-  ui:
-    hostnames:
-      - influx-ui.internal.${CLUSTER_DOMAIN}
-      - influx-ui.private.${CLUSTER_DOMAIN}
+      - influx.private.${CLUSTER_DOMAIN}
     parentRefs:
       - name: internal
         namespace: infra-gateway
@@ -127,4 +89,4 @@ route:
     rules:
       - backendRefs:
           - name: influxdb3
-            port: *port-ui
+            port: *port
