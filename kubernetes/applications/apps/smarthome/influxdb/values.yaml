@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: influxdb
-          tag: 3.12.0-core
+          tag: 3.12.0-enterprise
         command:
           - influxdb3
           - serve
@@ -37,31 +37,31 @@ controllers:
           limits:
             cpu: 2000m
             memory: 2Gi
-      explorer:
-        image:
-          repository: influxdata/influxdb3-ui
-          tag: 1.11.0
-        args:
-          - --mode=admin
-        env:
-          INFLUXDB_SERVER_NAME: "influxdb3.app-smarthome"
-          INFLUXDB_URL: https://influx.internal.${CLUSTER_DOMAIN}
-          INFLUXDB_VERSION: "3"
-          PORT: "8080"
-        envFrom:
-          - secretRef:
-              name: influxdb3-secrets
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false # Needed due to existing UI script assets and Nginx config
-          capabilities: { drop: ["ALL"] }
-        resources:
-          requests:
-            cpu: 10m
-            memory: 64Mi
-          limits:
-            cpu: 200m
-            memory: 256Mi
+      # explorer:
+      #   image:
+      #     repository: influxdata/influxdb3-ui
+      #     tag: 1.11.0
+      #   args:
+      #     - --mode=admin
+      #   env:
+      #     INFLUXDB_SERVER_NAME: "influxdb3.app-smarthome"
+      #     INFLUXDB_URL: https://influx.internal.${CLUSTER_DOMAIN}
+      #     INFLUXDB_VERSION: "3"
+      #     PORT: "8080"
+      #   envFrom:
+      #     - secretRef:
+      #         name: influxdb3-secrets
+      #   securityContext:
+      #     allowPrivilegeEscalation: false
+      #     readOnlyRootFilesystem: false # Needed due to existing UI script assets and Nginx config
+      #     capabilities: { drop: ["ALL"] }
+      #   resources:
+      #     requests:
+      #       cpu: 10m
+      #       memory: 64Mi
+      #     limits:
+      #       cpu: 200m
+      #       memory: 256Mi
 
 service:
   influxdb3:
