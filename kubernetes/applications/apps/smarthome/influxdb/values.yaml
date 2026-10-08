@@ -5,14 +5,14 @@ controllers:
         image:
           repository: influxdb
           tag: 3.12.0-enterprise
-        command:
-          - influxdb3
-          - serve
-          - --node-id=node0
-          - --object-store=file
-          - --data-dir=/var/lib/influxdb3/data
-          - --plugin-dir=/var/lib/influxdb3/plugins
-          - --disable-authz=health,ping,metrics
+        env:
+          INFLUXDB3_CLUSTER_ID: "cluster0"
+          INFLUXDB3_NODE_ID: "node0"
+          INFLUXDB3_OBJECT_STORE: "file"
+          INFLUXDB3_DATA_DIR: "/var/lib/influxdb3/data"
+          INFLUXDB3_PLUGIN_DIR: "/var/lib/influxdb3/plugins"
+          INFLUXDB3_MODE: "all,webui"
+          INFLUXDB3_DISABLE_AUTHZ: "health,ping,metrics"
         envFrom:
           - secretRef:
               name: influxdb3-secrets
