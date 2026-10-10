@@ -60,7 +60,7 @@ persistence:
     type: persistentVolumeClaim
     storageClass: longhorn-v2
     accessMode: ReadWriteOnce
-    size: 15Gi
+    size: 20Gi
     advancedMounts:
       influxdb3:
         main:
