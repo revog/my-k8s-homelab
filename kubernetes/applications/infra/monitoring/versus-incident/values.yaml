@@ -1,3 +1,4 @@
+---
 agent:
   enable: true
 
@@ -6,12 +7,12 @@ alert:
     enable: false
     botToken: "your-telegram-bot-token"
     chatId: "your-chat-id"
-    useProxy: false 
+    useProxy: false
   email:
     enable: false
 
 config:
-  publicHost:  "https://incident.internal.${CLUSTER_DOMAIN}"
+  publicHost: "https://incident.internal.${CLUSTER_DOMAIN}"
 
 connectors:
   kubernetes:
@@ -26,10 +27,14 @@ connectors:
 
 kubernetesReaderRBAC:
   enabled: true
-  
+
 redis:
   enabled: true
   architecture: standalone
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    digest: sha256-8590b45e13ef6b71521eccfd07f6c5b95f9ed61d7b8814ffaea63fd0dd6b565c
   master:
     persistence:
       enabled: true
@@ -58,4 +63,3 @@ tools:
       repos:
         - url: https://github.com/revog/my-k8s-homelab.git
           branch: main
-          service: api
