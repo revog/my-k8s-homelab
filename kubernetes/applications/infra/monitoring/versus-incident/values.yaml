@@ -1,6 +1,19 @@
 ---
 agent:
   enable: true
+  sources:
+    - name: victoria-metrics
+      type: prometheus
+      enable: true
+      options:
+        address: http://vmsingle-vm.infra-monitoring.svc.cluster.local:8428
+        # allow_private_networks: true  # deliberate opt-in for this trusted Docker network
+  tools:
+    recent_changes:
+      git:
+        repos:
+          - url: https://github.com/revog/my-k8s-homelab.git
+            branch: main
 
 alert:
   telegram:
@@ -39,18 +52,3 @@ storage:
     enabled: true
     size: 2Gi
     storageClassName: longhorn-v2
-
-sources:
-  - name: victoria-metrics
-    type: prometheus
-    enable: true
-    options:
-      address: http://vmsingle-vm.infra-monitoring.svc.cluster.local:8428
-      allow_private_networks: true  # deliberate opt-in for this trusted Docker network
-
-tools:
-  recent_changes:
-    git:
-      repos:
-        - url: https://github.com/revog/my-k8s-homelab.git
-          branch: main
