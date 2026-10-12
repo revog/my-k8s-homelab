@@ -29,16 +29,7 @@ kubernetesReaderRBAC:
   enabled: true
 
 redis:
-  enabled: true
-  architecture: standalone
-  image:
-    registry: docker.io
-    repository: bitnami/redis
-    digest: sha256:8590b45e13ef6b71521eccfd07f6c5b95f9ed61d7b8814ffaea63fd0dd6b565c
-  master:
-    persistence:
-      enabled: true
-      size: 1Gi
+  enabled: false
 
 replicaCount: 1
 
