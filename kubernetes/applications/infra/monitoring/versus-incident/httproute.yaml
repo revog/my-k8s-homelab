@@ -15,6 +15,6 @@ spec:
     - 'incident.private.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
-        - name: versus-incident-service
+        - name: versus-incident
           port: 3000
           weight: 100
