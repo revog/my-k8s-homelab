@@ -11,7 +11,7 @@ alert:
     enable: false
 
 config:
-  publicHost:  incident.internal.${CLUSTER_DOMAIN}
+  publicHost:  "https://incident.internal.${CLUSTER_DOMAIN},https://incident.private.${CLUSTER_DOMAIN}"
 
 connectors:
   kubernetes:
