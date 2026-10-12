@@ -22,7 +22,7 @@ connectors:
 #   - secretRef:
 #       name: my-agent-source-credentials
 
-# gateway_secret: ${GATEWAY_SECRET}
+# gateway_secret: define and get from secret var GATEWAY_SECRET
 
 kubernetesReaderRBAC:
   enabled: true
