@@ -1,0 +1,61 @@
+agent:
+  enable: true
+
+alert:
+  telegram:
+    enable: false
+    botToken: "your-telegram-bot-token"
+    chatId: "your-chat-id"
+    useProxy: false 
+  email:
+    enable: false
+
+config:
+  publicHost:  incident.internal.${CLUSTER_DOMAIN}
+
+connectors:
+  kubernetes:
+    auth:
+      mode: in_cluster
+
+# extraEnvFrom:
+#   - secretRef:
+#       name: my-agent-source-credentials
+
+# gateway_secret: ${GATEWAY_SECRET}
+
+kubernetesReaderRBAC:
+  enabled: true
+  
+redis:
+  enabled: true
+  architecture: standalone
+  master:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+replicaCount: 1
+
+storage:
+  type: file
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClassName: longhorn-v2
+
+sources:
+  - name: victoria-metrics
+    type: prometheus
+    enable: true
+    options:
+      address: http://vmsingle-vm.infra-monitoring.svc.cluster.local:8428
+      allow_private_networks: true  # deliberate opt-in for this trusted Docker network
+
+tools:
+  recent_changes:
+    git:
+      repos:
+        - url: https://github.com/revog/my-k8s-homelab.git
+          branch: main
+          service: api
