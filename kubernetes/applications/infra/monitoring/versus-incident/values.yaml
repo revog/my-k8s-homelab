@@ -7,9 +7,9 @@ agent:
       enable: true
       options:
         address: http://vmsingle-vm.infra-monitoring.svc.cluster.local:8428
-        # allow_private_networks: true  # deliberate opt-in for this trusted Docker network
+        allow_private_networks: true  # deliberate opt-in for this trusted Docker network
   tools:
-    recent_changes:
+    recentChanges:
       git:
         repos:
           - url: https://github.com/revog/my-k8s-homelab.git
