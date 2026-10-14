@@ -26,11 +26,11 @@ My hardware setup is based on handy desktop computer nodes extended with Storage
 Due to the limited node count, I will use the control-plane nodes for workload scheduling aswell.
 
 ### Prerequisites
-Make sure to install the Talos Linux CLI on the workstation prior starting with the deployment. The client can be installed and updated from several sources like package manager (recommended), online [installer script](https://talos.dev/install) or [releases page](https://github.com/siderolabs/talos/releases). 
+Make sure to install the Talos Linux CLI on the workstation prior starting with the deployment. The client can be installed and updated from several sources like package manager (recommended), online [installer script](https://talos.dev/install) or [releases page](https://github.com/siderolabs/talos/releases).
 ```
 brew install siderolabs/tap/talosctl
 ```
-Every node node needs a unique IP address plus a moving VIP (Virtual IP) for Kubernetes API. Talos does automatically failover the VIP to a designated node and ensuring the Kubernetes API availability all the time. 
+Every node node needs a unique IP address plus a moving VIP (Virtual IP) for Kubernetes API. Talos does automatically failover the VIP to a designated node and ensuring the Kubernetes API availability all the time.
 
 ### Image build and deployment
 As the hardware setup derives from an "out-of-the-box-setup", I will use a customized image build. Thanks to the official [Sidero Labs Image Factory](https://factory.talos.dev/) it is quite easy building a customized image based on your needs.
@@ -169,7 +169,7 @@ talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
 ```
 
 ### Apply Configuration
-After pre-rendering the node configuration, they can be easily applied. Initially it is mandatory to bootstrap the cluster. 
+After pre-rendering the node configuration, they can be easily applied. Initially it is mandatory to bootstrap the cluster.
 Additional nodes can be added the same way. For future configuration changes/updates use the same procedure.
 
 #### Bootstrapping first node
@@ -198,7 +198,7 @@ export KUBECONFIG=./kubeconfig
 kubectl get nodes
 ```
 #### Update/Add nodes
-Once a fully bootstrapped Kubernetes cluster is in place, additional nodes can be joined. 
+Once a fully bootstrapped Kubernetes cluster is in place, additional nodes can be joined.
 The following commands (`apply-config` und `reboot`) also apply to applying future configuration changes (simply ommit `--insecure` as hosts are known).
 
 ```bash
@@ -218,7 +218,7 @@ talosctl reboot --nodes $(host $NODE)
 # Omni
 Omni is a Kubernetes management platform that simplifies the creation and management of Kubernetes clusters on any environment to provide a simple, secure, and resilient platform. It automates cluster creation, management and upgrades, and integrates Kubernetes and Omni access into enterprise identity providers. While Omni does provide a powerful UI, tight integration with Talos Linux means the platform is 100% API-driven from Linux to Kubernetes to Omni.
 
-I run Omni outside of my Kubernetes cluster on my Storage Appliance as Docker container to avoid chicken-egg-problem during bootstrapping. 
+I run Omni outside of my Kubernetes cluster on my Storage Appliance as Docker container to avoid chicken-egg-problem during bootstrapping.
 
 ## Deployment Architecture & Edge Cases
 To successfully run Omni outside the cluster on a storage appliance (e.g., QNAP) while routing traffic through a Kubernetes Ingress/Gateway, two critical network design choices were implemented:
@@ -249,15 +249,41 @@ Code of needed YAML manifest is placed under [kubernetes/applications/infra/omni
 version: '3.8'
 services:
   omni:
-    image: ghcr.io/siderolabs/omni:v0.36.0 # Use the latest stable version
-    environment:
-      - OMNI_AUTH_EXTERNAL_URL=https://omni.internal.${CLUSTER_DOMAIN} # Match your primary cluster domain
-      - OMNI_SIDEROLINK_API_CERT_REQUIRED=false # TLS is terminated by Cilium Gateway
-      - SIDEROLINK_WIREGUARD_ADVERTISED_ADDR=${STORAGE_IP}:51820 # Direct node-to-NAS UDP path
-    ports:
-      - "8080:8080"       # Inbound h2c traffic from Cilium Gateway
-      - "51820:51820/udp" # Inbound WireGuard traffic from Talos Nodes
-    volumes:
-      - ./data:/var/lib/omni
+    container_name: omni
+    image: ghcr.io/siderolabs/omni:v1.12.4
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN # allows creation of WireGuard interfaces
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    command:
+      - --account-id=homelab
+      - --auth-auth0-enabled=false
+      - --auth-oidc-enabled=true
+      - --auth-oidc-provider-url=https://auth.${CLUSTER_DOMAIN}
+      - --auth-oidc-client-id=${OIDC_CLIENT_ID}
+      - --auth-oidc-client-secret=${OIDC_CLIENT_SECRET}
+      - --auth-oidc-scopes=openid
+      - --auth-oidc-scopes=profile
+      - --auth-oidc-scopes=email
+      - --bind-addr=0.0.0.0:8080
+      - --k8s-proxy-bind-addr=0.0.0.0:8100
+      - --initial-users=${PRIVATE_EMAIL}
+      - --private-key-source=file:///etc/omni/omni.asc
+      - --sqlite-storage-path=/var/lib/omni/omni.db
+      - --advertised-api-url=https://omni.internal.${CLUSTER_DOMAIN}
+      - --advertised-kubernetes-proxy-url=https://omni.internal.${CLUSTER_DOMAIN}:8100
+      - --siderolink-api-advertised-url=https://omni.internal.${CLUSTER_DOMAIN}:8090
+      - --siderolink-wireguard-advertised-addr=${STORAGE_IP}:51820
+    environment:
+      - OMNI_SIDEROLINK_API_CERT_REQUIRED=false
+    ports:
+      - "8888:8080"       # Omni Web UI (HTTPS)
+      - "8090:8090"       # SideroLink gRPC API
+      - "8091:8091"       # SideroLink Event Sink
+      - "8100:8100"       # Kubernetes Proxy
+      - "51820:51820/udp" # WireGuard KubeSpan
+    volumes:
+      - /share/Container/omni/data:/var/lib/omni
+      - /share/Container/omni/omni.asc:/etc/omni/omni.asc:ro
 ```
