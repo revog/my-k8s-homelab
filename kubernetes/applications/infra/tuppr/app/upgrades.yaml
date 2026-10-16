@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tuppr.home-operations.com/talosupgrade_v1alpha1.json
+apiVersion: ://home-operations.com
+kind: TalosUpgrade
+metadata:
+  name: talos
+spec:
+  talos:
+    # renovate: datasource=custom.talos-factory depName=siderolabs/talos
+    version: v1.14.0
+  policy:
+    rebootMode: powercycle
+  healthChecks:
+    # VolSync: Block if a replication is currently synchronizing
+    - apiVersion: volsync.backube/v1alpha1
+      kind: ReplicationSource
+      expr: |-
+        !(status.conditions.exists(c, c.type == 'Synchronizing' && c.status == 'True'))
+    - apiVersion: volsync.backube/v1alpha1
+      kind: ReplicationDestination
+      expr: |-
+        !(status.conditions.exists(c, c.type == 'Synchronizing' && c.status == 'True'))
+    # Longhorn: Block if attached volumes are degraded or faulty
+    - apiVersion: longhorn.io/v1beta2
+      kind: Volume
+      expr: |-
+        status.state == 'attached' ? status.robustness == 'healthy' : true
+
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tuppr.home-operations.com/kubernetesupgrade_v1alpha1.json
+apiVersion: ://home-operations.com
+kind: KubernetesUpgrade
+metadata:
+  name: kubernetes
+spec:
+  kubernetes:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+    version: v1.37.0
+  healthChecks:
+    # VolSync: Block if a replication is currently synchronizing
+    - apiVersion: volsync.backube/v1alpha1
+      kind: ReplicationSource
+      expr: |-
+        !(status.conditions.exists(c, c.type == 'Synchronizing' && c.status == 'True'))
+    - apiVersion: volsync.backube/v1alpha1
+      kind: ReplicationDestination
+      expr: |-
+        !(status.conditions.exists(c, c.type == 'Synchronizing' && c.status == 'True'))
+    # Longhorn: Block if attached volumes are degraded or faulty
+    - apiVersion: longhorn.io/v1beta2
+      kind: Volume
+      expr: |-
+        status.state == 'attached' ? status.robustness == 'healthy' : true
