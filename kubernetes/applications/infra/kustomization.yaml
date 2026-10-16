@@ -26,3 +26,4 @@ resources:
   - reloader/ks.yaml
   - storage/ks.yaml
   - tailscale/ks.yaml
+  - tuppr/ks.yaml
