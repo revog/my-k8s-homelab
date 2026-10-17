@@ -19,16 +19,6 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "ignorePaths": [
     "**/*.sops.*",
-    "**/resources/**",
     ".codex/**"
   ],
-  "flux": {
-    "managerFilePatterns": ["/\\.yaml$/"]
-  },
-  "helm-values": {
-    "managerFilePatterns": ["/\\.yaml$/"]
-  },
-  "kubernetes": {
-    "managerFilePatterns": ["/\\.yaml$/"]
-  }
 }
