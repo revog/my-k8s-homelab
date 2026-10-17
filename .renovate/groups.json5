@@ -14,7 +14,6 @@
     {
       "description": "Cilium (CNI, Operator, Hubble & Chart) Update group",
       "groupName": "Cilium",
-      // Matches both the container image registry and the Helm chart name
       "matchPackageNames": ["cilium"],
       "matchPackagePatterns": [
         "^quay.io/cilium/",
@@ -27,7 +26,6 @@
     {
       description: "Flux group",
       groupName: "Flux",
-      // matchDatasources: ["docker"],
       matchPackagePatterns: ["^fluxcd/", "^ghcr.io/fluxcd/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -45,14 +43,13 @@
     {
       description: "Intel Device Plugins group",
       groupName: "intel-device-plugins",
-      // matchDatasources: ["docker"],
       "matchPackagePatterns": ["intel-gpu-resource-driver"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       }
     },
     {
-      description: "Kubernetes group",
+      description: "Kubernetes Control Plane group",
       groupName: "Kubernetes",
       matchDatasources: ["docker"],
       matchPackageNames: [
@@ -62,10 +59,13 @@
         "/kube-scheduler/",
         "/kubelet/",
       ],
+      // Enforce safe step-by-step sequential upgrades for the cluster core
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        "commitMessageTopic": "{{{groupName}}} group",
       },
-      minimumGroupSize: 5,
+      minimumGroupSize: 1, // Lowered to 1 so individual kubelet updates under upgrades.yaml don't get stuck
     },
     {
       "description": "Prometheus (Exporter, CRDs, ...) Update group",
@@ -76,13 +76,23 @@
       }
     },
     {
-      description: "Talos Group (Unites factory installer image and tuppr upgrade versions)",
+      description: "Talos OS and CLI Step Upgrades",
       groupName: "Talos",
-      matchPackageNames: ["siderolabs/talos"],
+      // Matches both the standard docker images and the custom factory preset from upgrades.yaml
+      matchDatasources: ["docker", "custom.talos-factory"],
+      matchPackageNames: [
+        "siderolabs/talos",
+        "ghcr.io/siderolabs/talos",
+        "ghcr.io/siderolabs/installer",
+        "ghcr.io/siderolabs/talosctl"
+      ],
+      // Enforce safe sequential updates (v1.14.0 -> v1.14.1) requested by tuppr
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        "commitMessageTopic": "{{{groupName}}} group",
       },
-      minimumGroupSize: 2,
+      minimumGroupSize: 1,
     },
   ],
 }
