@@ -65,7 +65,7 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 1,
+      minimumGroupSize: 5,
     },
     {
       description: "Prometheus (Exporter, CRDs, ...) Update group",
@@ -78,21 +78,11 @@
     {
       description: "Talos Update group",
       groupName: "Talos",
-      // Matches both the standard docker images and the custom factory preset from upgrades.yaml
-      matchDatasources: ["docker", "custom.talos-factory"],
-      matchPackageNames: [
-        "siderolabs/talos",
-        "ghcr.io/siderolabs/talos",
-        "ghcr.io/siderolabs/installer",
-        "ghcr.io/siderolabs/talosctl"
-      ],
-      // Enforce safe sequential updates (e.g. v1.14.0 -> v1.14.1)
-      separateMajorMinor: true,
-      separateMinorPatch: true,
+      matchPackageNames: ["siderolabs/talos"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 1,
+      minimumGroupSize: 2,
     },
   ],
 }
