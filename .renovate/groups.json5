@@ -2,25 +2,25 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      "description": "Bootstrap component Update group",
-      "matchFileNames": ["**/bootstrap/**"],
-      "groupName": "Bootstrap Components",
-      "group": {
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "bootstrap",
-        "commitMessageTopic": "update charts and images"
+      description: "Bootstrap component Update group",
+      matchFileNames: ["**/bootstrap/**"],
+      groupName: "Bootstrap Components",
+      group: {
+        semanticCommitType: "feat",
+        semanticCommitScope: "bootstrap",
+        commitMessageTopic: "update charts and images"
       }
     },
     {
-      "description": "Cilium (CNI, Operator, Hubble & Chart) Update group",
-      "groupName": "Cilium",
+      description: "Cilium (CNI, Operator, Hubble & Chart) Update group",
+      groupName: "Cilium",
       // Matches both the container image registry and the Helm chart name
-      "matchPackageNames": ["cilium"],
-      "matchPackagePatterns": [
+      matchPackageNames: ["cilium"],
+      matchPackagePatterns: [
         "^quay.io/cilium/",
         "^cilium/"
       ],
-      "group": {
+      group: {
         "commitMessageTopic": "{{{groupName}}} group"
       }
     },
@@ -35,11 +35,11 @@
       minimumGroupSize: 2,
     },
     {
-      "description": "Immich Update group",
-      "groupName": "Immich",
-      "matchPackagePatterns": ["immich"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: "Immich Update group",
+      groupName: "Immich",
+      matchPackagePatterns: ["immich"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
       }
     },
     {
@@ -68,21 +68,31 @@
       minimumGroupSize: 5,
     },
     {
-      "description": "Prometheus (Exporter, CRDs, ...) Update group",
-      "groupName": "Prometheus",
-      "matchPackagePatterns": ["prometheus"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: "Prometheus (Exporter, CRDs, ...) Update group",
+      groupName: "Prometheus",
+      matchPackagePatterns: ["prometheus"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
       }
     },
     {
-      description: "Talos Group (Unites factory installer image and tuppr upgrade versions)",
+      description: "Talos Update group",
       groupName: "Talos",
-      matchPackageNames: ["siderolabs/talos"],
+      // Matches both the standard docker images and the custom factory preset from upgrades.yaml
+      matchDatasources: ["docker", "custom.talos-factory"],
+      matchPackageNames: [
+        "siderolabs/talos",
+        "ghcr.io/siderolabs/talos",
+        "ghcr.io/siderolabs/installer",
+        "ghcr.io/siderolabs/talosctl"
+      ],
+      // Enforce safe sequential updates (e.g. v1.14.0 -> v1.14.1)
+      separateMajorMinor: true,
+      separateMinorPatch: true,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 2,
+      minimumGroupSize: 1,
     },
   ],
 }
