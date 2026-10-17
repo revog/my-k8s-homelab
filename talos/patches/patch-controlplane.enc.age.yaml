@@ -29,9 +29,7 @@ cluster:
     registries:
       kubernetes:
         disabled: true # avoid API server load, use service discovery instead
-      service: {
-        # lightweight Talos service-based discovery
-}
+      service: {}
   extraManifests:
     - https://github.com/revog/my-k8s-homelab/blob/main/kubernetes/bootstrap/flux/flux.yaml # bootstrap CICD, takes over GitOps from here
   inlineManifests:
