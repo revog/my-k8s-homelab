@@ -22,12 +22,12 @@
     ".codex/**"
   ],
   "flux": {
-    "managerFilePatterns": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   },
   "helm-values": {
-    "managerFilePatterns": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   },
   "kubernetes": {
-    "managerFilePatterns": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   }
 }
