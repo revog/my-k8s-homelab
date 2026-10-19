@@ -157,3 +157,13 @@ image: ghcr.io/siderolabs/kubelet:v1.37.0    # Specifies the exact container ima
 apiVersion: v1alpha1
 kind: KubePrismConfig
 port: 7445                                   # Sets the local port where the KubePrism internal load balancer endpoint will listen
+
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
