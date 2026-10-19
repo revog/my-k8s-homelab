@@ -23,11 +23,13 @@ cluster:
 apiVersion: v1alpha1
 kind: ResolverConfig
 searchDomains:
-  domains: []
+  domains: [] # <TBD>
 hostDNS:
   enabled: true
-  forwardKubeDNSToHost: true  # Requires Cilium socketLB features
-  resolveMemberNames: true
+  forwardKubeDNSToHost: true    # Requires Cilium socketLB features
+  resolveMemberNames: true      # Resolve member hostnames using the host DNS resolver.
+nameservers:
+  - address: 192.168.100.100  # Internal nameserver
 
 ---
 apiVersion: v1alpha1
@@ -127,7 +129,7 @@ content: |
 apiVersion: v1alpha1
 kind: KubeNodeConfig
 nodeIP:
-  validSubnets:  # enforce using only ip of provided subnets for the kubelet
+  validSubnets:            # enforce using only ip of provided subnets for the kubelet
     - 192.168.100.0/24
 
 ---
