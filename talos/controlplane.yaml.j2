@@ -6,6 +6,8 @@ machine:
   ca:
     crt: <TBD>
     key: <TBD>
+  certSANs:
+    - 192.168.100.50                             # add extra certificate SAN to machine cert for VIP adress
 cluster:
   ca:
     crt: <TBD>
