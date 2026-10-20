@@ -1,13 +1,27 @@
->> VERIFY AND TAKE OVER PARAMS FROM CURRENT CONFIG AND ADAPT TO NEW MULTI-DOCUMENT FORMAT
-
 ---
+version: v1alpha1
 machine:
-  type: controlplane
   ca:
-    crt: <TBD>
-    key: <TBD>
+    crt: LS0tLS1CRU___TBD___Cg==
+    key: LS0tLS1CRU___TBD___LS0K
   certSANs:
     - 192.168.100.50                             # add extra certificate SAN to machine cert for VIP adress
+  features:
+    ___
+  files:
+    __
+  install:
+    __
+  kernel:
+    __
+  kubelet:
+    __
+  nodeLabels:
+    __
+  sysctls:
+    __
+  token: t___TBD___g.h___TBD___3
+  type: controlplane
 cluster:
   ca:
     crt: <TBD>
