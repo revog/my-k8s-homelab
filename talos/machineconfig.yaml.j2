@@ -1,0 +1,265 @@
+---
+version: v1alpha1
+machine:
+  ca:
+    crt: LS0tLS1CRU___TBD___Cg==
+    key: LS0tLS1CRU___TBD___LS0K
+  certSANs:
+    - 192.168.100.50                             # add extra certificate SAN to machine cert for VIP adress
+  features:
+    diskQuotaSupport: true
+    rbac: true
+  files:
+    __
+  install:
+    __
+  kernel:
+    __
+  kubelet:
+    __
+  nodeLabels:
+    __
+  sysctls:
+    __
+  token: t___TBD___g.h___TBD___3
+  type: controlplane
+cluster:
+  ca:
+    crt: <TBD>
+    key: <TBD>
+  aggregatorCA:
+    crt: <TBD>
+    key: <TBD>
+  etcd:
+    advertisedSubnets:
+      - 192.168.100.0/24                         # Restricts etcd peer communication to this specific private LAN subnet
+    ca:
+      crt: <TBD>
+      key: <TBD>
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381   # Exposes the etcd metrics endpoint on all interfaces for monitoring tools
+  serviceAccount:
+    key: <TBD>
+
+
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: containerd
+content: |
+  [plugins."io.containerd.cri.v1.images"]
+    discard_unpacked_layers = false                 # Keeps unpacked image layers to allow image reuse and exports
+  [plugins."io.containerd.cri.v1.runtime"]
+    device_ownership_from_security_context = true   # Grants container device access based on Pod SecurityContext settings
+
+---
+apiVersion: v1alpha1
+kind: DiscoveryServiceConfig
+name: default
+endpoint: https://discovery.talos.dev/
+
+---
+apiVersion: v1alpha1
+kind: DiscoveryIdentityConfig
+clusterID: <TBD>
+clusterSecret: <TBD>
+
+---
+apiVersion: v1alpha1
+kind: EtcFileConfig
+name: nfs.conf
+mode: 0o644
+contents: |
+  [nfsrahead]
+  nfs4=16384      # Sets read-ahead buffer to 16MB for NFSv4 to boost sequential read speeds
+  default=128     # Falls back to a 128KB read-ahead buffer for older NFS versions
+
+---
+apiVersion: v1alpha1
+kind: EtcFileConfig
+name: nfsmount.conf
+mode: 0o644
+contents: |
+  [ NFSMount_Global_Options ]
+  nfsvers=4.2     # Enforces NFS version 4.2 for modern features and performance
+  hard=True       # Enables hard mounts so operations retry indefinitely if the server drops
+  nconnect=16     # Opens 16 parallel TCP connections to maximize network throughput
+  noatime=True    # Disables access time updates on reads to eliminate redundant write overhead
+  rsize=1048576   # Sets the maximum read block size to 1MB to minimize network packets
+  wsize=1048576   # Sets the maximum write block size to 1MB for faster data transfers
+
+---
+apiVersion: v1alpha1
+kind: FilesystemTrimConfig
+interval: 168h0m0s
+
+---
+apiVersion: v1alpha1
+kind: FilesystemScrubConfig
+interval: 168h0m0s
+
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: ??? <TBD> one manifest per module!!
+
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+dnsDomain: cluster.local   # Defines the internal primary DNS suffix used for service discovery within the cluster
+podSubnets:
+  - <TBD>                  # Specifies the IP address range allocated for unique pod addresses across the cluster
+serviceSubnets:
+  - <TBD>                  # Specifies the IP address range allocated for virtual IPs assigned to Kubernetes services
+
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node-role.kubernetes.io/control-plane: ""     # Standard label assigning the control-plane role to the node
+nodeIP:
+  validSubnets:            # enforce using only ip of provided subnets for the kubelet
+    - 192.168.100.0/24
+
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerConfig
+certExtraSANs:
+  - <TBD> k8s.internal                          # Adds a custom internal domain to the API server TLS certificate Subject Alternative Names
+extraArgs:
+  enable-aggregator-routing: "true"             # Forces the API server to route extension API requests directly to pod IPs instead of services
+  feature-gates: HPAScaleToZero=true            # Enables the alpha/beta feature gate allowing Horizontal Pod Autoscalers to scale down to zero replicas
+image: registry.k8s.io/kube-apiserver:v1.37.0
+
+---
+apiVersion: v1alpha1
+kind: KubeControllerManagerConfig
+extraArgs:
+  bind-address: 0.0.0.0                                 # Configures the controller manager to listen on all network interfaces for metrics and health endpoints
+  feature-gates: HPAScaleToZero=true                    # Enables the feature gate allowing the Horizontal Pod Autoscaler to scale down to zero replicas
+image: registry.k8s.io/kube-controller-manager:v1.37.0
+
+---
+apiVersion: v1alpha1
+kind: KubeEtcdEncryptionConfig
+config:
+  resources:
+    - providers:
+        - secretbox:
+            keys:
+              - name: key2     # Identifier for the encryption key used to track which key encrypted the data
+                secret: <TBD>  # Reference placeholder for the 1Password/vault secret containing the 32-byte key
+        - identity: {}         # Fallback provider that reads/writes unencrypted data for non-migrated secrets
+      resources:
+        - secrets              # Specifies that only Kubernetes Secrets resources will be encrypted at rest in etcd
+
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+config:
+  crashLoopBackOff:
+    maxContainerRestartPeriod: 60s           # Caps the maximum backoff delay between container restarts to 60 seconds
+  imageMaximumGCAge: 168h                    # Defines the maximum age (7 days) an unused image can exist before garbage collection
+  maxParallelImagePulls: 3                   # Allows up to 3 image pulling operations to run concurrently
+  serializeImagePulls: false                 # Enables simultaneous image downloads instead of queuing them one by one
+  shutdownGracePeriod: 90s                   # Sets the total time allowed for all pods to clean up during node shutdown
+  shutdownGracePeriodCriticalPods: 60s       # Reserves 60 seconds out of the total grace period specifically for system-critical pods
+defaultRuntimeSeccompProfileEnabled: true    # Enforces the default container runtime Seccomp profile globally for enhanced security
+image: ghcr.io/siderolabs/kubelet:v1.37.0    # Specifies the exact container image version used to run the Kubelet component
+
+---
+apiVersion: v1alpha1
+kind: KubeProxyConfig
+enabled: false    # Disables the standard Kubernetes kube-proxy component entirely
+image: registry.k8s.io/kube-proxy:v1.37.0
+
+---
+apiVersion: v1alpha1
+kind: KubeSchedulerConfig
+config:
+  profiles:
+    - schedulerName: default-scheduler                # Applies these customizations to the default Kubernetes pod scheduler
+      plugins:
+        score:
+          disabled:
+            - name: ImageLocality                     # Disables favoring nodes that already have the container image pre-cached
+      pluginConfig:
+        - name: PodTopologySpread
+          args:
+            defaultingType: List                      # Specifies that the custom constraints list below should be used as the default
+            defaultConstraints:
+              - maxSkew: 1                            # Restricts the replica imbalance between nodes to a maximum difference of 1 pod
+                topologyKey: kubernetes.io/hostname   # Spreads the pods evenly across individual hosts/nodes
+                whenUnsatisfiable: ScheduleAnyway     # If perfect spreading is impossible, prioritize scheduling over strict constraints
+extraArgs:
+  bind-address: 0.0.0.0                               # Configures the scheduler to listen on all network interfaces for metrics and health endpoints
+image: registry.k8s.io/kube-scheduler:v1.37.0
+
+---
+apiVersion: v1alpha1
+kind: KubePrismConfig
+port: 7445                                   # Sets the local port where the KubePrism internal load balancer endpoint will listen
+
+---
+apiVersion: v1alpha1
+kind: KubeTalosAPIAccessConfig
+allowedRoles:
+  - os:admin                 # Grants the highest administrative role within the Talos OS API to the allowed namespaces
+allowedKubernetesNamespaces:
+  - system-upgrade           # Allows the infra-tuppr namespace to interact with the Talos API for node lifecycles
+
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+searchDomains:
+  domains: [] # <TBD>
+hostDNS:
+  enabled: true
+  forwardKubeDNSToHost: true    # Requires Cilium socketLB features
+  resolveMemberNames: true      # Resolve member hostnames using the host DNS resolver.
+nameservers:
+  - address: 192.168.100.100  # Internal nameserver
+
+---
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  fs.inotify.max_user_instances: "8192"          # prevent "too many open files" for k8s controllers
+  fs.inotify.max_user_watches: "1048576"         # max files watched, default 8192 is too low
+  net.core.default_qdisc: fq                     # fair queue, pairs with BBR
+  net.core.rmem_max: "67108864"                  # max socket receive buffer (64MB)
+  net.core.wmem_max: "67108864"                  # max socket send buffer (64MB)
+  net.ipv4.tcp_congestion_control: bbr           # better throughput/latency than default cubic
+  net.ipv4.tcp_fastopen: "3"                     # send data in SYN, reduces latency (client+server)
+  net.ipv4.tcp_mtu_probing: "1"                  # auto MTU discovery across different networks
+  net.ipv4.tcp_rmem: 4096 87380 33554432         # tcp receive buffer min/default/max
+  net.ipv4.tcp_wmem: 4096 65536 33554432         # tcp send buffer min/default/max
+  net.ipv4.tcp_slow_start_after_idle: "0"        # keep full throughput on briefly idle connections
+  net.ipv4.tcp_window_scaling: "1"               # required for buffers >64KB
+
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: <TBD> factory.talos.dev/metal-installer/{{ schematic }}:v1.14.2 
+provisioning:
+  diskSelector:
+    match: disk.model == "MK000480GWCEV" <TBD>
+  wipe: false
+
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m
+
