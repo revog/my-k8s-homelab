@@ -9,38 +9,24 @@ machine:
   features:
     diskQuotaSupport: true
     rbac: true
-  files:
-    __
-  install:
-    __
-  kernel:
-    __
-  kubelet:
-    __
-  nodeLabels:
-    __
-  sysctls:
-    __
   token: t___TBD___g.h___TBD___3
   type: controlplane
 cluster:
-  ca:
-    crt: <TBD>
-    key: <TBD>
-  aggregatorCA:
-    crt: <TBD>
-    key: <TBD>
+  ca:                       ## --> KubeAPIServerCAConfig
+    crt: ___TBD___
+    key: ___TBD___
+  aggregatorCA:             ## --> KubeAPIServerAggregatorCAConfig
+    crt: ___TBD___
+    key: ___TBD___
   etcd:
     advertisedSubnets:
       - 192.168.100.0/24                         # Restricts etcd peer communication to this specific private LAN subnet
     ca:
-      crt: <TBD>
-      key: <TBD>
+      crt: LS0tLS1CRU___TBD___LS0K
+      key: LS0tLS1CRU___TBD___LQo=
     extraArgs:
+      auto-compaction-retention: "1"
       listen-metrics-urls: http://0.0.0.0:2381   # Exposes the etcd metrics endpoint on all interfaces for monitoring tools
-  serviceAccount:
-    key: <TBD>
-
 
 ---
 apiVersion: v1alpha1
