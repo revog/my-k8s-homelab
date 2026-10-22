@@ -1,10 +1,10 @@
 ---
 customization:
   extraKernelArgs:
-      - sysctl.kernel.kexec_load_disabled=1 # Security hardening avoids loading new kernel module during runtime
+      - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
   systemExtensions:
     officialExtensions:
-      - siderolabs/iscsi-tools # iSCSI-based storage support (for Longhorn)
-      - siderolabs/tailscale # Tailscale
-      - siderolabs/util-linux-tools # Linux utilities
-      - siderolabs/xe # Intel Xe3 GPU
+      - siderolabs/iscsi-tools                # iSCSI-based storage support (for Longhorn)
+      - siderolabs/tailscale                  # Tailscale
+      - siderolabs/util-linux-tools           # Linux utilities
+      - siderolabs/xe                         # Intel Xe3 GPU
