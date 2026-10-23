@@ -35,11 +35,19 @@
       minimumGroupSize: 2,
     },
     {
-      description: "Immich Update group",
-      groupName: "Immich",
-      matchPackagePatterns: ["immich"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "description": "Immich Update group",
+      "groupName": "Immich (with Postgres)",
+      "matchPackagePatterns": ["immich"],
+      "matchPackageNames": [
+        "postgresql",
+        "bitnami/postgresql"
+      ],
+      "matchImageNames": [
+        "bitnami/postgresql",
+        "tensorchord/pgvector"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       }
     },
     {
