@@ -35,7 +35,7 @@ metadata:
 spec:
   kubernetes:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-    version: v1.37.0
+    version: v1.37.1
   healthChecks:
     # VolSync: Block if a replication is currently synchronizing
     - apiVersion: volsync.backube/v1alpha1
