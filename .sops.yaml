@@ -8,7 +8,8 @@ creation_rules:
   # AGE encrypted Talos configuration files
   # - path_regex: talos/.*/.*\.enc\.age\.ya?ml$
   - path_regex: talos/.*\.ya?ml$
-    encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$|^contents$))'
+    encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$|^contents$|clusterID|oidc-client-id|oidc-issuer-url|manifest|environment|jwt))'
+
     mac_only_encrypted: true
     age: age1tghcyt0d6vsqfmyqxh8pyyn43swn2v9knftf75h8d8d62dhy0slq7txntc
 

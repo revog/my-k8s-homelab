@@ -11,9 +11,6 @@ It’s designed to be as minimal as possible while still maintaining practicalit
 
 Talos is managed by a single, declarative gRPC API - no ssh, no bash. This is the most unique thing about Talos and something Talos users love.
 
-## Setup <tbd>
-Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
-
 My hardware setup is based on handy desktop computer nodes extended with Storage and built-in GPUs:
 | Node | Role | Model |
 |---|---|---|
@@ -24,6 +21,10 @@ My hardware setup is based on handy desktop computer nodes extended with Storage
 **NVMe:** M.2 2280 NVMe (PCIe Gen 3/4) for Longhorn SDS
 
 Due to the limited node count, I will use the control-plane nodes for workload scheduling aswell.
+
+
+## Setup
+Following instructions and steps are based on the [official documentation](https://docs.siderolabs.com/) of Sidero Labs Talos.
 
 ### Prerequisites
 Make sure to install the Talos Linux CLI on the workstation prior starting with the deployment. The client can be installed and updated from several sources like package manager (recommended), online [installer script](https://talos.dev/install) or [releases page](https://github.com/siderolabs/talos/releases).
@@ -50,22 +51,24 @@ The online form will guide through the process and will provide a unique scheman
   - siderolabs/xe (required for Intel GPU)
 
 ##### Variant 2: Local prep
-Alternatively it is possible to achieve the same with an manual/scriptable approach by creating a local YAML manifest, submitting it with `curl` and downloading it afterwards with the returned schematic id.
+Alternatively it is possible to achieve the same with a manual/scriptable approach by creating a local YAML manifest, submitting it with `curl` and downloading it afterwards with the returned schematic id.
 
-**`beelink-amd64-schematic.yaml`**
+**`schematic.yaml.j2`**
 ```yaml
 customization:
-  systemExtensions
+  extraKernelArgs:
+      - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
+  systemExtensions:
     officialExtensions:
-      - siderolabs/iscsi-tools
-      - siderolabs/tailscale
-      - siderolabs/util-linux-tools
-      - siderolabs/xe
+      - siderolabs/iscsi-tools                # iSCSI-based storage support (for Longhorn)
+      - siderolabs/tailscale                  # Tailscale
+      - siderolabs/util-linux-tools           # Linux utilities
+      - siderolabs/xe                         # Intel Xe3 GPU
 ```
 
 Submit schematic to get schematic id:
 ```bash
-curl -s -X POST --data-binary @beelink-amd64-schematic.yaml https://factory.talos.dev/schematics -H "Content-Type: application/x-yaml"
+curl -s -X POST --data-binary @schematic.yaml.j2 https://factory.talos.dev/schematics -H "Content-Type: application/x-yaml"
 ```
 
 #### Download image
@@ -104,19 +107,19 @@ The Talos configuration is deliberately separated. Separating configuration from
 #### Generate secrets bundle
 The secrets bundle is a file that contains all the cryptographic keys, certificates, and tokens needed to secure your Talos Linux cluster.
 ```bash
-talosctl gen secrets -o talos/generated/secrets.yaml
+talosctl gen secrets -o talos/secrets.yaml
 ```
 They deserve special care by being kept under lock and key and secret. The secrets are mandatory for cluster lifecycle and future tasks. So please, handle with care and make sure that they are available when communicating with the Talos instances!
 Will put the secrets to a safe location - e.g. Password Safe / Secret Vaultf and push a `sops`-encrypted variante to the repository.
 ```bash
 # Encrypt the secrets file with SOPS using age
-sops --encrypt --age age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx talos/generated/secrets.yaml > talos/generated/secrets.enc.yaml
+sops --encrypt --age age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx talos/secrets.yaml > talos/secrets.enc.age.yaml
 
 # Later, decrypt when you need to generate configs
-sops --decrypt talos/generated/secrets.enc.yaml > talos/generated/secrets.yaml
+sops --decrypt talos/secrets.enc.age.yaml > talos/secrets.yaml
 
 # Clean up the decrypted file
-rm talos/generated/secrets.yaml
+rm talos/secrets.yaml
 ```
 
 #### Generate machine configurations
@@ -124,17 +127,17 @@ Talos uses declarative configuration for clusters, but upgrades can cause drift 
 To prevent this drift, it is recommend discarding full declared configuration files and instead using a patch-based workflow to regenerate machine configuration whenever you need them.
 
 Follow these steps to generate initial machine configuration. The command will generate three files using the previously created secrets bundle:
-* **controlplane.yaml**: Configuration for your control plane node(s)
-* **worker.yaml**: Configuration for your worker nodes
+* **machineconfig.yaml.j2**: Configuration for your nodes
+* **secrets.yaml**: Secrets for cluster and nodes
 * **talosconfig**: The talosctl configuration file used to connect to and authenticate with your cluster
 ```bash
-talosctl gen config --output-dir talos/generated --with-secrets talos/generated/secrets.yaml <CLUSTER_NAME> https://<CLUSTER_API_VIP>:6443
+talosctl gen config --output-dir talos --with-secrets talos/secrets.yaml <CLUSTER_NAME> https://<CLUSTER_API_VIP>:6443
 ```
 The default machine configurations for control plane and worker nodes are typically sufficient to get the cluster running. However, it is more convenient separating certain customization settings such as network interfaces and disk configurations etc. to seperate node-specific files.
 
 Beside of node-specific patches there can be created also general - like cluster-related - patch files.
 
-To regenerate your machine configuration create new configs using inputs from existing files (secrets.yaml, patches) and inputs (cluster-name, endpoint, ...):
+To generate your machine configuration create new configs using inputs from existing files (secrets.yaml, patches) and inputs (cluster-name, endpoint, ...):
 ```bash
 CLUSTER_NAME=<CLUSTER_NAME>
 CLUSTER_API_VIP=<CLUSTER_API_VIP>
@@ -143,9 +146,7 @@ NODE=<HOSTNAME>
 TALOS_VERSION=<TALOS_VERSION>
 
 cd talos
-```
-For control-plane nodes:
-```bash
+
 talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
   --with-secrets secrets.yaml \
   --kubernetes-version $KUBERNETES_VERSION \
@@ -155,17 +156,6 @@ talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
   --config-patch @patches/patch-$NODE.yaml \
   --output rendered/$NODE.yaml
   --output-types controlplane
-```
-For worker-nodes:
-```bash
-talosctl gen config $CLUSTER_NAME $CLUSTER_API_VIP \
-    --with-secrets secrets.yaml \
-    --kubernetes-version $KUBERNETES_VERSION \
-    --talos-version $TALOS_VERSION \
-    --config-patch @generated/common.yaml \
-    --config-patch @patches/patch-$NODE.yaml \
-    --output rendered/$NODE.yaml
-    --output-types worker
 ```
 
 ### Apply Configuration
@@ -197,8 +187,8 @@ export KUBECONFIG=./kubeconfig
 
 kubectl get nodes
 ```
-#### Update/Add nodes
-Once a fully bootstrapped Kubernetes cluster is in place, additional nodes can be joined.
+#### Update/Modify or Add nodes
+Once a fully bootstrapped Kubernetes cluster is in place, existing configs can be easily modfied or additional nodes can be joined.
 The following commands (`apply-config` und `reboot`) also apply to applying future configuration changes (simply ommit `--insecure` as hosts are known).
 
 ```bash
@@ -214,6 +204,51 @@ NODE=<HOSTNAME>
 talosctl apply-config --insecure --nodes $(host $NODE) --file talos/rendered/$NODE.yaml
 talosctl reboot --nodes $(host $NODE)
 ```
+### Rendering Configuration
+#### Prerequisites
+
+Before running the workflow, make sure your terminal has access to your SOPS decryption key (the Age private key):
+```bash
+export SOPS_AGE_KEY_FILE=<PATH-TO-AGE-KEY>
+```
+SOPS will read your Age private key, decrypt the sensitive data (like the Tailscale auth keys, token definitions, and Google Service Accounts), and output them into a temporary plain-text patch file.
+```bash
+sops -d talos/secrets.enc.age.yaml > talos/decrypted_secrets.yaml
+```
+
+#### Rendering
+This loop automatically processes your nodes. It uses talosctl config patch to dynamically marry the base `machineconfig.yaml.j2` with the newly decrypted secrets. Afterward, it cleanly appends the specific variables from Jinja2 node templates (node01.yaml.j2, etc.).
+
+```bash
+for template_file in talos/nodes/*.yaml.j2; do
+    node=$(basename "$template_file" .yaml.j2)
+
+    echo "Rendering final configuration for ${node}..."
+
+    talosctl machineconfig patch talos/machineconfig.yam.j2 \
+      -p @talos/decrypted_secrets.yaml \
+      -p @talos/nodes/${node}.yaml.j2 \
+      -o talos/rendered/${node}.yaml
+
+    echo "✓ Created: talos/rendered/${node}.yaml"
+done
+
+rm talos/decrypted_secrets.yaml
+```
+
+To follow best security practices, erase the plain-text temporary secrets file from local hard drive immediately so that no raw cryptographic material is left exposed.
+
+#### Apply rendered files
+Now apply the finalized files (node01.yaml, node02.ready.yaml, and node03.ready.yaml).
+
+If the cluster is active and you are pushing a runtime update (like activating the Tailscale configurations or adding parameters etc.), send the file via talosctl apply-config to the node's target IP:
+
+```bash
+talosctl apply-config -n <NODE-IP> --file rendered/<NODE-NAME>.yaml
+```
+
+In case of adding an additional host, simply create the rendered config as described and apply with ` --insecure ` to new node's current DHCP IP.
+
 
 # Omni
 Omni is a Kubernetes management platform that simplifies the creation and management of Kubernetes clusters on any environment to provide a simple, secure, and resilient platform. It automates cluster creation, management and upgrades, and integrates Kubernetes and Omni access into enterprise identity providers. While Omni does provide a powerful UI, tight integration with Talos Linux means the platform is 100% API-driven from Linux to Kubernetes to Omni.
