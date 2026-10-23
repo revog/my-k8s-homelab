@@ -22,9 +22,6 @@ cluster:
         extraArgs:
             auto-compaction-retention: "1"
             listen-metrics-urls: http://0.0.0.0:2381 # Exposes the etcd metrics endpoint on all interfaces for monitoring tools
-    # network:
-    #     cni:
-    #         name: none
 ---
 apiVersion: v1alpha1
 kind: CRICustomizationConfig
@@ -246,15 +243,14 @@ installer:
 provisioning:
     diskSelector:
         match: disk.dev_path == "/dev/sda"
-    # grubUseUKICmdline: true
     wipe: false
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: longhorn-nvme0n1
 provisioning:
-  diskSelector:
-    match: disk.dev_path == "/dev/nvme0n1"
+    diskSelector:
+        match: disk.dev_path == "/dev/nvme0n1"
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
