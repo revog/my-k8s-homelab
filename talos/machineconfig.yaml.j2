@@ -1,15 +1,16 @@
 version: v1alpha1
 machine:
     certSANs:
-        - 192.168.100.50 # add extra certificate SAN to machine cert for VIP adress
+        - 192.168.100.50     # add extra certificate SAN to machine cert for VIP adress
     features:
         diskQuotaSupport: true
         rbac: true
     kubelet:
-        extraMounts:     # 
-            - destination: /var/mnt/longhorn
+        extraMounts:
+            # Mounts the host directory /var/mnt/longhorn-nvme0n1 (from UserVolumeConfig) into the isolated Kubelet container
+            - destination: /var/mnt/longhorn-nvme0n1
               type: bind
-              source: /var/mnt/longhorn
+              source: /var/mnt/longhorn-nvme0n1
               options:
                 - bind
                 - rshared
@@ -17,7 +18,7 @@ machine:
 cluster:
     etcd:
         advertisedSubnets:
-            - 192.168.100.0/24 # Restricts etcd peer communication to this specific private LAN subnet
+            - 192.168.100.0/24                       # Restricts etcd peer communication to this specific private LAN subnet
         extraArgs:
             auto-compaction-retention: "1"
             listen-metrics-urls: http://0.0.0.0:2381 # Exposes the etcd metrics endpoint on all interfaces for monitoring tools
@@ -71,15 +72,15 @@ interval: 168h0m0s
 ---
 apiVersion: v1alpha1
 kind: KernelModuleConfig
-name: nvme_tcp # Enables NVMe over Fabrics using TCP to mount remote high-speed storage over the network (Longhorn)
+name: nvme_tcp         # Enables NVMe over Fabrics using TCP to mount remote high-speed storage over the network (Longhorn)
 ---
 apiVersion: v1alpha1
 kind: KernelModuleConfig
-name: vfio_pci # PCI Passthrough (VFIO) to detach devices like the integrated Intel iGPU from the host and pass them directly to Kubernetes pods
+name: vfio_pci         # PCI Passthrough (VFIO) to detach devices like the integrated Intel iGPU from the host and pass them directly to Kubernetes pods
 ---
 apiVersion: v1alpha1
 kind: KernelModuleConfig
-name: uio_pci_generic # Provides a generic Userspace I/O driver often required by high-performance networking or custom hardware access layers (like DPDK)
+name: uio_pci_generic  # Provides a generic Userspace I/O driver often required by high-performance networking or custom hardware access layers (like DPDK)
 ---
 apiVersion: v1alpha1
 kind: KubeAPIServerConfig
@@ -120,22 +121,22 @@ apiVersion: v1alpha1
 kind: KubeletConfig
 config:
     crashLoopBackOff:
-        maxContainerRestartPeriod: 60s # Caps the maximum backoff delay between container restarts to 60 seconds
-    imageMaximumGCAge: 168h # Defines the maximum age (7 days) an unused image can exist before garbage collection
-    maxParallelImagePulls: 3 # Allows up to 3 image pulling operations to run concurrently
-    serializeImagePulls: false # Enables simultaneous image downloads instead of queuing them one by one
-    shutdownGracePeriod: 90s # Sets the total time allowed for all pods to clean up during node shutdown
-    shutdownGracePeriodCriticalPods: 60s # Reserves 60 seconds out of the total grace period specifically for system-critical pods
-defaultRuntimeSeccompProfileEnabled: true # Enforces the default container runtime Seccomp profile globally for enhanced security
-image: ghcr.io/siderolabs/kubelet:v1.37.0 # Specifies the exact container image version used to run the Kubelet component
+        maxContainerRestartPeriod: 60s       # Caps the maximum backoff delay between container restarts to 60 seconds
+    imageMaximumGCAge: 168h                  # Defines the maximum age (7 days) an unused image can exist before garbage collection
+    maxParallelImagePulls: 3                 # Allows up to 3 image pulling operations to run concurrently
+    serializeImagePulls: false               # Enables simultaneous image downloads instead of queuing them one by one
+    shutdownGracePeriod: 90s                 # Sets the total time allowed for all pods to clean up during node shutdown
+    shutdownGracePeriodCriticalPods: 60s     # Reserves 60 seconds out of the total grace period specifically for system-critical pods
+defaultRuntimeSeccompProfileEnabled: true    # Enforces the default container runtime Seccomp profile globally for enhanced security
+image: ghcr.io/siderolabs/kubelet:v1.37.0    # Specifies the exact container image version used to run the Kubelet component
 ---
 apiVersion: v1alpha1
 kind: KubeNetworkConfig
-dnsDomain: cluster.local # Defines the internal primary DNS suffix used for service discovery within the cluster
+dnsDomain: cluster.local   # Defines the internal primary DNS suffix used for service discovery within the cluster
 podSubnets:
-    - 10.244.0.0/16 # Specifies the IP address range allocated for unique pod addresses across the cluster
+    - 10.244.0.0/16        # Specifies the IP address range allocated for unique pod addresses across the cluster
 serviceSubnets:
-    - 10.96.0.0/12 # Specifies the IP address range allocated for virtual IPs assigned to Kubernetes services
+    - 10.96.0.0/12         # Specifies the IP address range allocated for virtual IPs assigned to Kubernetes services
 ---
 apiVersion: v1alpha1
 kind: KubeNodeConfig
@@ -157,21 +158,21 @@ apiVersion: v1alpha1
 kind: KubeSchedulerConfig
 config:
     profiles:
-        - schedulerName: default-scheduler # Applies these customizations to the default Kubernetes pod scheduler
+        - schedulerName: default-scheduler                # Applies these customizations to the default Kubernetes pod scheduler
           plugins:
             score:
                 disabled:
-                    - name: ImageLocality # Disables favoring nodes that already have the container image pre-cached
+                    - name: ImageLocality                 # Disables favoring nodes that already have the container image pre-cached
           pluginConfig:
             - name: PodTopologySpread
               args:
-                defaultingType: List # Specifies that the custom constraints list below should be used as the default
+                defaultingType: List                      # Specifies that the custom constraints list below should be used as the default
                 defaultConstraints:
-                    - maxSkew: 1 # Restricts the replica imbalance between nodes to a maximum difference of 1 pod
+                    - maxSkew: 1                          # Restricts the replica imbalance between nodes to a maximum difference of 1 pod
                       topologyKey: kubernetes.io/hostname # Spreads the pods evenly across individual hosts/nodes
-                      whenUnsatisfiable: ScheduleAnyway # If perfect spreading is impossible, prioritize scheduling over strict constraints
+                      whenUnsatisfiable: ScheduleAnyway   # If perfect spreading is impossible, prioritize scheduling over strict constraints
 extraArgs:
-    bind-address: 0.0.0.0 # Configures the scheduler to listen on all network interfaces for metrics and health endpoints
+    bind-address: 0.0.0.0                                 # Configures the scheduler to listen on all network interfaces for metrics and health endpoints
 image: registry.k8s.io/kube-scheduler:v1.37.0
 ---
 apiVersion: v1alpha1
@@ -181,9 +182,9 @@ port: 7445 # Sets the local port where the KubePrism internal load balancer endp
 apiVersion: v1alpha1
 kind: KubeTalosAPIAccessConfig
 allowedRoles:
-    - os:admin # Grants the highest administrative role within the Talos OS API to the allowed namespaces
+    - os:admin     # Grants the highest administrative role within the Talos OS API to the allowed namespaces
 allowedKubernetesNamespaces:
-    - infra-tuppr # Allows the infra-tuppr namespace to interact with the Talos API for node lifecycles
+    - infra-tuppr  # Allows the infra-tuppr namespace to interact with the Talos API for node lifecycles
 ---
 apiVersion: v1alpha1
 kind: ResolverConfig
@@ -192,10 +193,10 @@ searchDomains:
     # __TBD__
 hostDNS:
     enabled: true
-    forwardKubeDNSToHost: true # Requires Cilium socketLB features
-    resolveMemberNames: true # Resolve member hostnames using the host DNS resolver.
+    forwardKubeDNSToHost: true    # Requires Cilium socketLB features
+    resolveMemberNames: true      # Resolve member hostnames using the host DNS resolver.
 nameservers:
-    - address: 192.168.100.100 # Internal nameserver
+    - address: 192.168.100.100    # Internal nameserver
 ---
 apiVersion: v1alpha1
 kind: SysctlConfig
