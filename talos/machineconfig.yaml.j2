@@ -6,15 +6,19 @@ machine:
         diskQuotaSupport: true
         rbac: true
     kubelet:
+        image: ghcr.io/siderolabs/kubelet:v1.37.0
         extraMounts:
-            # Mounts the host directory /var/mnt/longhorn-nvme0n1 (from UserVolumeConfig) into the isolated Kubelet container
-            - destination: /var/mnt/longhorn-nvme0n1
+            - destination: /var/mnt/nvme
               type: bind
-              source: /var/mnt/longhorn-nvme0n1
+              source: /var/mnt/nvme
               options:
                 - bind
                 - rshared
                 - rw
+        extraConfig:
+            serializeImagePulls: false
+        defaultRuntimeSeccompProfileEnabled: true
+        disableManifestsDirectory: true
 cluster:
     etcd:
         advertisedSubnets:
@@ -52,9 +56,9 @@ name: nfsmount.conf
 mode: 420
 contents: |
     [ NFSMount_Global_Options ]
-    nfsvers=4.2     # Enforces NFS version 4.2 for modern features and performance
+    nfsvers=4.1     # Enforces NFS version 4.1 for modern features and performance
     hard=True       # Enables hard mounts so operations retry indefinitely if the server drops
-    nconnect=16     # Opens 16 parallel TCP connections to maximize network throughput
+    nconnect=4      # Opens 4 parallel TCP connections to maximize network throughput
     noatime=True    # Disables access time updates on reads to eliminate redundant write overhead
     rsize=1048576   # Sets the maximum read block size to 1MB to minimize network packets
     wsize=1048576   # Sets the maximum write block size to 1MB for faster data transfers
@@ -94,6 +98,16 @@ extraArgs:
 image: registry.k8s.io/kube-apiserver:v1.37.0
 ---
 apiVersion: v1alpha1
+kind: KubeAuthorizerConfig
+name: node
+type: Node
+---
+apiVersion: v1alpha1
+kind: KubeAuthorizerConfig
+name: rbac
+type: RBAC
+---
+apiVersion: v1alpha1
 kind: KubeControllerManagerConfig
 extraArgs:
     bind-address: 0.0.0.0 # Configures the controller manager to listen on all network interfaces for metrics and health endpoints
@@ -113,19 +127,19 @@ apiVersion: v1alpha1
 kind: KubeExternalManifestConfig
 name: flux
 url: https://raw.githubusercontent.com/revog/my-k8s-homelab/refs/heads/main/kubernetes/bootstrap/flux/flux.yaml
----
-apiVersion: v1alpha1
-kind: KubeletConfig
-config:
-    crashLoopBackOff:
-        maxContainerRestartPeriod: 60s       # Caps the maximum backoff delay between container restarts to 60 seconds
-    imageMaximumGCAge: 168h                  # Defines the maximum age (7 days) an unused image can exist before garbage collection
-    maxParallelImagePulls: 3                 # Allows up to 3 image pulling operations to run concurrently
-    serializeImagePulls: false               # Enables simultaneous image downloads instead of queuing them one by one
-    shutdownGracePeriod: 90s                 # Sets the total time allowed for all pods to clean up during node shutdown
-    shutdownGracePeriodCriticalPods: 60s     # Reserves 60 seconds out of the total grace period specifically for system-critical pods
-defaultRuntimeSeccompProfileEnabled: true    # Enforces the default container runtime Seccomp profile globally for enhanced security
-image: ghcr.io/siderolabs/kubelet:v1.37.0    # Specifies the exact container image version used to run the Kubelet component
+# ---
+# apiVersion: v1alpha1                         # Kubelet Config is currently disabled because the field 'extraMounts' is not supported in new multi-document configuration. Using legacy machine.kubelet instead.
+# kind: KubeletConfig
+# config:
+#     crashLoopBackOff:
+#         maxContainerRestartPeriod: 60s       # Caps the maximum backoff delay between container restarts to 60 seconds
+#     imageMaximumGCAge: 168h                  # Defines the maximum age (7 days) an unused image can exist before garbage collection
+#     maxParallelImagePulls: 3                 # Allows up to 3 image pulling operations to run concurrently
+#     serializeImagePulls: false               # Enables simultaneous image downloads instead of queuing them one by one
+#     shutdownGracePeriod: 90s                 # Sets the total time allowed for all pods to clean up during node shutdown
+#     shutdownGracePeriodCriticalPods: 60s     # Reserves 60 seconds out of the total grace period specifically for system-critical pods
+# defaultRuntimeSeccompProfileEnabled: true    # Enforces the default container runtime Seccomp profile globally for enhanced security
+# image: ghcr.io/siderolabs/kubelet:v1.37.0    # Specifies the exact container image version used to run the Kubelet component
 ---
 apiVersion: v1alpha1
 kind: KubeNetworkConfig
@@ -225,6 +239,9 @@ params:
     net.ipv4.neigh.default.gc_thresh1: "4096"       # minimum number of entries before GC starts
     net.ipv4.neigh.default.gc_thresh2: "8192"       # maximum number of entries before GC starts to aggressively reclaim
     net.ipv4.neigh.default.gc_thresh3: "16384"      # maximum number of entries before GC starts to aggressively reclaim and log warnings
+
+    # Longhorn / SPDK Hugepages for High-Speed I/O
+    vm.nr_hugepages: "2048"                         # Longhorn's Storage Performance Development Kit (SPDK) relys on hugepages for high-speed I/O operations,
 ---
 apiVersion: v1alpha1
 kind: TimeSyncConfig
@@ -244,13 +261,15 @@ provisioning:
     diskSelector:
         match: disk.dev_path == "/dev/sda"
     wipe: false
----
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: longhorn-nvme0n1
-provisioning:
-    diskSelector:
-        match: disk.dev_path == "/dev/nvme0n1"
+# ---
+# apiVersion: v1alpha1              # Disabled because the field 'extraMounts' in KubeletConfig is not supported in new multi-document configuration - not yet needed
+# kind: UserVolumeConfig
+# name: longhorn-nvme0n1
+# provisioning:
+#     diskSelector:
+#         match: disk.dev_path == "/dev/nvme0n1"
+#     grow: true
+#     minSize: 10GiB
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
