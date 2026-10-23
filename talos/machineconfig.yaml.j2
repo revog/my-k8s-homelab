@@ -5,6 +5,15 @@ machine:
     features:
         diskQuotaSupport: true
         rbac: true
+    kubelet:
+        extraMounts:     # 
+            - destination: /var/mnt/longhorn
+              type: bind
+              source: /var/mnt/longhorn
+              options:
+                - bind
+                - rshared
+                - rw
 cluster:
     etcd:
         advertisedSubnets:
@@ -238,6 +247,13 @@ provisioning:
         match: disk.dev_path == "/dev/sda"
     # grubUseUKICmdline: true
     wipe: false
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn-nvme0n1
+provisioning:
+  diskSelector:
+    match: disk.dev_path == "/dev/nvme0n1"
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
