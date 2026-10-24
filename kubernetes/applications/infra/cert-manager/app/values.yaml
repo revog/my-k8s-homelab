@@ -20,3 +20,4 @@ prometheus:
     enabled: true
 podDisruptionBudget:
   enabled: true
+replicaCount: 2
