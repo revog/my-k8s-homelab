@@ -198,6 +198,11 @@ allowedKubernetesNamespaces:
     - infra-tuppr  # Allows the infra-tuppr namespace to interact with the Talos API for node lifecycles
 ---
 apiVersion: v1alpha1
+kind: Layer2VIPConfig
+name: 192.168.100.50
+link: enp1s0
+---
+apiVersion: v1alpha1
 kind: ResolverConfig
 searchDomains:
     domains: []
