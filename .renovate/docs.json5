@@ -1,0 +1,13 @@
+{
+  "$schema": "https://renovatebot.com",
+  "customManagers": [
+    {
+      "customType": "regex",
+      // Scan README.md in root directory and subdirs
+      "fileMatch": ["(^|/)README\\.md$"],
+      "matchStrings": [
+        "datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>[^\\s]+?))?(?: packageName=(?<packageName>[^\\s]+?))?\\s+v?(?<currentValue>[0-9.]+(?:-[a-z0-9.]+)?)"
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@
     ":semanticCommits",
     "github>revog/my-k8s-homelab//.renovate/autoMerge.json5",
     "github>revog/my-k8s-homelab//.renovate/changelogs.json5",
+    "github>revog/my-k8s-homelab//.renovate/docs.json5",
     "github>revog/my-k8s-homelab//.renovate/groups.json5",
     "github>revog/my-k8s-homelab//.renovate/labels.json5",
     "github>revog/my-k8s-homelab//.renovate/semanticCommits.json5",
