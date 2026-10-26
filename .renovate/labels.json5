@@ -35,12 +35,21 @@
       "addLabels": ["renovate/helm"]
     },
     {
-      matchManagers: ["github-actions"],
-      addLabels: ["renovate/github-action"],
+      "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
+      "excludePackageNames": ["ghcr.io/siderolabs/kubelet"],
+      "branchTopic": "talos",
+      "groupName": "talos",
+      "addLabels": ["renovate/talos"]
     },
     {
-      matchDatasources: ["github-releases"],
-      addLabels: ["renovate/github-release"],
+      "matchPackageNames": ["ghcr.io/siderolabs/kubelet"],
+      "branchTopic": "kubernetes",
+      "groupName": "kubernetes",
+      "addLabels": ["renovate/kubernetes"]
+    }
+    {
+      matchManagers: ["github-actions"],
+      addLabels: ["renovate/github-action"],
     },
   ],
 }
