@@ -52,7 +52,7 @@
       ignoreTests: true,
     },
 
-    # Avoid Auto-Merge
+    // Avoid Auto-Merge
     {
       "description": "Avoid Automerge for Talos & Extension",
       "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
