@@ -33,7 +33,7 @@ jobs:
   
       - name: Run Flate Validation
         run: |
-          flate test --path ./kubernetes
+          flate test all --path ./kubernetes
 
   zizmor:
     name: Zizmor Security Scan
