@@ -42,7 +42,7 @@ The factory validates the schematic and calculates a deterministic hash from whi
 The online form will guide through the process and will provide a unique schemantic ID for downloading the specific image.
 
 - Hardware Type: Bare-metal Machine
--Talos Linux Version: v1.14.1 <!-- renovate: datasource=github-releases depName=siderolabs/talos -->
+- Talos Linux Version: v1.14.0 <!-- renovate: datasource=github-releases depName=siderolabs/talos -->
 - Machine Architecture: amd64
 - System Extensions:
   - siderolabs/iscsi-tools (required for Longhorn)
