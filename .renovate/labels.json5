@@ -35,6 +35,13 @@
       "addLabels": ["renovate/helm"]
     },
     {
+      "description": "Overwrite labels of OCI based charts and handle them as renovate/helm",
+      "matchDatasources": ["docker"],
+      "matchManagers": ["helm-values", "helmv3", "flux"],
+      "labels": [],
+      "addLabels": ["renovate/helm"]
+    },
+    {
       "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
       "excludePackageNames": ["ghcr.io/siderolabs/kubelet"],
       "branchTopic": "talos",
