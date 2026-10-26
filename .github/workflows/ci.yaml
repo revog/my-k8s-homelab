@@ -27,7 +27,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Flate Validation
-        uses: home-operations/flate/action@main
+        uses: home-operations/flate/action@41e7af45555b2c5cfc737226123a715ff2a5749c # main
         with:
           args: test --path ./kubernetes
 
