@@ -34,7 +34,7 @@ jobs:
 
       - name: Validate deployments
         run: |
-           uvx flux-local test --path ./kubernetes --verbose
+           pipx run flux-local test --path ./kubernetes --verbose
 
   zizmor:
     name: Zizmor Security Scan
