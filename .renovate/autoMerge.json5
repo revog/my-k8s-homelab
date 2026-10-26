@@ -15,6 +15,14 @@
       ignoreTests: false,
     },
     {
+      description: "Auto-merge patch updates for Helm and Docker",
+      matchDatasources: ["docker", "helm"],
+      matchUpdateTypes: ["patch"],
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false,
+    },
+    {
       description: "Auto-merge high-cadence OCI packages weekly",
       matchDatasources: ["docker"],
       matchUpdateTypes: ["minor", "patch"],
