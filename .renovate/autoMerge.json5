@@ -51,5 +51,28 @@
       automergeType: "branch",
       ignoreTests: true,
     },
+
+    # Avoid Auto-Merge
+    {
+      "description": "Avoid Automerge for Talos & Extension",
+      "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
+      "excludePackagePatterns": ["kubelet", "kube-"],
+      "branchTopic": "talos",
+      "groupName": "talos",
+      "addLabels": ["renovate/talos"],
+      "automerge": false
+    },
+    {
+      "description": "Avoid Automerge for Kubelet and other K8s components",
+      "matchPackagePatterns": [
+        "kubelet",
+        "^registry\\.k8s\\.io\\/kube-",
+        "^ghcr\\.io\\/siderolabs\\/kube-"
+      ],
+      "branchTopic": "kubernetes",
+      "groupName": "kubernetes",
+      "addLabels": ["renovate/kubernetes"],
+      "automerge": false
+    }
   ],
 }
