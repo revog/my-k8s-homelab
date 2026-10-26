@@ -42,7 +42,7 @@ The factory validates the schematic and calculates a deterministic hash from whi
 The online form will guide through the process and will provide a unique schemantic ID for downloading the specific image.
 
 - Hardware Type: Bare-metal Machine
-- Talos Linux Version: 1.14.1 (select latest available from list)
+- <!-- renovate: datasource=github-releases depName=siderolabs/talos -->Talos Linux Version: 1.14.1 (select latest available from list)
 - Machine Architecture: amd64
 - System Extensions:
   - siderolabs/iscsi-tools (required for Longhorn)
@@ -75,6 +75,7 @@ curl -s -X POST --data-binary @schematic.yaml.j2 https://factory.talos.dev/schem
 Use the returned schematic ID for downloading customized image and extract:
 ```bash
 SCHEMATIC="<schematic-id>"
+# renovate: datasource=github-releases depName=siderolabs/talos
 VERSION="v1.14.1"
 ```
 ```bash
