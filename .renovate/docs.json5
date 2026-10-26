@@ -6,7 +6,10 @@
       // Scan README.md in root directory and subdirs
       "fileMatch": ["(^|/)README\\.md$"],
       "matchStrings": [
-        "datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>[^\\s]+?))?(?: packageName=(?<packageName>[^\\s]+?))?\\s*\\n[A-Z0-9_]+=v?(?<currentValue>[0-9.]+(?:-[a-z0-9.]+)?)"
+        // Comment above line with version
+        "datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>[^\\s]+?))?(?: packageName=(?<packageName>[^\\s]+?))?\\s*\\n[A-Z0-9_]+=v?(?<currentValue>[0-9.]+(?:-[a-z0-9.]+)?)",
+        // Inline comment
+        "v?(?<currentValue>[0-9.]+(?:-[a-z0-9.]+)?)\\s+<!-- renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>[^\\s]+?))?(?: packageName=(?<packageName>[^\\s]+?))? -->"
       ]
     }
   ]
