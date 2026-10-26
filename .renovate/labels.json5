@@ -46,7 +46,7 @@
       "branchTopic": "kubernetes",
       "groupName": "kubernetes",
       "addLabels": ["renovate/kubernetes"]
-    }
+    },
     {
       matchManagers: ["github-actions"],
       addLabels: ["renovate/github-action"],
