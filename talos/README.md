@@ -75,7 +75,7 @@ curl -s -X POST --data-binary @schematic.yaml.j2 https://factory.talos.dev/schem
 Use the returned schematic ID for downloading customized image and extract:
 ```bash
 SCHEMATIC="<schematic-id>"
-# renovate: datasource=github-releases depName=siderolabs/talos
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
 VERSION="v1.14.1"
 ```
 ```bash
@@ -145,7 +145,7 @@ CLUSTER_API_VIP=<CLUSTER_API_VIP>
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 KUBERNETES_VERSION=1.37.1
 NODE=<HOSTNAME>
-# renovate: datasource=github-releases depName=siderolabs/talos
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
 TALOS_VERSION=v1.14.0
 
 cd talos
