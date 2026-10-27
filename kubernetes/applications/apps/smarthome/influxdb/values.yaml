@@ -1,3 +1,4 @@
+---
 controllers:
   influxdb3:
     containers:
@@ -17,15 +18,39 @@ controllers:
           - secretRef:
               name: influxdb3-secrets
         probes:
-          liveness:
+          startup:                     # Handles the intensive startup phase (WAL replay & catalog wait timeouts). Liveness and Readiness probes are completely disabled until this probe succeeds.
             enabled: true
             custom: true
             spec:
               httpGet:
                 path: /health
                 port: &port 8181
-              initialDelaySeconds: 15
+              initialDelaySeconds: 5   # Short buffer before the first check begins
+              periodSeconds: 5         # Check frequency during startup
+              failureThreshold: 24     # 24 attempts * 5s = 120 seconds (2 minutes) max time allowed to start
+          liveness:                    # Monitors the health of the container during active runtime.
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8181
+              initialDelaySeconds: 0   # No delay needed because the startupProbe guards this phase
+              periodSeconds: 10        # Checks every 10 seconds to ensure the engine is responsive
+              timeoutSeconds: 5        # Timeout window if the engine is temporarily slow
+              failureThreshold: 3      # Pod will be restarted only after 3 consecutive failures
+          readiness:                   # Ensures the container is ready to accept traffic. This probe is crucial for load balancers and service routing.
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8181
+              initialDelaySeconds: 0
               periodSeconds: 10
+              timeoutSeconds: 3
+              successThreshold: 1      # Immediately allow traffic on the first successful check
+              failureThreshold: 2      # Quickly pull the node out of routing if it starts failing
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -46,6 +71,7 @@ service:
         port: *port
 
 defaultPodOptions:
+  terminationGracePeriodSeconds: 60  # Ensures the pod has enough time to gracefully shut down, allowing InfluxDB to close connections and flush data.
   securityContext:
     runAsNonRoot: true
     runAsUser: 1500
