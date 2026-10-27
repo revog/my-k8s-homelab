@@ -151,6 +151,9 @@ serviceSubnets:
 ---
 apiVersion: v1alpha1
 kind: KubeNodeConfig
+annotations:
+    tuppr.home-operations.com/factory-url: "factory.talos.dev/installer"
+    tuppr.home-operations.com/schematic: "58a638b8d8d134807ae4b7badca72f1a656bd17b14e8a1f6b7c252d33862f5b1"
 labels:
     node-role.kubernetes.io/control-plane: "" # Standard label assigning the control-plane role to the node
 nodeIP:
