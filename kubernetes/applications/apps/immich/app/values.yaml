@@ -114,7 +114,7 @@ machine-learning:
               - name: intel-gpu
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true 
+            readOnlyRootFilesystem: true
             capabilities: { drop: ["ALL"] }
   persistence:
     cache:
@@ -135,6 +135,10 @@ persistence:
     type: persistentVolumeClaim
     storageClass: "longhorn-v2"
     accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /data
     size: 100Gi
     labels:
       volsync.backube/backup: "true"
