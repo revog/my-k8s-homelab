@@ -61,6 +61,7 @@ customization:
   systemExtensions:
     officialExtensions:
       - siderolabs/iscsi-tools                # iSCSI-based storage support (for Longhorn)
+      - siderolabs/nvme-cli                   # NVMe CLI utilities
       - siderolabs/tailscale                  # Tailscale
       - siderolabs/util-linux-tools           # Linux utilities
       - siderolabs/xe                         # Intel Xe3 GPU
