@@ -87,7 +87,35 @@ immich:
       existingClaim: immich-server
 
 machine-learning:
-  enabled: false
+  enabled: true
+  controllers:
+    main:
+      strategy: Recreate
+      pod:
+        resourceClaims:
+          - name: intel-gpu
+            resourceClaimTemplateName: immich-gpu
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            tag: v3.3.5-openvino
+          env:
+            TRANSFORMERS_CACHE: /cache
+            TZ: ${CLUSTER_TIMEZONE}
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 2
+              memory: 4Gi
+            claims:
+              - name: intel-gpu
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true 
+            capabilities: { drop: ["ALL"] }
 
 persistence:
   config:
@@ -110,7 +138,12 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: immich-bootstrap
-
+  cache:
+    type: emptyDir
+    advancedMounts:
+      machine-learning:
+        main:
+          - path: /cache
   tmp:
     type: emptyDir
     globalMounts:
