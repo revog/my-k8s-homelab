@@ -116,6 +116,10 @@ machine-learning:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true 
             capabilities: { drop: ["ALL"] }
+  persistence:
+    cache:
+      enabled: true
+      type: emptyDir
 
 persistence:
   config:
@@ -138,12 +142,6 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: immich-bootstrap
-  cache:
-    type: emptyDir
-    advancedMounts:
-      machine-learning:
-        main:
-          - path: /cache
   tmp:
     type: emptyDir
     globalMounts:
