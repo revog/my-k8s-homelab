@@ -121,7 +121,9 @@ machine-learning:
   persistence:
     cache:
       enabled: true
-      type: emptyDir
+      type: persistentVolumeClaim
+      size: 10Gi
+      storageClass: longhorn-v2
 
 persistence:
   tmp:
