@@ -3,8 +3,11 @@
 name: "Flux Local"
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    branches: ["main"]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
