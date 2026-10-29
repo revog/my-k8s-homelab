@@ -27,12 +27,13 @@
     {
       description: "Flux group",
       groupName: "Flux",
-      // matchDatasources: ["docker"],
-      matchPackagePatterns: ["^fluxcd/", "^ghcr.io/fluxcd/", "flux-operator"],
+      matchPackagePatterns: [
+        "fluxcd", 
+        "flux-operator"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      // minimumGroupSize: 2,
+      minimumGroupSize: 1,
     },
     {
       "description": "Immich Update group",
