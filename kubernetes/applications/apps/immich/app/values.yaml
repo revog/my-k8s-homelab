@@ -5,9 +5,9 @@ controllers:
     pod:
       annotations:
         reloader.stakater.com/auto: "true"
-      resourceClaims:
-        - name: intel-gpu
-          resourceClaimTemplateName: immich-gpu
+      # resourceClaims:
+      #   - name: intel-gpu
+      #     resourceClaimTemplateName: immich-gpu
     containers:
       main:
         image:
@@ -61,8 +61,8 @@ controllers:
           limits:
             cpu: 1
             memory: 2Gi
-          claims:
-            - name: intel-gpu
+          # claims:
+          #   - name: intel-gpu
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
