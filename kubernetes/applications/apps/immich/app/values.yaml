@@ -111,7 +111,7 @@ machine-learning:
               memory: 512Mi
             limits:
               cpu: 2
-              memory: 4Gi
+              memory: 8Gi
             claims:
               - name: intel-gpu
           securityContext:
