@@ -54,6 +54,11 @@
 
     // Avoid Auto-Merge
     {
+      "description": "Avoid auto-merge for all major updates",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
       "description": "Avoid Automerge for Talos & Extension",
       "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
       "excludePackagePatterns": ["kubelet", "kube-"],
