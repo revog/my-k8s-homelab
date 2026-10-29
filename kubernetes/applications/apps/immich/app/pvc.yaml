@@ -13,3 +13,7 @@ spec:
     requests:
       storage: 100Gi
   storageClassName: longhorn-v2
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: immich-bootstrap
