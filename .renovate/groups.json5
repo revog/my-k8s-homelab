@@ -28,7 +28,7 @@
       description: "Flux group",
       groupName: "Flux",
       // matchDatasources: ["docker"],
-      matchPackagePatterns: ["^fluxcd/", "^ghcr.io/fluxcd/"],
+      matchPackagePatterns: ["^fluxcd/", "^ghcr.io/fluxcd/", "flux-operator"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
