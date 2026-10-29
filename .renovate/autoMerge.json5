@@ -4,11 +4,16 @@
     {
       description: "Auto-merge trusted OCI digests",
       matchDatasources: ["docker"],
-      matchUpdateTypes: ["digest"],
-      matchPackagePrefixes: [
-        "ghcr.io/home-operations",
-        "ghcr.io/bjw-s",
-        "ghcr.io/bjw-s-labs",
+      matchUpdateTypes: ["digest", "pin", "pinDigest"],
+      // matchPackagePrefixes: [
+      //   "ghcr.io/home-operations",
+      //   "ghcr.io/bjw-s",
+      //   "ghcr.io/bjw-s-labs",
+      // ],
+      excludePackagePatterns: [
+        ":latest$",
+        ":main$",
+        ":master$"
       ],
       automerge: true,
       automergeType: "pr",
