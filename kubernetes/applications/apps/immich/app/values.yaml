@@ -121,6 +121,7 @@ machine-learning:
   persistence:
     cache:
       enabled: true
+      accessMode: ReadWriteOnce
       type: persistentVolumeClaim
       size: 10Gi
       storageClass: longhorn-v2
