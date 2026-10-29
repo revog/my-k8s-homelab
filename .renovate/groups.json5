@@ -31,8 +31,8 @@
         "ghcr.io/controlplaneio-fluxcd/charts/flux-operator"
       ],
       "matchPackagePatterns": [
-        "^fluxcd/",
-        "^ghcr.io/fluxcd/"
+        "fluxcd",
+        "flux-operator"
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
