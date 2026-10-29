@@ -76,8 +76,6 @@ defaultPodOptions:
     fsGroup: 1004
     fsGroupChangePolicy: OnRootMismatch
     seccompProfile: { type: RuntimeDefault }
-  nodeSelector:
-    intel.feature.node.kubernetes.io/gpu: "true"
 
 immich:
   configurationKind: Secret
@@ -93,6 +91,8 @@ machine-learning:
   controllers:
     main:
       strategy: Recreate
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
       pod:
         resourceClaims:
           - name: intel-gpu
@@ -124,30 +124,6 @@ machine-learning:
       type: emptyDir
 
 persistence:
-  # config:
-  #   type: secret
-  #   name: immich-secret
-  #   globalMounts:
-  #     - path: /config/immich-config.yaml
-  #       subPath: immich-config.yaml
-  #       readOnly: true
-  # library:
-  #   enabled: true
-  #   #nameOverride: immich-server
-  #   type: persistentVolumeClaim
-  #   storageClass: "longhorn-v2"
-  #   accessMode: ReadWriteOnce
-  #   advancedMounts:
-  #     main:
-  #       main:
-  #         - path: /data
-  #   size: 100Gi
-  #   labels:
-  #     volsync.backube/backup: "true"
-  #   dataSourceRef:
-  #     apiGroup: volsync.backube
-  #     kind: ReplicationDestination
-  #     name: immich-bootstrap
   tmp:
     type: emptyDir
     globalMounts:
