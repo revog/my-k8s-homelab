@@ -10,6 +10,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  
 jobs:
   pre-job:
     name: Flux Local Pre-Job
@@ -113,10 +116,11 @@ jobs:
             ${{ steps.diff.outputs.diff }}
             ```
 
-  flux-local-status:
+  status:
     name: Flux Local Success
     needs: ["test", "diff"]
     runs-on: ubuntu-latest
+    permissions: {}
     if: ${{ always() }}
     steps:
       - name: Any jobs failed?
