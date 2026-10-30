@@ -5,7 +5,7 @@ controllers:
       main:
         image:
           repository: influxdb
-          tag: 3.12.1-enterprise
+          tag: 3.12.2-enterprise
         env:
           INFLUXDB3_CLUSTER_ID: "cluster0"
           INFLUXDB3_NODE_ID: "node0"
