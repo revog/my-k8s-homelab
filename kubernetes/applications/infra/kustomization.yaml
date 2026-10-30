@@ -10,6 +10,7 @@ resources:
   - cilium/ks.yaml
   - cloudflare/ks.yaml
   - coredns/ks.yaml
+  - database/kustomization.yaml
   - external-dns/ks.yaml
   - external-secrets/ks.yaml
   - flux/ks.yaml
