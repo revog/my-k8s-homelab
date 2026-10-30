@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - cluster.yaml
   - secret.age.enc.yaml
-  - service.yaml
   # - ./stanza.yaml
   # - ./pluginconfig.yaml
   # - ./pooler.yaml
