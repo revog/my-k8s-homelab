@@ -31,7 +31,7 @@ metadata:
 spec:
   dependsOn:
     - name: cloudnative-pg
-      namespace: infra-database
+      namespace: infra-flux
   path: "./kubernetes/applications/infra/database/cloudnative-pg/postgres18-immich"
   wait: true
   interval: 15m
