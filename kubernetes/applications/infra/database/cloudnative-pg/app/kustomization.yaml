@@ -7,7 +7,6 @@ resources:
   - grafanadashboard.yaml
   - helmrelease.yaml
   - helmrepository.yaml
-  - namespace.yaml
 
 configMapGenerator:
   - name: cloudnativepg-values
