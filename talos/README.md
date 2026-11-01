@@ -144,7 +144,7 @@ To generate your machine configuration create new configs using inputs from exis
 CLUSTER_NAME=<CLUSTER_NAME>
 CLUSTER_API_VIP=<CLUSTER_API_VIP>
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-KUBERNETES_VERSION=1.37.1
+KUBERNETES_VERSION=1.37.2
 NODE=<HOSTNAME>
 # renovate: datasource=custom.talos-factory depName=siderolabs/talos
 TALOS_VERSION=v1.14.5
