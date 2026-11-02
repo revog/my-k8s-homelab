@@ -31,11 +31,11 @@ export vars
 grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and (.apiVersion | test("^kustomize.toolkit.fluxcd.io/"))) | .spec.postBuild.substitute) |= (env(vars) + (. // {}))'
 
-# Runtime-only objects with nothing to render offline:
-# - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
-# - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
-yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
-grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null \
-  | while IFS= read -r -d '' provider; do
-      yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
-    done
+# # Runtime-only objects with nothing to render offline:
+# # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
+# # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
+# yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
+# grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null \
+#   | while IFS= read -r -d '' provider; do
+#       yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
+#     done
