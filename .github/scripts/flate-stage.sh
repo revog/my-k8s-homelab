@@ -17,10 +17,6 @@ mkdir -p "$dest"
 cp -R "$src"/. "$dest"/
 cd "$dest"
 
-# Remove secret refs from GitRepository objects for offline render. These secrets exist only in the live cluster, not in the Git repo.
-grep -rlZ --include='*.yaml' 'kind: GitRepository' . 
-  | xargs -0 -r -n1 yq -i 'del(.spec.secretRef)'
-
 # Optional: keep the PR preview exclusion safe when no matches are found
 while IFS= read -r -d '' provider; do
   yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
