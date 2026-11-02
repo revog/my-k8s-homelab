@@ -18,14 +18,14 @@ cp -R "$src"/. "$dest"/
 cd "$dest"
 
 grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
-  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-system", "namespace": "flux-system"}'
+  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-system", "namespace": "infra-flux"}'
 
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
 # render as-is (secret values are never needed), but an app's own postBuild variables still apply,
 # and anything else gets substituted the way the cluster does it.
 vars=$(yq -N '(.data // .stringData) | keys | .[]' \
-  clusters/cluster-00/secrets/cluster-config.yaml clusters/cluster-00/secrets/cluster-secrets.enc.age.yaml |
+  globals/cluster-config.yaml globals/cluster-secrets.enc.age.yaml |
   sort -u | jq -R . | jq -cs 'map({(.): ("${" + . + "}")}) | add')
 export vars
 grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
@@ -34,8 +34,7 @@ grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
 # Runtime-only objects with nothing to render offline:
 # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
 # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
-yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' clusters/cluster-00/flux-system/flux-instance/app/kustomization.yaml
-yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' clusters/cluster-00/flux-system/flux-operator/app/kustomization.yaml
+yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
 grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' apps |
   while IFS= read -r -d '' provider; do
     yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
