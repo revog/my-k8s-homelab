@@ -54,6 +54,13 @@ jobs:
           version: ${{ env.FLATE_VERSION }}
           cache: "true"
 
+      - name: DEBUG Checkout SHAs
+        run: |
+          echo "PR head SHA: $(git -C pull rev-parse HEAD)"
+          echo "PR base SHA: $(git -C base rev-parse HEAD)"
+          echo "PR branch: $(git -C pull branch --show-current || true)"
+          echo "Base branch: $(git -C base branch --show-current || true)"
+
       # The pull request's copy of the scripts stages both trees, so a change to them is tested too.
       - name: Stage
         run: |
@@ -67,6 +74,13 @@ jobs:
         run: |
           unset FLATE_BASE
           flate test all --path . --no-progress
+
+      - name: DEBUG Staged trees
+        run: |
+          echo "=== directory listing ==="
+          ls -ld "$RUNNER_TEMP/stage/pull" "$RUNNER_TEMP/stage/base"
+          echo "=== tree diff before flate build ==="
+          diff -rq "$RUNNER_TEMP/stage/pull" "$RUNNER_TEMP/stage/base" | head -n 200 || true
 
       - name: Diff
         id: diff
