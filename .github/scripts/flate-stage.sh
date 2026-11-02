@@ -17,8 +17,21 @@ mkdir -p "$dest"
 cp -R "$src"/. "$dest"/
 cd "$dest"
 
-grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
-  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-operator", "namespace": "infra-flux"}'
+# Remove secret refs from GitRepository objects for offline render. These secrets exist only in the live cluster, not in the Git repo.
+grep -rlZ --include='*.yaml' 'kind: GitRepository' . 
+  | xargs -0 -r -n1 yq -i 'del(.spec.secretRef)'
+
+# Optional: keep the PR preview exclusion safe when no matches are found
+while IFS= read -r -d '' provider; do
+  yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
+done < <(grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null || true)
+
+# Remove secret refs from GitRepository objects for offline render. These secrets exist only in the live cluster, not in the Git repo.
+grep -rlZ --include='*.yaml' 'kind: GitRepository' . |
+  xargs -0 -r -n1 yq -i 'del(.spec.secretRef)'
+
+# grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
+#   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-operator", "namespace": "infra-flux"}'
 
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
