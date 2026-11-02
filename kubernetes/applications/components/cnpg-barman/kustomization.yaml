@@ -13,10 +13,9 @@ patches:
       group: postgresql.cnpg.io
       kind: Cluster
       name: ${DB}
-    patch: |-
-      - op: add
-        path: /spec/backup
-        value:
+    patch: |
+      spec:
+        backup:
           barmanObjectStore:
             destinationPath: "s3://cnpg-barman/${DB}"
             endpointURL: "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
