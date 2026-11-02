@@ -59,15 +59,6 @@ spec:
   monitoring:
     enablePodMonitor: true
 
-  # # pgBackRest Plugin for backup
-  # plugins:
-  #   - name: pgbackrest.dalibo.com
-  #     enabled: true
-  #     isWALArchiver: true
-  #     parameters:
-  #       stanzaRef: postgres18-immich-stanza
-  #       pluginConfigRef: postgres18-immich-pluginconfig
-
   bootstrap:
     initdb:
       database: immich

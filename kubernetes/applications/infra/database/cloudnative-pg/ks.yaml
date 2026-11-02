@@ -44,3 +44,8 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      DB: postgres18-immich
+      BARMAN_SCHEDULE: "0 15 4 * * *" # 6-field (sec min hour day mon weekday)
+      BARMAN_RETENTION: "14d"

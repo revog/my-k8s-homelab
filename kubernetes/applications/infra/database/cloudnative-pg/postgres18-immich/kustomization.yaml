@@ -2,11 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+components:
+  - ../../../components/cnpg-barman
+
 resources:
   - cluster.yaml
   - secret.age.enc.yaml
-  # - ./stanza.yaml
-  # - ./pluginconfig.yaml
-  # - ./pooler.yaml
-  # - ./scheduledbackup.yaml
-  # - ./scheduledbackup-weekly-full.yaml
