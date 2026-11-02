@@ -14,6 +14,10 @@ patches:
       kind: Cluster
       name: ${DB}
     patch: |
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        name: ${DB}
       spec:
         backup:
           barmanObjectStore:
