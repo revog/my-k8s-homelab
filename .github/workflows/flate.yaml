@@ -29,6 +29,8 @@ jobs:
   render:
     name: Flate - Render
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     outputs:
       diff: ${{ steps.diff.outputs.diff }}
     steps:
