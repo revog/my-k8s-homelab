@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.base.sha }}
-          path: default
+          path: base
           persist-credentials: false
 
       - name: Setup flate
@@ -64,8 +64,8 @@ jobs:
       # The pull request's copy of the scripts stages both trees, so a change to them is tested too.
       - name: Stage
         run: |
-          pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
-          pull/.github/scripts/flate-stage.sh default/kubernetes "$RUNNER_TEMP/stage/default"
+          base/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
+          base/.github/scripts/flate-stage.sh base/kubernetes "$RUNNER_TEMP/stage/base"
 
       # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
       # mode; the staged trees aren't git checkouts and are rendered in full instead.
@@ -86,9 +86,9 @@ jobs:
         id: diff
         run: |
           unset FLATE_BASE
-          (cd "$RUNNER_TEMP/stage/default" && flate build all --path . --no-progress) > "$RUNNER_TEMP/default.yaml"
+          (cd "$RUNNER_TEMP/stage/base" && flate build all --path . --no-progress) > "$RUNNER_TEMP/base.yaml"
           (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
-          pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/default.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
+          pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/base.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
 
           echo "ls -latr $RUNNER_TEMP:"
           ls -latr $RUNNER_TEMP
