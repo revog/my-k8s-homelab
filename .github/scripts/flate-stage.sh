@@ -24,11 +24,12 @@ done < <(grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/
 
 # Remove secret refs from GitRepository objects for offline render. These secrets exist only in the live cluster, not in the Git repo.
 grep -rlZ --include='*.yaml' 'kind: GitRepository' . |
-  xargs -0 -r -n1 yq -i 'del(.spec.secretRef)'
+  xargs -0 -r yq -i 'del(.spec.secretRef)'
 
-# grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
-#   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-operator", "namespace": "infra-flux"}'
-
+# Remove secret envvars for offline render. These secrets exist only in the live cluster, not in the Git repo.
+grep -rlZ --include='*.yaml' '\${' . |
+  xargs -0 -r perl -pi -e 's/\$\{[^}]+\}/<ommited>/g'
+  
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
 # render as-is (secret values are never needed), but an app's own postBuild variables still apply,
