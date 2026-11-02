@@ -23,5 +23,4 @@ split() {
 split "$base" base
 split "$pr" pr
 cd "$work"
-ls -latr *
 diff -ruN base pr | sed -E "s/^(---|\+\+\+) ([^\t]+)\t.*/\1 \2/" || true
