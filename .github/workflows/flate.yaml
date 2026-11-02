@@ -76,10 +76,14 @@ jobs:
           (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
           pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/default.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
 
+          echo "ls -latr $RUNNER_TEMP:"
           ls -latr $RUNNER_TEMP
+          echo "ls -latr $RUNNER_TEMP/stage:"
+          ls -latr $RUNNER_TEMP/stage
+          echo "ls -latr $RUNNER_TEMP/stage/*:"
+          ls -latr $RUNNER_TEMP/stage/*
           ls -latr diff.patch
           cat diff.patch
-
           
           # A PR comment holds 65536 characters.
           if [ "$(wc -c < diff.patch)" -gt 60000 ]; then
