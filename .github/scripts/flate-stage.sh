@@ -18,7 +18,7 @@ cp -R "$src"/. "$dest"/
 cd "$dest"
 
 grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
-  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-system", "namespace": "infra-flux"}'
+  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-operator", "namespace": "infra-flux"}'
 
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
