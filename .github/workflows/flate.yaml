@@ -54,13 +54,6 @@ jobs:
           version: ${{ env.FLATE_VERSION }}
           cache: "true"
 
-      - name: DEBUG Checkout SHAs
-        run: |
-          echo "PR head SHA: $(git -C pull rev-parse HEAD)"
-          echo "PR base SHA: $(git -C base rev-parse HEAD)"
-          echo "PR branch: $(git -C pull branch --show-current || true)"
-          echo "Base branch: $(git -C base branch --show-current || true)"
-
       # The pull request's copy of the scripts stages both trees, so a change to them is tested too.
       - name: Stage
         run: |
@@ -75,13 +68,6 @@ jobs:
           unset FLATE_BASE
           flate test all --path . --no-progress
 
-      - name: DEBUG Staged trees
-        run: |
-          echo "=== directory listing ==="
-          ls -ld "$RUNNER_TEMP/stage/pull" "$RUNNER_TEMP/stage/base"
-          echo "=== tree diff before flate build ==="
-          diff -rq "$RUNNER_TEMP/stage/pull" "$RUNNER_TEMP/stage/base" | head -n 200 || true
-
       - name: Diff
         id: diff
         run: |
@@ -89,16 +75,6 @@ jobs:
           (cd "$RUNNER_TEMP/stage/base" && flate build all --path . --no-progress) > "$RUNNER_TEMP/base.yaml"
           (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
           pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/base.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
-
-          echo "ls -latr $RUNNER_TEMP:"
-          ls -latr $RUNNER_TEMP
-          echo "ls -latr $RUNNER_TEMP/stage:"
-          ls -latr $RUNNER_TEMP/stage
-          echo "ls -latr $RUNNER_TEMP/stage/*:"
-          ls -latr $RUNNER_TEMP/stage/*
-          ls -latr diff.patch
-          cat diff.patch
-          
           # A PR comment holds 65536 characters.
           if [ "$(wc -c < diff.patch)" -gt 60000 ]; then
             head -c 60000 diff.patch > diff.trimmed && mv diff.trimmed diff.patch
