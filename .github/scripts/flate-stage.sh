@@ -30,17 +30,12 @@ vars=$(yq -N '(.data // .stringData) | keys | .[]' \
 export vars
 grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and (.apiVersion | test("^kustomize.toolkit.fluxcd.io/"))) | .spec.postBuild.substitute) |= (env(vars) + (. // {}))'
-echo "<< CHECKPOINT 4a >>"
-ls -l applications/infra/flux/app/kustomization.yaml
+
 # Runtime-only objects with nothing to render offline:
 # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
 # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
 yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
-echo "<< CHECKPOINT 4b >>"
-grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications
-grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications |
-  while IFS= read -r -d '' provider; do
-    echo "<< CHECKPOINT 4c-while >>"
-    yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
-  done
-echo "<< CHECKPOINT 5 - END >>"
+grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null \
+  | while IFS= read -r -d '' provider; do
+      yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
+    done
