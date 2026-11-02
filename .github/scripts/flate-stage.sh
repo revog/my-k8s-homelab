@@ -35,7 +35,7 @@ grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
 # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
 # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
 yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
-grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' apps |
+grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications |
   while IFS= read -r -d '' provider; do
     yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
   done
