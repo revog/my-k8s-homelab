@@ -20,7 +20,7 @@ split() {
     (cd "$work/$2" && yq -s '.kind + "_" + (.metadata.namespace // "cluster") + "_" + .metadata.name' -)
 }
 
-split "$base" base
-split "$pr" pr
+# split "$base" base
+# split "$pr" pr
 cd "$work"
 diff -ruN base pr | sed -E "s/^(---|\+\+\+) ([^\t]+)\t.*/\1 \2/" || true
