@@ -6,6 +6,13 @@
 name: Flate
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - kubernetes/**
+      - .github/scripts/flate-*.sh
+      - .github/workflows/flate.yaml
   pull_request:
     branches:
       - main
