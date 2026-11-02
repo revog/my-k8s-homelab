@@ -4,6 +4,6 @@ metadata:
   name: ${DB}
 spec:
   schedule: "${BARMAN_SCHEDULE:=0 0 4 * * *}" # 6-field (sec min hour day mon weekday) - daily backup at 4am (default)
-  backupOwner: cluster
+  backupOwnerReference: cluster
   cluster:
     name: ${DB}
