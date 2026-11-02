@@ -11,6 +11,13 @@ pr=$(realpath "$2")
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
+normalize_env_placeholders() {
+  perl -0pi -e 's/\$\{[A-Z0-9_]+\}/__MISSING_ENV__/g' "$1"
+}
+
+normalize_env_placeholders "$base"
+normalize_env_placeholders "$pr"
+
 split() {
   mkdir -p "$work/$2"
 
