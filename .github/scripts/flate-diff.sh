@@ -11,22 +11,8 @@ pr=$(realpath "$2")
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
-normalize_env_placeholders() {
-  perl -0pi -e 's/\$\{[A-Z0-9_]+\}/__MISSING_ENV__/g' "$1"
-}
-
-normalize_env_placeholders "$base"
-normalize_env_placeholders "$pr"
-
 split() {
   mkdir -p "$work/$2"
-
-  echo "=== split $2 from $1 ==="
-
-  # temporary debug: show the labels before removing them
-  echo "== labels before cleanup =="
-  yq '.kind, .metadata.namespace, .metadata.name, .metadata.labels' "$1" | head -n 80 || true
-  
   # Chart bumps rewrite these labels on every object; on the object itself they are noise in a review.
   # Pod templates are left alone: a version label or checksum annotation changing there rolls the pods
   # (#4421 restarted dex, democratic-csi and minecraft that way while this diff showed nothing).
