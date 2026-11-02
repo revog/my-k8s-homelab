@@ -59,8 +59,8 @@ jobs:
       # The pull request's copy of the scripts stages both trees, so a change to them is tested too.
       - name: Stage
         run: |
-          base/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
-          base/.github/scripts/flate-stage.sh base/kubernetes "$RUNNER_TEMP/stage/base"
+          pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
+          pull/.github/scripts/flate-stage.sh base/kubernetes "$RUNNER_TEMP/stage/base"
 
       # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
       # mode; the staged trees aren't git checkouts and are rendered in full instead.
