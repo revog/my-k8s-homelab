@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ermuti#!/usr/bin/env bash
 # Stage kubernetes/ for an offline flate render: flate-stage.sh <kubernetes dir> <dest dir>
 #
 # Flux pulls this tree as an OCI artifact (oci.yaml pushes ./kubernetes, so it is the artifact
@@ -27,8 +27,12 @@ grep -rlZ --include='*.yaml' 'kind: GitRepository' . |
   xargs -0 -r yq -i 'del(.spec.secretRef)'
 
 # Remove secret envvars for offline render. These secrets exist only in the live cluster, not in the Git repo.
+echo "Before:"
+grep -R '\${CLUSTER_DOMAIN}' . | wc -l
 grep -rlZ --include='*.yaml' '\${' . |
   xargs -0 -r perl -pi -e 's/\$\{[^}]+\}/<ommited>/g'
+echo "After:"
+grep -R '\${CLUSTER_DOMAIN}' . | wc -l
   
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
