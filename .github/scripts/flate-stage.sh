@@ -23,14 +23,12 @@ while IFS= read -r -d '' provider; do
 done < <(grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null || true)
 
 # Remove secret refs from GitRepository objects for offline render. These secrets exist only in the live cluster, not in the Git repo.
-grep -rlZ --include='*.yaml' 'kind: GitRepository' . |
+grep -rlZ --include='*.yaml' --include='*.yml' 'kind: GitRepository' . |
   xargs -0 -r yq -i 'del(.spec.secretRef)'
 
-# Remove secret envvars for offline render. These secrets exist only in the live cluster, not in the Git repo.
-grep -rlZ --include='*.yaml' '\${' . |
+# Remove substituted envvars for offline render. These secrets exist only in the live cluster, not in the Git repo.
+grep -rlZ --include='*.yaml' --include='*.yml' '\${' . |
   xargs -0 -r perl -pi -e 's/\$\{[^}]+\}/<ommited>/g'
-echo "After:"
-grep -R '\${' .
   
 # The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
 # Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
@@ -40,14 +38,14 @@ vars=$(yq -N '(.data // .stringData) | keys | .[]' \
   globals/cluster-config.yaml globals/cluster-secrets.enc.age.yaml |
   sort -u | jq -R . | jq -cs 'map({(.): ("${" + . + "}")}) | add')
 export vars
-grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
+grep -rlZ --include='*.yaml' --include='*.yml' 'kind: Kustomization' . |
   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and (.apiVersion | test("^kustomize.toolkit.fluxcd.io/"))) | .spec.postBuild.substitute) |= (env(vars) + (. // {}))'
 
 # # Runtime-only objects with nothing to render offline:
 # # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
 # # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
 # yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' applications/infra/flux/app/kustomization.yaml
-# grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' applications 2>/dev/null \
+# grep -rlZ --include='*.yaml' --include='*.yml' 'type: GitHubPullRequest' applications 2>/dev/null \
 #   | while IFS= read -r -d '' provider; do
 #       yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
 #     done
