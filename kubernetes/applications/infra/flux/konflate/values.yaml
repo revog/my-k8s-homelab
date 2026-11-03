@@ -5,8 +5,8 @@ config:
   verifyImages: true
   # mcp: true
 
-# secret:
-#   existingSecret: konflate-secret
+secret:
+  existingSecret: konflate-github
 
 httpRoute:
   enabled: true
