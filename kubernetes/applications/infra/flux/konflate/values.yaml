@@ -1,4 +1,5 @@
 config:
+  appClientId: "Iv23lirY1XctpLPPM5eE"
   repo: github://revog/my-k8s-homelab
   statusChecks: true
   prComments: true
