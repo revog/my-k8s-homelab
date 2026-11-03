@@ -3,6 +3,7 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
+  - objectstore.yaml
   - scheduledbackup.yaml
   - secret.age.enc.yaml
 
@@ -14,18 +15,9 @@ patches:
       kind: Cluster
     patch: |-
       - op: add
-        path: /spec/backup
+        path: /spec/plugins
         value:
-          barmanObjectStore:
-            destinationPath: "s3://cnpg-barman/${DB}"
-            endpointURL: "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
-            s3Credentials:
-              accessKeyId:
-                name: barman-s3-secret
-                key: ACCESS_KEY_ID
-              secretAccessKey:
-                name: barman-s3-secret
-                key: SECRET_ACCESS_KEY
-            wal:
-              compression: gzip
-          retentionPolicy: "${BARMAN_RETENTION:=7d}"
+          - name: barman-cloud.cloudnative-pg.io
+            isWALArchiver: true
+            parameters:
+              barmanObjectName: cloudflare-s3-${DB}
