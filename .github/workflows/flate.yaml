@@ -60,11 +60,11 @@ jobs:
       - name: Stage
         run: |
           pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
-          echo "> stage/pull: $(grep -R '\${' $RUNNER_TEMP/stage/pull"
-          echo "> stage/pull/yaml: $(grep -rlZ --include='*.yaml' -include='*.yml' '\${' $RUNNER_TEMP/pull/base"
+          echo "> stage/pull: $(grep -R '\${' $RUNNER_TEMP/stage/pull)"
+          echo "> stage/pull/yaml: $(grep -rlZ --include='*.yaml' -include='*.yml' '\${' $RUNNER_TEMP/pull/base)"
           pull/.github/scripts/flate-stage.sh base/kubernetes "$RUNNER_TEMP/stage/base"
-          echo "> stage/base: $(grep -R '\${' $RUNNER_TEMP/stage/base"
-          echo "> stage/base/yaml: $(grep -rlZ --include='*.yaml' -include='*.yml' '\${' $RUNNER_TEMP/stage/base"
+          echo "> stage/base: $(grep -R '\${' $RUNNER_TEMP/stage/base)"
+          echo "> stage/base/yaml: $(grep -rlZ --include='*.yaml' -include='*.yml' '\${' $RUNNER_TEMP/stage/base)"
 
       # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
       # mode; the staged trees aren't git checkouts and are rendered in full instead.
