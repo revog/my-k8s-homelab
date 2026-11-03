@@ -1,7 +1,7 @@
 config:
   repo: github://revog/my-k8s-homelab
-  # statusChecks: true
-  # prComments: true
+  statusChecks: true
+  prComments: true
   # verifyImages: true
   # mcp: true
 
