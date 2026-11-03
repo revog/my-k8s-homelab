@@ -62,6 +62,14 @@ jobs:
           pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
           pull/.github/scripts/flate-stage.sh base/kubernetes "$RUNNER_TEMP/stage/base"
 
+      - name: Debug stage
+        run: |
+          grep -R "CLUSTER_DOMAIN" "$RUNNER_TEMP/stage/base" | head -20 || true
+          grep -R "CLUSTER_DOMAIN" "$RUNNER_TEMP/stage/pull" | head -20 || true
+      
+          grep -R "<ommited>" "$RUNNER_TEMP/stage/base" | head -20 || true
+          grep -R "<ommited>" "$RUNNER_TEMP/stage/pull" | head -20 || true
+
       # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
       # mode; the staged trees aren't git checkouts and are rendered in full instead.
       - name: Test
@@ -90,6 +98,15 @@ jobs:
             cat diff.patch
             echo "$delim"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Debug rendered manifests
+        run: |
+          grep -n "paperless.internal" "$RUNNER_TEMP/base.yaml" | head
+          grep -n "paperless.internal" "$RUNNER_TEMP/pull.yaml" | head
+          grep -R "CLUSTER_DOMAIN" "$RUNNER_TEMP/base.yaml" | head
+          grep -R "CLUSTER_DOMAIN" "$RUNNER_TEMP/pull.yaml" | head
+          grep -R "<ommited>" "$RUNNER_TEMP/base.yaml" | head
+          grep -R "<ommited>" "$RUNNER_TEMP/pull.yaml" | head
 
       - name: Debug Diff output
         run: |
