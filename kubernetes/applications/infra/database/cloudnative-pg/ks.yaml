@@ -34,6 +34,7 @@ spec:
   interval: 1h
   path: "./kubernetes/applications/infra/database/cloudnative-pg/plugin-barman-cloud"
   prune: true
+  targetNamespace: infra-database
   sourceRef:
     kind: GitRepository
     name: homelab
