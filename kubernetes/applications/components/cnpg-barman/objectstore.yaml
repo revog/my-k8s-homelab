@@ -5,7 +5,7 @@ metadata:
 spec:
   configuration:
     destinationPath: s3://cnpg-barman/${DB}
-    endpointURL: https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
+    endpointURL: ${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
     s3Credentials:
       accessKeyId:
         name: barman-s3-secret
