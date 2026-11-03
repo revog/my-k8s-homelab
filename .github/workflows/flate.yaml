@@ -91,13 +91,28 @@ jobs:
             echo "$delim"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Debug Diff output
+        run: |
+          echo "Length:"
+          wc -c diff.patch
+          echo "Step output exists:"
+          test -n "${{ steps.diff.outputs.diff }}" && echo YES || echo NO
+
   # Kept apart from render so no pull request code runs alongside the bot token.
   comment:
     if: ${{ needs.render.outputs.diff != '' && github.event.pull_request.head.repo.full_name == github.repository }}
     needs: render
     name: Flate - Comment
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
+      - name: Debug received output
+        run: |
+          echo '${{ needs.render.outputs.diff }}' | head
+          echo "Length:"
+          echo '${{ needs.render.outputs.diff }}' | wc -c
+  
       - name: Add Comment
         continue-on-error: true
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
