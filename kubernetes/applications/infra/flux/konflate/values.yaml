@@ -3,20 +3,14 @@ config:
   repo: github://revog/my-k8s-homelab
   statusChecks: true
   prComments: true
-  prCommentTemplate: |
-    ## konflate · #{{ .PR.Number }} — {{ .PR.Title }}
-    
+  prCommentTemplate: |  
     {{ .Summary }}
   
     ```yaml
-    {{ .Diff.Impact.Resources }}
-    {{ .Diff.Warnings }}
-    {{ .Diff.Images }}
-    {{ .Diff.Failures }}
-    {{ .Diff.Impact.Resources }}
+    {{ .Diff }}
     ```
   
-    _Rendered `{{ .PR.HeadSHA }}` · [review →]({{ .ReviewURL }})_
+    _Rendered `{{ .PR.HeadSHA }}` · [PR review]({{ .ReviewURL }})_
   verifyImages: true
   # mcp: true
 
