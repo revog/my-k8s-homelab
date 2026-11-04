@@ -1,5 +1,5 @@
 config:
-  appClientId: "Iv23lirY1XctpLPPM5eE"
+  appClientId: "Iv23lirY1XctpLPPM5eE" # <tbd> migrate to KONFLATE_APP_CLIENT_ID in secret
   repo: github://revog/my-k8s-homelab
   statusChecks: true
   prComments: true
