@@ -3,11 +3,25 @@ config:
   repo: github://revog/my-k8s-homelab
   statusChecks: true
   prComments: true
+  prCommentTemplate: |
+    ## konflate · #{{ .PR.Number }} — {{ .PR.Title }}
+    
+    {{ .Summary }}
+  
+    ```yaml
+    {{ .Diff.Impact.Resources }}
+    {{ .Diff.Warnings }}
+    {{ .Diff.Images }}
+    {{ .Diff.Failures }}
+    {{ .Diff.Impact.Resources }}
+    ```
+  
+    _Rendered `{{ .PR.HeadSHA }}` · [review →]({{ .ReviewURL }})_
   verifyImages: true
   # mcp: true
 
-secret:
-  existingSecret: konflate-github
+deploymentAnnotations:
+  reloader.stakater.com/auto: "true"
 
 httpRoute:
   enabled: true
@@ -29,3 +43,6 @@ resources:
     memory: 256Mi
   limits:
     memory: 1Gi
+
+secret:
+  existingSecret: konflate-github
