@@ -1,13 +1,14 @@
 ---
 defaultSettings:
-  autoDeleteWorkloadPod: true           # Force-deletes stuck pods if the Pi 5 NVMe hat suffers a momentary PCIe power drop
-  defaultDataPath: /var/mnt/nvme        # Set falllback path (normally set in Longhorn UI)
-  createDefaultDiskLabeledNodes: true   # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
-
+  allowInstanceManagerAutomaticUpgrade: true      # Allow automatic upgrade of instance managers when a new Longhorn version is available
+  autoDeleteWorkloadPod: true                     # Force-deletes stuck pods if the Pi 5 NVMe hat suffers a momentary PCIe power drop
+  defaultDataPath: /var/mnt/nvme                  # Set falllback path (normally set in Longhorn UI)
+  createDefaultDiskLabeledNodes: true             # Only use explicitly labeled nodes (kubectl label node <node> node.longhorn.io/create-default-disk=true)
   defaultReplicaCount: 3
 
   concurrentReplicaRebuildPerNodeLimit: 4
   concurrentVolumeBackupRestorePerNodeLimit: 1
+  concurrentAutomaticEngineUpgradePerNodeLimit: 1 # Maximum number of engines that are allowed to concurrently upgrade on each node
   defaultUblkQueueDepth: 128
   defaultUblkNumberOfQueue: 4
   disableRevisionCounter: true
