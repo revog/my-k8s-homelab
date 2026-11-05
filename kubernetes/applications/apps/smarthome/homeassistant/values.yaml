@@ -80,7 +80,7 @@ persistence:
     labels:
       volsync.backube/restore: "true"
     storageClass: longhorn-v2
-    size: 2Gi
+    size: 5Gi
     globalMounts:
       - path: /config
   config-file:
