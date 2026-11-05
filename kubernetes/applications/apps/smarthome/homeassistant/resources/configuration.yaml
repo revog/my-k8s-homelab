@@ -32,6 +32,7 @@ plant: !include plants.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 sensor: !include_dir_merge_list sensors
+sonos: !include sonos.yaml
 template: !include_dir_merge_list templates
 
 ## Bluetooth
