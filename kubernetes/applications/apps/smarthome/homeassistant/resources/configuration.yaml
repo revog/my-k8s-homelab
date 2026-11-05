@@ -10,11 +10,76 @@ homeassistant:
   time_zone: ${CLUSTER_TIMEZONE}
   internal_url: https://homeassistant.internal.${CLUSTER_DOMAIN}
   external_url: https://homeassistant.private.${CLUSTER_DOMAIN}
+  packages: !include_dir_merge_named /config/packages
 
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
+  extra_module_url:
+    - /hacsfiles/material-you-utilities/material-you-utilities.min.js
 
+panel_custom:
+  - name: material-you-panel
+    url_path: material-you-configuration
+    sidebar_title: Material You Utilities
+    sidebar_icon: mdi:material-design
+    module_url: /hacsfiles/material-you-utilities/material-you-utilities.min.js
+
+## Reverse proxy settings
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - ${CLUSTER_POD_CIDR}
+    - ${CLUSTER_SERVICE_CIDR}
+    - ${HOMENET_CIDR}
+  ip_ban_enabled: true          # use this to enable auto IP ban
+  login_attempts_threshold: 6   # set the number of allowed login attempts
+
+## Sensors, templates, automations, scripts, scenes, ...
 automation: !include automations.yaml
+binary_sensor: !include_dir_merge_list binary_sensors
+plant: !include plants.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+sensor: !include_dir_merge_list sensors
+template: !include_dir_merge_list templates
+
+## Bluetooth
+bluetooth:
+
+## Long term persistence
+influxdb:
+  tags:
+    source: homeassistant
+  tags_attributes:
+    - friendly_name
+    - device_class
+  default_measurement: state
+  exclude:
+    domains:
+      - persistent_notification
+      - person
+      - device_tracker
+    entities:
+      - sensor.openweathermap
+      - sensor.thermal_comfort
+      - sensor.meteoswiss
+      - sensor.weather
+    entity_globs:
+      - weather.*
+      - sun.*
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - cover
+
+# Notifications
+notify:
+  - platform: telegram
+    name: "HomeAssistant"
+    chat_id: !secret telegram_chat_id_main
+
+## Text-to-speech
+tts:
+  - platform: google_translate
