@@ -25,16 +25,6 @@ panel_custom:
     sidebar_icon: mdi:material-design
     module_url: /hacsfiles/material-you-utilities/material-you-utilities.min.js
 
-## Reverse proxy settings
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - ${CLUSTER_POD_CIDR}
-    - ${CLUSTER_SERVICE_CIDR}
-    - ${HOMENET_CIDR}
-  ip_ban_enabled: true          # use this to enable auto IP ban
-  login_attempts_threshold: 6   # set the number of allowed login attempts
-
 ## Sensors, templates, automations, scripts, scenes, ...
 automation: !include automations.yaml
 binary_sensor: !include_dir_merge_list binary_sensors
