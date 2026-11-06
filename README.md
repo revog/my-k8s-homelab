@@ -84,7 +84,7 @@ The below showcases the collection of open-source solutions currently implemente
 My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/) running on consumer desktop computer nodes. This is a mini-semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate NAS with disk space for NFS/SMB shares, bulk file storage and backups.
 #### 😶 Core Components
 * Networking & Service Mesh: **cilium** provides eBPF-based networking, while istio powers service-to-service communication with L7 proxying and traffic management. cloudflared secures ingress traffic via Cloudflare, and external-dns keeps DNS records in sync automatically.
-* Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets, I use external-secrets with 1Password Connect to inject secrets into Kubernetes.
+* Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets handling, I use [SOPS](https://github.com/getsops/sops) to keep secrets encrypted in Git and them into Kubernetes.
 * Storage & Data Protection: **longhorn** provides distributed storage for persistent volumes, with **volsync** handling backups and restores. **spegel** improves reliability by running a stateless, cluster-local OCI image mirror.
 * Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
 
