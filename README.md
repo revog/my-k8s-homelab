@@ -161,21 +161,23 @@ The final and least common way to expose an app is via cloudflared - the **[Clou
 ### 📁 Directory Structure
 This Git repository contains the following directories and structure:
 ```sh
-📁 talos
-├── 📁 generated       # talos base configuration
-├── 📁 patches         # customized overrides
+📁 talos               # talos configuration files
+├── 📁 nodes           # talos node specific overrides
 📁 kubernetes
 ├── 📁 applications    # kubernetes deployments
-|   ├── 📁 app         # end-user/workload apps
-|   └── 📁 infra       # cluster/platform infrastructure components
-└── 📁 bootstrap       # bootstrap configuration
+|   ├── 📁 app         # end-user/workload deployments
+|   ├── 📁 components  # reusable parts (backup, gpu, zeroscaler, ...)
+|   └── 📁 infra       # cluster/platform infrastructure deployments
+├── 📁 bootstrap       # bootstrap configuration
+├── 📁 clusters        # cluster base
+└── 📁 globals         # global values
 ```
 
 All Kubernetes manifests are placed under [kubernetes/applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications)/*/ and each application lives in its own directory named (without prefix) after the namespace it will be deployed to.
 Each application directory typically contains:
 * A `kustomization.yaml` that serves as the base entry point refering to HelmChart and/or YAML files.
 * A `namespace.yaml` defining the namespace for the app.
-* An `app/` subdirectory containing the (optional) custom Kubernetes manifests.
+* An `app/` subdirectory containing the Kubernetes manifests and Helms.
 
 The Flux Kustomization then deploys the application itself using either HelmReleases or plain Kustomize/YAML manifests depending on the app.
 
