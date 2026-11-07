@@ -60,7 +60,7 @@ controllers:
             memory: 512Mi
           limits:
             cpu: 1
-            memory: 2Gi
+            memory: 4Gi
           claims:
             - name: intel-gpu
         securityContext:
