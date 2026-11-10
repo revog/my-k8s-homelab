@@ -2,6 +2,11 @@ modelServers:
   VLLM:
     image: intel/vllm:0.21.0-xpu # Use official Intel XPU image
 
+metrics:
+  prometheusOperator:
+    vLLMPodMonitor:
+      enabled: true
+
 modelServerPods:  # This injects the Intel DRA driver allocations into all vLLM Pods
   jsonPatches:
     - op: add
@@ -12,7 +17,7 @@ modelServerPods:  # This injects the Intel DRA driver allocations into all vLLM 
     - op: add
       path: /spec/containers/0/resources/claims
       value:
-        - name: intel-gpus
+        - name: intel-gpu
 
 open-webui:
   enabled: false
