@@ -56,6 +56,15 @@
       automergeType: "branch",
       ignoreTests: true,
     },
+    {
+      "description": "Auto-merge patch updates for GitHub Actions",
+      "matchDatasources": ["github-tags"],
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false
+    },
 
     // Avoid Auto-Merge
     {
