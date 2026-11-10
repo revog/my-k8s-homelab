@@ -1,0 +1,35 @@
+ollama:
+  enabled: false
+
+pipelines:
+  enabled: false
+
+websocket:
+  enabled: false
+
+route:
+  enabled: true
+  httpsRedirect: true
+  hostnames:
+    - ai.internal.${CLUSTER_DOMAIN}
+    - ai.private.${CLUSTER_DOMAIN}
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale
+
+ollamaUrls:
+  - "http://xyz.app-ai.svc.cluster.local:11434" # <TBD> url to model
+
+persistence:
+  enabled: true
+  storageClass: longhorn-v2
+  size: 2Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 2Gi
