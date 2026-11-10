@@ -1,0 +1,15 @@
+---
+# Hermes 3 on Intel Xe3
+apiVersion: kubeai.org/v1alpha1
+kind: Model
+metadata:
+  name: hermes-3-8b
+spec:
+  features:
+    - TextGeneration
+  engine: VLLM
+  resourceProfile: intel-gpu              # Uses the Intel profile defined in values.yaml
+  storage:
+    hf: NousResearch/Hermes-3-Llama-3-8B  # Pulls directly from Hugging Face
+  minReplicas: 0                          # Scales down to 0 when idle to save power/VRAM
+  maxReplicas: 1                          # Starts with 1 replica for testing as requested
