@@ -1,1 +1,43 @@
 ---
+config:
+  server:
+    auth:
+      mode: trusted-proxy
+      userIdClaim: email
+
+controller:
+  metrics:
+    enabled: true
+  service:
+    type: ClusterIP
+
+# <TBD>
+database:
+  postgres:
+    ownerConnectionStringSecretRef:
+      name: ai-postgres-app
+      key: uri
+    readWriteConnectionStringSecretRef:
+      name: ai-postgres-app
+      key: uri
+
+# <TBD>
+oauth2-proxy:
+  # enabled: true
+  config:
+    # Secret with keys: client-id, client-secret, cookie-secret
+    existingSecret: kagent-oidc-secret
+  extraArgs:
+    provider: oidc
+    oidc-issuer-url: "https://auth.${CLUSTER_DOMAIN}"
+    redirect-url: "https://auth.${CLUSTER_DOMAIN}/authorize"
+    reverse-proxy: true
+    scope: "openid profile email groups"
+
+providers: null
+
+ui:
+  httpRoute:
+    enabled: false # Explicitely disabled to avoid bypassing oidc-proxy (separate YAML manifest)
+  service:
+    type: ClusterIP
