@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - models.yaml
+  - namespace.yaml
   - ocirepository.yaml
 
 components:
