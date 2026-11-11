@@ -1,8 +1,7 @@
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
-  name: kagent-strict-boundary
-  namespace: ai-system
+  name: allow-to-kagent-only-via-oauth2proxy
 spec:
   endpointSelector:
     matchExpressions:
