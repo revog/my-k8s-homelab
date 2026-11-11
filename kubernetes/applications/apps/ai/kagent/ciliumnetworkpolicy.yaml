@@ -1,0 +1,25 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: kagent-strict-boundary
+  namespace: ai-system
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/instance
+        operator: In
+        values: ["kagent"]
+      - key: app.kubernetes.io/component
+        operator: In
+        values: ["ui", "controller"]
+  ingress:
+    # Allow from oauth2-proxy (for UI)
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: oauth2-proxy
+            app.kubernetes.io/instance: kagent
+    # Allow internal traffic between ui & controller
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/component: ui
+            app.kubernetes.io/instance: kagent
