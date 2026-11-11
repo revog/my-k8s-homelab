@@ -34,13 +34,10 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-from-kagent-to-postgres
 spec:
-  # Gilt für alle Pods deines CloudNativePG Clusters
   endpointSelector:
     matchLabels:
       cnpg.io/cluster: postgres18-kagent
-
   ingress:
-    # Allow from kagent to postgres
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/instance: kagent
@@ -48,4 +45,3 @@ spec:
         - ports:
             - port: "5432"
               protocol: TCP
-  
