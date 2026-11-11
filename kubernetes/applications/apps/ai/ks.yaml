@@ -3,43 +3,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app open-webui
-  namespace: infra-flux
-spec:
-  path: ./kubernetes/applications/apps/ai/open-webui
-  targetNamespace: app-ai
-  interval: 15m
-  retryInterval: 1m
-  timeout: 30m
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: homelab
-  dependsOn:
-    - name: gpu-driver
-    - name: longhorn
-    - name: volsync
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_UID: "1020"
-      VOLSYNC_GID: "1020"
-      VOLSYNC_CLAIM: open-webui
-      VOLSYNC_CAPACITY: 2Gi
-      VOLSYNC_CACHE_CAPACITY: 2Gi
-      VOLSYNC_SCHEDULE: "10 1 * * *" # 1:10am
-      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
-
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app kubeai
   namespace: infra-flux
 spec:
@@ -55,7 +18,6 @@ spec:
     name: homelab
   dependsOn:
     - name: gpu-driver
-    # - name: volsync
   decryption:
     provider: sops
     secretRef:
@@ -69,4 +31,42 @@ spec:
       # VOLSYNC_CAPACITY: 2Gi
       # VOLSYNC_CACHE_CAPACITY: 2Gi
       # VOLSYNC_SCHEDULE: "1 1 * * *" # 1:10am
+      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app open-webui
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/ai/open-webui
+  targetNamespace: app-ai
+  interval: 15m
+  retryInterval: 1m
+  timeout: 30m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: gpu-driver
+    - name: kubeai
+    - name: longhorn
+    - name: volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_UID: "1020"
+      VOLSYNC_GID: "1020"
+      VOLSYNC_CLAIM: open-webui
+      VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_CACHE_CAPACITY: 2Gi
+      VOLSYNC_SCHEDULE: "10 1 * * *" # 1:10am
       # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
