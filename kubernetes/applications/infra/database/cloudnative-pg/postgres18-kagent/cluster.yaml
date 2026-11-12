@@ -49,9 +49,10 @@ spec:
   bootstrap:
     initdb:
       database: kagent
-      owner: kagent-owner
+      owner: kagent_owner
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
+        - CREATE SCHEMA IF NOT EXISTS kagent AUTHORIZATION kagent_owner;
 
   # # ============================================================================
   # # RESTORE FROM BACKUP (commented out - use instead of initdb above)
