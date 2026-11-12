@@ -1,6 +1,6 @@
 ---
 # Hermes 3 on Intel Xe3
-apiVersion: kubeai.org/v1alpha1
+apiVersion: kubeai.org/v1
 kind: Model
 metadata:
   name: hermes-3-8b
