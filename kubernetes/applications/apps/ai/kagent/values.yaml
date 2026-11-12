@@ -4,8 +4,6 @@ config:
     auth:
       mode: trusted-proxy
       userIdClaim: email
-  substrate:
-    enabled: false
 
 controller:
   metrics:
