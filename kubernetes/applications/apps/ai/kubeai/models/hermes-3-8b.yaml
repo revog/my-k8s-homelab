@@ -8,7 +8,7 @@ spec:
   features:
     - TextGeneration
   engine: VLLM
-  resourceProfile: intel-gpu-xe3                # Uses the Intel profile defined in values.yaml
+  resourceProfile: intel-gpu-xe3:1              # Uses the Intel profile defined in values.yaml
   url: "hf://NousResearch/Hermes-3-Llama-3-8B"  # Pulls directly from Hugging Face
   minReplicas: 0                                # Scales down to 0 when idle to save power/VRAM
   maxReplicas: 1                                # Starts with 1 replica for testing as requested
