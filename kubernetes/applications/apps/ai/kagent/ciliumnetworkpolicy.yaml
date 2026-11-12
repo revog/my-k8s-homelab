@@ -1,0 +1,47 @@
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-to-kagent-only-via-oauth2proxy
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/instance
+        operator: In
+        values: ["kagent"]
+      - key: app.kubernetes.io/component
+        operator: In
+        values: ["ui", "controller"]
+  ingress:
+    # Allow from oauth2-proxy (for UI)
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: oauth2-proxy
+            app.kubernetes.io/instance: kagent
+    # Allow internal traffic between ui & controller
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/component: ui
+            app.kubernetes.io/instance: kagent
+    # Allow internal traffic between open-webui & controller
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: open-webui
+
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-from-kagent-to-postgres
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: postgres18-kagent
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: kagent
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP

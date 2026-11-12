@@ -69,3 +69,32 @@ spec:
       DB: postgres18-immich
       BARMAN_SCHEDULE: "0 15 4 * * *" # 6-field (sec min hour day mon weekday)
       BARMAN_RETENTION: "14d"
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: postgres18-kagent
+  namespace: infra-flux
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: infra-flux
+  path: "./kubernetes/applications/infra/database/cloudnative-pg/postgres18-kagent"
+  wait: true
+  interval: 15m
+  prune: false
+  targetNamespace: infra-database
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute:
+      DB: postgres18-kagent
+      BARMAN_SCHEDULE: "0 35 5 * * *" # 6-field (sec min hour day mon weekday)
+      BARMAN_RETENTION: "14d"

@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ciliumnetworkpolicy.yaml
+  - helmrelease.yaml
+  - models.yaml
+  - namespace.yaml
+  - ocirepository.yaml
+
+components:
+  - ../../../components/gpu
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: kubeai-values
+    files:
+      - values.yaml

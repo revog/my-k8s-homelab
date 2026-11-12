@@ -1,0 +1,42 @@
+modelServers:
+  VLLM:
+    image: intel/vllm:0.21.0-xpu # Use official Intel XPU image
+
+metrics:
+  prometheusOperator:
+    vLLMPodMonitor:
+      enabled: true
+
+modelServerPods:  # This injects the Intel DRA driver allocations into all vLLM Pods
+  jsonPatches:
+    - op: add
+      path: /spec/resourceClaims
+      value:
+        - name: intel-gpu
+          resourceClaimTemplateName: kubeai-gpu
+    - op: add
+      path: /spec/containers/0/resources/claims
+      value:
+        - name: intel-gpu
+
+open-webui:
+  enabled: false
+
+resourceProfiles:
+  intel-gpu-xe3:
+    resources:
+      requests:
+        cpu: 1
+        memory: 2Gi
+      limits:
+        cpu: 1
+        memory: 10Gi
+    env:
+      - name: ONEAPI_DEVICE_SELECTOR
+        value: "level_zero:0"   # Maps local Intel GPU
+      - name: DEVICE
+        value: "xpu"            # Enforces Intel SYCL backend
+
+proxy:
+  logging:
+    level: info

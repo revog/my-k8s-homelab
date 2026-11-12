@@ -1,0 +1,20 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-from-kagent-to-kubeai
+spec:
+  # Protect KubeAI proxy and running vLLM model pods
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values: ["kubeai", "vllm"]
+  ingress:
+    # Allow internal traffic between KubeAI and its vLLM pods
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: kubeai
+    # Allow internal traffic betwenn kagent (and its agent-pods) and KubeAI
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: kagent
