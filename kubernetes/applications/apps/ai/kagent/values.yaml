@@ -30,6 +30,9 @@ oauth2-proxy:
     redirect-url: "https://kagent.internal.${CLUSTER_DOMAIN}/oauth2/callback"
     reverse-proxy: true
     scope: "openid profile email groups"
+  extraEnv:
+    - name: OAUTH2_PROXY_CODE_CHALLENGE_METHOD  # Allows to use PKCE
+      value: S256
 
 providers: null
 
