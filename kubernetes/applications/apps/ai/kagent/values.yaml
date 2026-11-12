@@ -33,6 +33,10 @@ oauth2-proxy:
   extraEnv:
     - name: OAUTH2_PROXY_CODE_CHALLENGE_METHOD  # Allows to use PKCE
       value: S256
+    - name: KAGENT_OAUTH2_PROXY_SIGNIN_TEMPLATE_CHECKSUM
+      value: '{{ include "kagent.oauth2ProxySignInHTML" . | sha256sum }}'
+    - name: UPSTREAM_URL
+      value: "http://kagent-ui:8080"
 
 providers: null
 
