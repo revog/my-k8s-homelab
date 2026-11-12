@@ -30,12 +30,12 @@ spec:
 
   managed:
     roles:
-      - name: kagent-owner
+      - name: kagent_owner
         superuser: true
         login: true
         passwordSecret:
           name: cloudnative-pg-user-kagent-owner
-      - name: kagent-rw
+      - name: kagent_rw
         superuser: false
         login: true
         passwordSecret:
