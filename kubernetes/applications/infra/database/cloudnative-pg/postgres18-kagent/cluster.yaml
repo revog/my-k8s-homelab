@@ -53,6 +53,10 @@ spec:
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
         - CREATE SCHEMA IF NOT EXISTS kagent AUTHORIZATION kagent_owner;
+        - GRANT ALL PRIVILEGES ON DATABASE kagent TO kagent_readwrite;
+        - GRANT USAGE, CREATE ON SCHEMA kagent TO kagent_readwrite;
+        - ALTER DEFAULT PRIVILEGES FOR ROLE kagent_owner IN SCHEMA kagent GRANT ALL PRIVILEGES ON TABLES TO kagent_readwrite;
+        - ALTER DEFAULT PRIVILEGES FOR ROLE kagent_owner IN SCHEMA kagent GRANT ALL PRIVILEGES ON SEQUENCES TO kagent_readwrite;
 
   # # ============================================================================
   # # RESTORE FROM BACKUP (commented out - use instead of initdb above)
