@@ -15,22 +15,20 @@ controller:
 database:
   postgres:
     ownerConnectionStringSecretRef:
-      name: ai-postgres-app
+      name: kagent-postgres-owner
       key: uri
     readWriteConnectionStringSecretRef:
-      name: ai-postgres-app
+      name: kagent-postgres-readwrite
       key: uri
 
-# <TBD>
 oauth2-proxy:
-  # enabled: true
+  enabled: true
   config:
-    # Secret with keys: client-id, client-secret, cookie-secret
     existingSecret: kagent-oidc-secret
   extraArgs:
     provider: oidc
     oidc-issuer-url: "https://auth.${CLUSTER_DOMAIN}"
-    redirect-url: "https://auth.${CLUSTER_DOMAIN}/authorize"
+    redirect-url: "https://auth.${CLUSTER_DOMAIN}/oauth2/callback"
     reverse-proxy: true
     scope: "openid profile email groups"
 

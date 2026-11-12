@@ -32,11 +32,16 @@ spec:
 
   managed:
     roles:
-      - name: kagent
+      - name: kagent-owner
         superuser: true
         login: true
         passwordSecret:
-          name: cloudnative-pg-user-kagent
+          name: cloudnative-pg-user-kagent-owner
+      - name: kagent-rw
+        superuser: false
+        login: true
+        passwordSecret:
+          name: cloudnative-pg-user-kagent-rw
 
   affinity:
     enablePodAntiAffinity: true
@@ -46,7 +51,7 @@ spec:
   bootstrap:
     initdb:
       database: kagent
-      owner: kagent
+      owner: kagent-owner
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
 

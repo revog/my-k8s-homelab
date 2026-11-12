@@ -33,3 +33,18 @@ resources:
     memory: 256Mi
   limits:
     memory: 2Gi
+
+sso:
+  enabled: true
+  enableSignup: true # Automatically creates Open WebUI accounts on first Pocket ID login
+  enableGroupManagement: true
+  groupManagement:
+    groupsClaim: "groups"
+  oidc:
+    enabled: true
+    providerName: "Pocket ID"
+    providerUrl: "https://auth.${CLUSTER_DOMAIN}"
+    scopes: "openid email profile groups"
+    clientExistingSecret: "openwebui-oidc-secret"
+    clientIdExistingSecretKey: "client-id"
+    clientExistingSecretKey: "client-secret"
