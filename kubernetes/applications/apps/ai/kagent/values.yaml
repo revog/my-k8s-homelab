@@ -4,6 +4,8 @@ config:
     auth:
       mode: trusted-proxy
       userIdClaim: email
+  substrate:
+    enabled: false
 
 controller:
   metrics:
@@ -32,9 +34,6 @@ oauth2-proxy:
     scope: "openid profile email groups"
 
 providers: null
-
-substrateWorkerPool:
-  create: true
 
 ui:
   httpRoute:
