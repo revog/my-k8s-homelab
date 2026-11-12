@@ -35,7 +35,7 @@ spec:
         login: true
         passwordSecret:
           name: cloudnative-pg-user-kagent-owner
-      - name: kagent_rw
+      - name: kagent_readwrite
         superuser: false
         login: true
         passwordSecret:
