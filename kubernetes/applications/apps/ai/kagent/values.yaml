@@ -33,6 +33,9 @@ oauth2-proxy:
 
 providers: null
 
+substrateWorkerPool:
+  create: true
+
 ui:
   httpRoute:
     enabled: false # Explicitely disabled to avoid bypassing oidc-proxy (separate YAML manifest)
