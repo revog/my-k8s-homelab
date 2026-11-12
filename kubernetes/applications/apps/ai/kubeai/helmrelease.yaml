@@ -11,9 +11,11 @@ spec:
     kind: OCIRepository
     name: kubeai
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
   valuesFrom:

@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - ciliumnetworkpolicy.yaml
   - helmrelease.yaml
-  - models.yaml
   - namespace.yaml
   - ocirepository.yaml
 
