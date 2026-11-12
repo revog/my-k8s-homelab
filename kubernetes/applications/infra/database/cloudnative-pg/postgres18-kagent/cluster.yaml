@@ -27,8 +27,6 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-superuser
-  postgresUID: 999
-  postgresGID: 999
 
   managed:
     roles:
