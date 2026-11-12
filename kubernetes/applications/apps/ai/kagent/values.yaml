@@ -27,7 +27,7 @@ oauth2-proxy:
   extraArgs:
     provider: oidc
     oidc-issuer-url: "https://auth.${CLUSTER_DOMAIN}"
-    redirect-url: "https://auth.${CLUSTER_DOMAIN}/oauth2/callback"
+    redirect-url: "https://kagent.internal.${CLUSTER_DOMAIN}/oauth2/callback"
     reverse-proxy: true
     scope: "openid profile email groups"
 
