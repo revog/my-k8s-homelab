@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kagent-proxy
+spec:
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale
+  hostnames:
+    - kagent.internal.${CLUSTER_DOMAIN}
+    - kagent.private.${CLUSTER_DOMAIN}
+  rules:
+    - backendRefs:
+        - name: kagent-oauth2-proxy # Setzt voraus, dass dein Helm-Release 'kagent' heißt
+          port: 4180

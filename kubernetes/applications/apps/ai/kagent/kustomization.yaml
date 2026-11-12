@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - ciliumnetworkpolicy.yaml
   - helmrelease.yaml
+  - httproute.yaml
   - ocirepository.yaml
   - secret.age.enc.yaml
 
