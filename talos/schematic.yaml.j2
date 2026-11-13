@@ -4,6 +4,7 @@ customization:
       - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
   systemExtensions:
     officialExtensions:
+      - siderolabs/gvisor                     # gVisor sandbox runtime support (for AI agent)
       - siderolabs/iscsi-tools                # iSCSI-based storage support (for Longhorn)
       - siderolabs/nvme-cli                   # NVMe CLI utilities
       - siderolabs/tailscale                  # Tailscale
