@@ -40,22 +40,6 @@
       minimumGroupSize: 1,
     },
     {
-      "description": "Immich Update group",
-      "groupName": "Immich (with Postgres)",
-      "matchPackagePatterns": ["immich"],
-      "matchPackageNames": [
-        "postgresql",
-        "bitnami/postgresql"
-      ],
-      "matchImageNames": [
-        "bitnami/postgresql",
-        "tensorchord/pgvector"
-      ],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      }
-    },
-    {
       description: "Intel Device Plugins group",
       groupName: "intel-device-plugins",
       // matchDatasources: ["docker"],
