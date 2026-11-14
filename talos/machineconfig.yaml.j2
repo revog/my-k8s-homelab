@@ -153,7 +153,7 @@ apiVersion: v1alpha1
 kind: KubeNodeConfig
 annotations:
     tuppr.home-operations.com/factory-url: "factory.talos.dev/installer"
-    tuppr.home-operations.com/schematic: "58a638b8d8d134807ae4b7badca72f1a656bd17b14e8a1f6b7c252d33862f5b1"
+    tuppr.home-operations.com/schematic: "c27d06ab86deffa5b74688ab67cf3c77aab746b0c8a5360bbf1eeb402125a1bc"
 labels:
     node-role.kubernetes.io/control-plane: "" # Standard label assigning the control-plane role to the node
 nodeIP:
@@ -263,8 +263,7 @@ ntp:
 apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 installer:
-    image: factory.talos.dev/metal-installer/58a638b8d8d134807ae4b7badca72f1a656bd17b14e8a1f6b7c252d33862f5b1:v1.14.5
-    # image: factory.talos.dev/installer/cbb3dc9fd96af80a2b8d6ce7c46e802d8b1f9a085cde8cf6a0444207af765ee2:v1.14.5
+    image: factory.talos.dev/metal-installer/c27d06ab86deffa5b74688ab67cf3c77aab746b0c8a5360bbf1eeb402125a1bc:v1.14.5
 provisioning:
     diskSelector:
         match: disk.dev_path == "/dev/sda"
