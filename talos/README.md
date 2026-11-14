@@ -77,7 +77,7 @@ Use the returned schematic ID for downloading customized image and extract:
 ```bash
 SCHEMATIC="<schematic-id>"
 # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-VERSION="v1.14.5"
+VERSION="v1.14.6"
 ```
 ```bash
 curl -L "https://factory.talos.dev/image/${SCHEMATIC}/${VERSION}/metal-amd64.raw.xz" -o metal-amd64.raw.xz -d metal-amd64.raw.xz
@@ -147,7 +147,7 @@ CLUSTER_API_VIP=<CLUSTER_API_VIP>
 KUBERNETES_VERSION=1.37.2
 NODE=<HOSTNAME>
 # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-TALOS_VERSION=v1.14.5
+TALOS_VERSION=v1.14.6
 
 cd talos
 
