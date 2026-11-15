@@ -10,7 +10,7 @@ parameters:
   dataEngine: "v2" # Enforces the usage of the high-performance V2 Data Engine (SPDK)
   dataLocality: "best-effort" # Forces Longhorn to keep a local data copy on the same node where the Pod runs. This prevents disk reads from being choked by network latencies.
   fsType: "ext4"
-  numberOfReplicas: "2"
+  numberOfReplicas: "3"
   staleReplicaTimeout: "30"
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
