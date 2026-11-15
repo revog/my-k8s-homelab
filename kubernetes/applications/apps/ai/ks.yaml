@@ -64,7 +64,7 @@ metadata:
   namespace: infra-flux
 spec:
   path: ./kubernetes/applications/apps/ai/substrate-crds
-  targetNamespace: app-ai
+  targetNamespace: app-ai-ate
   interval: 15m
   retryInterval: 1m
   timeout: 30m
@@ -93,7 +93,30 @@ spec:
     kind: GitRepository
     name: homelab
   dependsOn:
+    - name: substrate-atelet
     - name: substrate-crds
+
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app substrate-atelet
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/ai/substrate-atelet
+  targetNamespace: app-ai-ate
+  interval: 15m
+  retryInterval: 1m
+  timeout: 30m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: substrate
+
 
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 ---
