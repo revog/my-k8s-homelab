@@ -46,6 +46,7 @@ spec:
     - name: cert-manager-crds
     - name: kagent-crds
     - name: kubeai
+    - name: agent-substrate
   decryption:
     provider: sops
     secretRef:
@@ -53,6 +54,46 @@ spec:
   postBuild:
     substitute:
       APP: *app
+
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app agent-substrate-crds
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/ai/agent-substrate-crds
+  targetNamespace: app-ai
+  interval: 15m
+  retryInterval: 1m
+  timeout: 30m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app agent-substrate
+  namespace: infra-flux
+spec:
+  path: ./kubernetes/applications/apps/ai/agent-substrate
+  targetNamespace: app-ai-ate
+  interval: 15m
+  retryInterval: 1m
+  timeout: 30m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  dependsOn:
+    - name: agent-substrate-crds
 
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 ---
