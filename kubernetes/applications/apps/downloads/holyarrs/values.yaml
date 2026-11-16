@@ -17,6 +17,7 @@ controllers:
           HOLYARRS_OIDC_ENABLED: "true"
           HOLYARRS_OIDC_ISSUER: https://auth.${CLUSTER_DOMAIN}
           HOLYARRS_OIDC_SCOPES: openid profile email groups
+          HOLYARRS_TRUSTED_PROXIES: ${HOMENET_CIDR},${CLUSTER_POD_CIDR},${CLUSTER_SERVICE_CIDR} # Home Net, Cilium Pod, K8s Services
         envFrom:
           - secretRef:
               name: holyarrs-oidc-secret
