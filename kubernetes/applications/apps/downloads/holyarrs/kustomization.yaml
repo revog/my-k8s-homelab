@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
+  - secret.age.enc.yaml
 
 components:
   - ../../../components/volsync/local-nfs
