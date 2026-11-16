@@ -58,9 +58,9 @@ controllers:
 defaultPodOptions:
   securityContext:
     runAsNonRoot: true
-    runAsUser: 1005
-    runAsGroup: 1005
-    fsGroup: 1005
+    runAsUser: 1306
+    runAsGroup: 1306
+    fsGroup: 1306
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }

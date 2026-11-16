@@ -5,7 +5,7 @@ kind: Kustomization
 
 resources:
   - ai/ks.yaml
-  - arrs/ks.yaml
+  - downloads/ks.yaml
   - calibre/ks.yaml
   - homepage/ks.yaml
   - immich/ks.yaml

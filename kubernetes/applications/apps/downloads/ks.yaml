@@ -6,8 +6,8 @@ metadata:
   name: &app holyarrs
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/apps/arrs/holyars
-  targetNamespace: app-arrs
+  path: ./kubernetes/applications/apps/downloads/holyarrs
+  targetNamespace: app-downloads
   interval: 15m
   retryInterval: 1m
   timeout: 30m
@@ -25,12 +25,12 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      # VOLSYNC_UID: "1305"
-      # VOLSYNC_GID: "1305"
-      # VOLSYNC_CLAIM: holyarrs
-      # VOLSYNC_CAPACITY: 1Gi
-      # VOLSYNC_SCHEDULE: "30 3 * * *" # 2:30am
-      # # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+      VOLSYNC_UID: "1305"
+      VOLSYNC_GID: "1305"
+      VOLSYNC_CLAIM: holyarrs
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_SCHEDULE: "40 3 * * *" # 3:40am
+      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
 
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 ---
@@ -40,8 +40,8 @@ metadata:
   name: &app sabnzbd
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/apps/arrs/holyars
-  targetNamespace: app-arrs
+  path: ./kubernetes/applications/apps/downloads/sabnzbd
+  targetNamespace: app-downloads
   interval: 15m
   retryInterval: 1m
   timeout: 30m
@@ -59,9 +59,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      # VOLSYNC_UID: "1306"
-      # VOLSYNC_GID: "1306"
-      # VOLSYNC_CLAIM: sabnzbd
-      # VOLSYNC_CAPACITY: 1Gi
-      # VOLSYNC_SCHEDULE: "30 3 * * *" # 2:30am
-      # # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
+      VOLSYNC_UID: "1306"
+      VOLSYNC_GID: "1306"
+      VOLSYNC_CLAIM: sabnzbd
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_SCHEDULE: "30 3 * * *" # 3:30am
+      # VOLSYNC_S3_SCHEDULE: "0 1 * * *" # 1:00am
