@@ -13,21 +13,25 @@ controllers:
           PUID: 1305
           PGID: 1305
           TZ: ${CLUSTER_TIMEZONE}
-          HOLYARRS_ALLOWED_HOSTS: holyarrs.internal.${CLUSTER_DOMAIN}, holyarrs.private.${CLUSTER_DOMAIN}, holyarrs, holyarrs.app-downloads.svc.cluster.local
+          HOLYARRS_ALLOWED_HOSTS: holyarrs.internal.${CLUSTER_DOMAIN},holyarrs.private.${CLUSTER_DOMAIN},holyarrs,holyarrs.app-downloads.svc.cluster.local
           HOLYARRS_OIDC_ENABLED: "true"
           HOLYARRS_OIDC_ISSUER: https://auth.${CLUSTER_DOMAIN}
           HOLYARRS_OIDC_SCOPES: openid profile email groups
           HOLYARRS_TRUSTED_PROXIES: ${HOMENET_CIDR},${CLUSTER_POD_CIDR},${CLUSTER_SERVICE_CIDR} # Home Net, Cilium Pod, K8s Services
-        envFrom:
-          - secretRef:
-              name: holyarrs-oidc-secret
+          HOLYARRS_OIDC_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: holyarrs-oidc-secret
+                key: HOLYARRS_OIDC_CLIENT_ID
+          HOLYARRS_OIDC_CLIENT_SECRET_FILE: /run/secrets/oidc/HOLYARRS_OIDC_CLIENT_SECRET
+          HOLYARRS_OIDC_REDIRECT_URL: https://holyarrs.internal.${CLUSTER_DOMAIN}/api/v1/auth/oidc/callback
         probes:
           liveness: &probes
             enabled: true
             custom: true
             spec:
               httpGet:
-                path: /
+                path: /api/v1/health
                 port: &port 6262
               initialDelaySeconds: 0
               periodSeconds: 10
@@ -61,6 +65,13 @@ defaultPodOptions:
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
+  oidc-secret:
+    type: secret
+    name: holyarrs-oidc-secret
+    defaultMode: 0440
+    globalMounts:
+      - path: /run/secrets/oidc
+        readOnly: true
   config:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
