@@ -100,10 +100,10 @@ persistence:
   downloads:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
-    path: /Downloads
+    path: /Download
     globalMounts:
       - path: /downloads/sabnzbd
-        subPath: Downloads/sabnzbd
+        subPath: Download/sabnzbd
   # music:
   #   type: nfs
   #   server: "${STORAGE_IP:-0.0.0.0}"
