@@ -67,7 +67,7 @@ persistence:
     #   - path: /config
     advancedMounts:
       sabnzbd:
-        app:
+        sabnzbd:
           - path: /config
     dataSourceRef:
       apiGroup: volsync.backube
@@ -85,7 +85,7 @@ persistence:
     type: emptyDir
     advancedMounts:
       sabnzbd:
-        app:
+        sabnzbd:
           - path: /config/logs
             subPath: logs
           - path: /tmp
