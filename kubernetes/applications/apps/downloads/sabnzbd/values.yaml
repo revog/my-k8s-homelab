@@ -97,13 +97,13 @@ persistence:
             subPath: logs
           - path: /tmp
             subPath: tmp
-  downloads:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /Download
-    globalMounts:
-      - path: /downloads/sabnzbd
-        subPath: Download/sabnzbd
+  # downloads:
+  #   type: nfs
+  #   server: "${STORAGE_IP:-0.0.0.0}"
+  #   path: /Download
+  #   globalMounts:
+  #     - path: /downloads/sabnzbd
+  #       subPath: Download/sabnzbd
   # music:
   #   type: nfs
   #   server: "${STORAGE_IP:-0.0.0.0}"

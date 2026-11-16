@@ -63,13 +63,13 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: holyarrs-bootstrap
-  downloads:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /Download
-    globalMounts:
-      - path: /downloads
-        readOnly: false
+  # downloads:
+  #   type: nfs
+  #   server: "${STORAGE_IP:-0.0.0.0}"
+  #   path: /Download
+  #   globalMounts:
+  #     - path: /downloads
+  #       readOnly: false
   music:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
