@@ -83,12 +83,14 @@ persistence:
     path: /videos/movies
     globalMounts:
       - path: /movies
+        readOnly: true
   series:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
     path: /videos/series
     globalMounts:
       - path: /series
+        readOnly: true
 
 route:
   holyarrs:
@@ -112,4 +114,3 @@ service:
       http:
         port: *port
         appProtocol: kubernetes.io/ws
-
