@@ -16,13 +16,6 @@ controllers:
           SABNZBD__HOST_WHITELIST_ENTRIES: >-
             sabnzbd, sabnzbd.home-system, sabnzbd.home-system.svc, sabnzbd.home-system.svc.cluster, sabnzbd.home-system.svc.cluster.local, sab.${CLUSTER_DOMAIN}
           TZ: ${CLUSTER_TIMEZONE}
-          XSEED_HOST: cross-seed.home-system.svc.cluster.local
-          XSEED_PORT: 80
-          XSEED_APIKEY:
-            valueFrom:
-              secretKeyRef:
-                name: sabnzbd-secret
-                key: CROSS_SEED_API_KEY
         envFrom:
           - secretRef:
               name: sabnzbd-secret
