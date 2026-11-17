@@ -62,8 +62,8 @@ This repository leverages a range of cutting-edge open-source tools and platform
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Provider's Internet Router | Router/Gateway | 1 | - | - | - | - | - |
 | Network Gear | Network Switch | 1 | - | - | - | - | - |
-| [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) | Control Plane & Worker Nodes | 3 | 15 cores up to 4.3 GHz | 64GB | 3 x 512GB NVMe (Longhorn) <br>3 x 512GB UFS (OS) | amd64 | [Talos Linux](https://www.talos.dev/) |
-| NAS | Storage | 1 | 8 cores | 16GB | 48TB (Media, Backup, ...) | arm64 | [QNAP](https://www.qnap.com/) |
+| [Beelink EQi Wildcat Lake Core 3 304](https://www.bee-link.com/de/products/beelink-eqi-wildcat-lake) | Control Plane & Worker Nodes | 3 | 15 cores up to 4.3 GHz | 64GB | 3 x 512GB NVMe (Longhorn) <br>3 x 512GB UFS (OS) | amd64 | [Talos Linux](https://www.talos.dev/) by [SideroLabs](https://siderolabs.com) |
+| NAS | Storage | 1 | 8 cores | 16GB | 48TB (Media, Backup, ...) | arm64 | [QTS](https://qnap.com/qts) by [QNAP](https://qnap.com) |
 
 ## ☁️ Cloud Services
 I always try (whenever possible) to build and manage my infrastructure and workloads on-prem and on my own. But there are specific components of my setup that rely on cloud services. This saves me from having to worry about:
