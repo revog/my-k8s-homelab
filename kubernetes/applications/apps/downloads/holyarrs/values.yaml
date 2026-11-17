@@ -13,11 +13,11 @@ controllers:
           PUID: 1305
           PGID: 1305
           TZ: ${CLUSTER_TIMEZONE}
-          HOLYARRS_ALLOWED_HOSTS: holyarrs.internal.${CLUSTER_DOMAIN},holyarrs.private.${CLUSTER_DOMAIN},holyarrs,holyarrs.app-downloads.svc.cluster.local
+          HOLYARRS_ALLOWED_HOSTS: "holyarrs.internal.${CLUSTER_DOMAIN},holyarrs.private.${CLUSTER_DOMAIN}"
           HOLYARRS_OIDC_ENABLED: "true"
           HOLYARRS_OIDC_ISSUER: https://auth.${CLUSTER_DOMAIN}
           HOLYARRS_OIDC_SCOPES: openid profile email groups
-          HOLYARRS_TRUSTED_PROXIES: ${HOMENET_CIDR},${CLUSTER_POD_CIDR},${CLUSTER_SERVICE_CIDR} # Home Net, Cilium Pod, K8s Services
+          HOLYARRS_TRUSTED_PROXIES: "${HOMENET_CIDR},${CLUSTER_POD_CIDR},${CLUSTER_SERVICE_CIDR}" # Home Net, Cilium Pod, K8s Services
           HOLYARRS_OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
