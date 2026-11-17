@@ -86,7 +86,7 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev/) running o
 * Networking & Service Mesh: **cilium** provides eBPF-based networking, while istio powers service-to-service communication with L7 proxying and traffic management. cloudflared secures ingress traffic via Cloudflare, and external-dns keeps DNS records in sync automatically.
 * Security & Secrets: **cert-manager** automates SSL/TLS certificate management. For secrets handling, I use [SOPS](https://github.com/getsops/sops) to keep secrets encrypted in Git and them into Kubernetes.
 * Storage & Data Protection: **longhorn** provides distributed storage for persistent volumes, with **volsync** handling backups and restores. **spegel** improves reliability by running a stateless, cluster-local OCI image mirror.
-* Automation & CI/CD: **actions-runner-controller** runs self-hosted GitHub Actions runners directly in the cluster for continuous integration workflows.
+* Automation & CI/CD: **GitHub Actions** handles continuous integration workflows using GitHub-hosted runners.
 
 #### ⚙ GitOps
 [Flux](https://fluxcd.io/) follows a GitOps model where applications are deployed by reconciling explicitly defined Application resources against Git. Each Application points to a specific repository path and uses either Helm, Kustomize, or raw manifests to render Kubernetes resources. Flux continuously monitors Git for changes and synchronizes the cluster to match the desired state (YAMLs & HelmRelase) in my [kubernetes](/kubernetes) folder and its subfolders (see structure below). Dependencies between applications are handled through dependency declarations and health checks.
