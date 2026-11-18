@@ -103,13 +103,13 @@ persistence:
   movies:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
-    path: /videos/movies
+    path: /videos/Spielfilme
     globalMounts:
       - path: /movies
   series:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
-    path: /videos/series
+    path: /videos/Serien
     globalMounts:
       - path: /series
 
