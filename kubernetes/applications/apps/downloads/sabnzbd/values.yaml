@@ -92,7 +92,7 @@ persistence:
     server: "${STORAGE_IP:-0.0.0.0}"
     path: /Download
     globalMounts:
-      - path: /downloads/sabnzbd
+      - path: /downloads
         subPath: sabnzbd
       - path: /extracted-downloads
         subPath: extracted
