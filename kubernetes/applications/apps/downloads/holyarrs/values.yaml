@@ -8,7 +8,7 @@ controllers:
       holyarrs:
         image:
           repository: holyarrs/holyarrs
-          tag: 1.1.4@sha256:83553cc4b1939588f5ad3b3249ff2ddf4d3dc75533c20a830e96ef5e67c07114
+          tag: 1.2.0@sha256:169d2c90773011fcdce576e44ff40f71e1ddef18408fc367d870bfa57325323e
         env:
           PUID: 1305
           PGID: 1305
