@@ -1,3 +1,9 @@
+config:
+  substrate:
+    actorJwtIssuer: https://idp.app-ai-ate.svc
+    apiEndpoint: dns:///api.app-ai-ate.svc:443
+    routerUrl: https://atenet-router.app-ai-ate.svc:443
+
 modelServers:
   VLLM:
     image: intel/vllm:0.21.0-xpu # Use official Intel XPU image
