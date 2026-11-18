@@ -70,14 +70,14 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: sabnzbd-bootstrap
-  # scripts:
-  #   type: configMap
-  #   name: sabnzbd-scripts
-  #   defaultMode: 0775
-  #   advancedMounts:
-  #     sabnzbd:
-  #       app:
-  #         - path: /config/scripts
+  scripts:
+    type: configMap
+    name: sabnzbd-scripts
+    defaultMode: 0775
+    advancedMounts:
+      sabnzbd:
+        sabnzbd:
+          - path: /config/scripts
   tmpfs:
     type: emptyDir
     advancedMounts:
@@ -93,25 +93,29 @@ persistence:
     path: /Download
     globalMounts:
       - path: /downloads/sabnzbd
-        subPath: Download/sabnzbd
-  music:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /music
-    globalMounts:
-      - path: /music
-  movies:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /videos/Spielfilme
-    globalMounts:
-      - path: /movies
-  series:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /videos/Serien
-    globalMounts:
-      - path: /series
+        subPath: sabnzbd
+      - path: /extracted-downloads
+        subPath: extracted
+      - path: /incomplete-downloads
+        subPath: sabnzbd/_Incomplete
+  # music:
+  #   type: nfs
+  #   server: "${STORAGE_IP:-0.0.0.0}"
+  #   path: /music
+  #   globalMounts:
+  #     - path: /music
+  # movies:
+  #   type: nfs
+  #   server: "${STORAGE_IP:-0.0.0.0}"
+  #   path: /videos/Spielfilme
+  #   globalMounts:
+  #     - path: /movies
+  # series:
+  #   type: nfs
+  #   server: "${STORAGE_IP:-0.0.0.0}"
+  #   path: /videos/Serien
+  #   globalMounts:
+  #     - path: /series
 
 route:
   sabnzbd:

@@ -18,6 +18,6 @@ configMapGenerator:
   - name: sabnzbd-values
     files:
       - values.yaml
-#  - name: sabnzbd-scripts
-#    files:
-#      - resources/xseed.sh
+  - name: sabnzbd-scripts
+    files:
+      - resources/filebot.sh
