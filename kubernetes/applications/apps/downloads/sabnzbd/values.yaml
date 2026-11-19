@@ -54,7 +54,8 @@ defaultPodOptions:
     runAsGroup: 1306
     fsGroup: 1306
     fsGroupChangePolicy: OnRootMismatch
-    supplementalGroups: [44, 10000]
+    supplementalGroups:
+      - 1002 # downloads_rw
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
