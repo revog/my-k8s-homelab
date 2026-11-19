@@ -1,7 +1,9 @@
 ---
 customization:
   extraKernelArgs:
-      - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
+    - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
+    - nvme_core.default_ps_max_latency_us=0 # Disable NVMe APST deep sleep to prevent controller drops
+    - pcie_aspm=off                         # Disable PCIe Active State Power Management
   systemExtensions:
     officialExtensions:
       - siderolabs/gvisor                     # gVisor sandbox runtime support (for AI agent)
