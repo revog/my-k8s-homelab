@@ -70,7 +70,7 @@ defaultPodOptions:
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
-  oidc-secret:
+  holyarrs-secret:
     type: secret
     name: holyarrs-secret
     defaultMode: 0440
