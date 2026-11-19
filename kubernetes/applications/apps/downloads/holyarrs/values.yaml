@@ -87,19 +87,13 @@ persistence:
       apiGroup: volsync.backube
       kind: ReplicationDestination
       name: holyarrs-bootstrap
-  # downloads:
-  #   type: nfs
-  #   server: "${STORAGE_IP:-0.0.0.0}"
-  #   path: /Download
-  #   globalMounts:
-  #     - path: /downloads
-  #       readOnly: false
-  music:
+  downloads:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
-    path: /music
+    path: /Download
     globalMounts:
-      - path: /music
+      - path: /downloads
+        subPath: extracted
         readOnly: true
   movies:
     type: nfs
@@ -114,6 +108,13 @@ persistence:
     path: /videos/Serien
     globalMounts:
       - path: /series
+        readOnly: true
+  documentary:
+    type: nfs
+    server: "${STORAGE_IP:-0.0.0.0}"
+    path: /videos/Dokumentarfilme
+    globalMounts:
+      - path: /documentary
         readOnly: true
 
 route:
