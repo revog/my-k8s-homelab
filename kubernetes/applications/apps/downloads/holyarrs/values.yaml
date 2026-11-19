@@ -83,7 +83,7 @@ persistence:
   config:
     accessMode: ReadWriteOnce
     storageClass: "longhorn-v2"
-    size: 1Gi
+    size: 2Gi
     globalMounts:
       - path: /config
     dataSourceRef:
