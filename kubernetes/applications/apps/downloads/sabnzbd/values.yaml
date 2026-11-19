@@ -13,7 +13,7 @@ controllers:
           PUID: 1306
           PGID: 1306
           SABNZBD__PORT: &port 80
-          SABNZBD__HOST_WHITELIST_ENTRIES: "sabnzbd.internal.${CLUSTER_DOMAIN},sabnzbd.private.${CLUSTER_DOMAIN}"
+          SABNZBD__HOST_WHITELIST_ENTRIES: "sabnzbd,sabnzbd.internal.${CLUSTER_DOMAIN},sabnzbd.private.${CLUSTER_DOMAIN}"
           TZ: ${CLUSTER_TIMEZONE}
         envFrom:
           - secretRef:
