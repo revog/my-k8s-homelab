@@ -21,10 +21,15 @@ controllers:
           HOLYARRS_OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
-                name: holyarrs-oidc-secret
+                name: holyarrs-secret
                 key: HOLYARRS_OIDC_CLIENT_ID
-          HOLYARRS_OIDC_CLIENT_SECRET_FILE: /run/secrets/oidc/HOLYARRS_OIDC_CLIENT_SECRET
+          HOLYARRS_OIDC_CLIENT_SECRET_FILE: /run/secrets/holyarrs-secret/HOLYARRS_OIDC_CLIENT_SECRET
           HOLYARRS_OIDC_REDIRECT_URL: https://holyarrs.internal.${CLUSTER_DOMAIN}/api/v1/auth/oidc/callback
+          HOLYARRS_TMDB_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: holyarrs-secret
+                key: HOLYARRS_TMDB_KEY
         probes:
           liveness: &probes
             enabled: true
@@ -67,10 +72,10 @@ defaultPodOptions:
 persistence:
   oidc-secret:
     type: secret
-    name: holyarrs-oidc-secret
+    name: holyarrs-secret
     defaultMode: 0440
     globalMounts:
-      - path: /run/secrets/oidc
+      - path: /run/secrets/holyarrs-secret
         readOnly: true
   config:
     accessMode: ReadWriteOnce
