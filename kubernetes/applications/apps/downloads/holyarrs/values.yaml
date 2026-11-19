@@ -14,6 +14,7 @@ controllers:
           PGID: 1305
           TZ: ${CLUSTER_TIMEZONE}
           HOLYARRS_ALLOWED_HOSTS: "holyarrs.internal.${CLUSTER_DOMAIN},holyarrs.private.${CLUSTER_DOMAIN}"
+          HOLYARRS_OIDC_ALLOW_JOIN: "true"
           HOLYARRS_OIDC_ENABLED: "true"
           HOLYARRS_OIDC_ISSUER: https://auth.${CLUSTER_DOMAIN}
           HOLYARRS_OIDC_SCOPES: openid profile email groups
