@@ -62,5 +62,8 @@ talosconfig
 # Locally rendered configs
 **/rendered
 
+# Temporary test files
+**/scratch
+
 # Kubernetes configs
 kubeconfig
