@@ -73,6 +73,16 @@ defaultPodOptions:
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
+  holyarrs-config:
+    accessMode: ReadWriteOnce
+    storageClass: "longhorn-v2"
+    size: 5Gi
+    globalMounts:
+      - path: /config
+    dataSourceRef:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: holyarrs-bootstrap
   holyarrs-secret:
     type: secret
     name: holyarrs-secret
@@ -80,16 +90,12 @@ persistence:
     globalMounts:
       - path: /run/secrets/holyarrs-secret
         readOnly: true
-  config:
-    accessMode: ReadWriteOnce
-    storageClass: "longhorn-v2"
-    size: 2Gi
+  documentary:
+    type: nfs
+    server: "${STORAGE_IP:-0.0.0.0}"
+    path: /videos/Dokumentarfilme
     globalMounts:
-      - path: /config
-    dataSourceRef:
-      apiGroup: volsync.backube
-      kind: ReplicationDestination
-      name: holyarrs-bootstrap
+      - path: /documentary
   downloads:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
@@ -97,28 +103,25 @@ persistence:
     globalMounts:
       - path: /downloads
         subPath: extracted
-        readOnly: true
   movies:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
     path: /videos/Spielfilme
     globalMounts:
       - path: /movies
-        readOnly: true
+  music:
+    type: nfs
+    server: "${STORAGE_IP:-0.0.0.0}"
+    path: /videos/Spielfilme
+    globalMounts:
+      - path: /movies
   series:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
     path: /videos/Serien
     globalMounts:
       - path: /series
-        readOnly: true
-  documentary:
-    type: nfs
-    server: "${STORAGE_IP:-0.0.0.0}"
-    path: /videos/Dokumentarfilme
-    globalMounts:
-      - path: /documentary
-        readOnly: true
+
 
 route:
   holyarrs:
