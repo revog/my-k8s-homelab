@@ -114,7 +114,7 @@ persistence:
     server: "${STORAGE_IP:-0.0.0.0}"
     path: /videos/Spielfilme
     globalMounts:
-      - path: /movies
+      - path: /music
   series:
     type: nfs
     server: "${STORAGE_IP:-0.0.0.0}"
