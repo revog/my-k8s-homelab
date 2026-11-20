@@ -37,7 +37,7 @@ controllers:
             custom: true
             spec:
               httpGet:
-                path: /   # due to enabled oidc auth not possible to use /api/v1/health
+                path: /healthz
                 port: &port 6262
               initialDelaySeconds: 0
               periodSeconds: 10
