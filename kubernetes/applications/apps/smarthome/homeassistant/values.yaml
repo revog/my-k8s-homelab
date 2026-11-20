@@ -71,7 +71,6 @@ defaultPodOptions:
     runAsGroup: 1006
     fsGroup: 1006
     fsGroupChangePolicy: OnRootMismatch
-    supplementalGroups: [44, 10000]
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
