@@ -161,16 +161,17 @@ The final and least common way to expose an app is via cloudflared - the **[Clou
 ### 📁 Directory Structure
 This Git repository contains the following directories and structure:
 ```sh
-📁 talos               # talos configuration files
-├── 📁 nodes           # talos node specific overrides
 📁 kubernetes
-├── 📁 applications    # kubernetes deployments
-|   ├── 📁 app         # end-user/workload deployments
-|   ├── 📁 components  # reusable parts (backup, gpu, zeroscaler, ...)
-|   └── 📁 infra       # cluster/platform infrastructure deployments
-├── 📁 bootstrap       # bootstrap configuration
-├── 📁 clusters        # cluster base
-└── 📁 globals         # global values
+├── 📁 applications      # kubernetes deployments
+|   ├── 📁 app           # end-user/workload deployments
+|   ├── 📁 components    # reusable parts (backup, gpu, zeroscaler, ...)
+|   └── 📁 infra         # cluster/platform infrastructure deployments
+├── 📁 bootstrap         # bootstrap configuration
+├── 📁 clusters/homelab  # cluster base
+├── 📁 globals           # global values
+📁 talos                 # talos configuration files
+└── 📁 nodes             # talos node specific overrides
+└── 📄 ...               # talos general config files
 ```
 
 All Kubernetes manifests are placed under [kubernetes/applications](https://github.com/revog/my-k8s-homelab/tree/main/kubernetes/applications)/*/ and each application lives in its own directory named (without prefix) after the namespace it will be deployed to.
