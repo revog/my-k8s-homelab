@@ -21,6 +21,7 @@
     "title": "Renovate Dashboard 🤖"
   },
   "ignorePaths": [
+    "**/archive/**",
     "**/*.sops.*",
     ".codex/**"
   ],
