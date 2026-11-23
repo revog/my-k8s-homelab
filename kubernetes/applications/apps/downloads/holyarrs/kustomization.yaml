@@ -10,6 +10,7 @@ resources:
 
 components:
   - ../../../components/volsync/local-nfs
+  - ../../../components/zeroscaler
 
 generatorOptions:
   disableNameSuffixHash: true
