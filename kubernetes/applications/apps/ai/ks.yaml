@@ -93,7 +93,6 @@ spec:
     kind: GitRepository
     name: homelab
   dependsOn:
-    - name: substrate
     - name: substrate-crds
 
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
