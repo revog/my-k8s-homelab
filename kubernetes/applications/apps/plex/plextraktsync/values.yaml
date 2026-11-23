@@ -10,7 +10,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/taxel/plextraktsync
-          tag: latest
+          tag: 0.35.23
         command: ["plextraktsync", "watch"]
         env:
           PLEXAPI_HEADER_IDENTIFIER: "plextraktsync"
