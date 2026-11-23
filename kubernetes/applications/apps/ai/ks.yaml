@@ -93,7 +93,7 @@ spec:
     kind: GitRepository
     name: homelab
   dependsOn:
-    - name: substrate-atelet
+    - name: substrate
     - name: substrate-crds
 
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -101,10 +101,10 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app substrate-atelet
+  name: &app substrate
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/apps/ai/substrate-atelet
+  path: ./kubernetes/applications/apps/ai/substrate
   targetNamespace: app-ai-ate
   interval: 15m
   retryInterval: 1m
