@@ -126,7 +126,7 @@ route:
         namespace: infra-gateway
     rules:
       - backendRefs:
-          - name: calibre
+          - name: calibre-web-nextgen
             port: *port
 
 service:
