@@ -28,12 +28,14 @@
       ignoreTests: false,
     },
     {
-      description: "Auto-merge high-cadence OCI packages weekly",
+      description: "Auto-merge high-cadence OCI package updates (minor and lower)",
       matchDatasources: ["docker"],
-      matchUpdateTypes: ["minor", "patch"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
       matchPackageNames: [
         "ghcr.io/renovatebot/renovate",
         "/kube-prometheus-stack/",
+        "/prometheus-blackbox-exporter",
+        "ghcr.io/coder/code-server",
       ],
       automerge: true,
       automergeType: "pr",
