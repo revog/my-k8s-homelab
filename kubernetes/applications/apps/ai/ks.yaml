@@ -100,25 +100,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app substrate
-  namespace: infra-flux
-spec:
-  path: ./kubernetes/applications/apps/ai/substrate
-  targetNamespace: app-ai-ate
-  interval: 15m
-  retryInterval: 1m
-  timeout: 30m
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: homelab
-
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app kubeai
   namespace: infra-flux
 spec:
