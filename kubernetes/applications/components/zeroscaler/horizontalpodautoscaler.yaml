@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: ${APP}
+  name: ${APP}-zeroscaler
 spec:
   minReplicas: 0
   maxReplicas: 1
