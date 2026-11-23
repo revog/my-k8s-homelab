@@ -15,11 +15,11 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: KopiaMaintenance
 metadata:
-  name: daily-r2
+  name: daily-s3
 spec:
   enabled: true
   trigger:
     schedule: "30 9 * * *" # daily 9:30
   repository:
-    repository: volsync-r2-secret <TBD>
+    repository: volsync-s3-secret <TBD>
     repositoryType: s3
