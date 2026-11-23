@@ -17,7 +17,9 @@
     "github>revog/my-k8s-homelab//.renovate/semanticCommits.json5"
   ],
   "timezone": "Europe/Zurich",
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "dependencyDashboard": {
+    "title": "Renovate Dashboard 🤖"
+  },
   "ignorePaths": [
     "**/*.sops.*",
     ".codex/**"
