@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: anza-labs
+  namespace: infra-auth
 spec:
   interval: 12h
   url: https://anza-labs.github.io/charts
