@@ -33,9 +33,8 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       matchPackageNames: [
         "ghcr.io/renovatebot/renovate",
-        "/kube-prometheus-stack/",
-        "/prometheus-blackbox-exporter",
         "ghcr.io/coder/code-server",
+        "/prometheus-blackbox-exporter/",
       ],
       automerge: true,
       automergeType: "pr",
