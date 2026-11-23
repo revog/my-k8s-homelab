@@ -8,7 +8,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: substrate-crds
+    name: substrate-podcert
   upgrade:
     remediation:
       retries: 3
