@@ -20,7 +20,7 @@ controllers:
           CWA_COVER_BOOST: "true"
           CWA_PREVIEW_CACHE_MAX_MB: "1024"
           GENERIC_OAUTH_ENABLED: "true"
-          GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets//run/secrets/calibre-web-nextgen-secrets
+          GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets/calibre-web-nextgen-secrets
           GENERIC_OAUTH_SERVER_URL: https://auth.${CLUSTER_DOMAIN}
           GENERIC_OAUTH_AUTH_URL: https://auth.${CLUSTER_DOMAIN}/authorize
           GENERIC_OAUTH_TOKEN_URL: https://auth.${CLUSTER_DOMAIN}/api/oidc/token
