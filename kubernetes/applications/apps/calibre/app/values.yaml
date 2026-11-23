@@ -16,6 +16,29 @@ controllers:
           CWA_INGEST_FOLDER: "/cwa-book-ingest"
           # include needed resources for ebook-convert/kindle-epub-fixer
           # DOCKER_MODS: "linuxserver/mods:universal-calibre"
+          CALIBRE_SERVER_PORT: "8080"
+          CWA_COVER_BOOST: "true"
+          CWA_PREVIEW_CACHE_MAX_MB: "1024"
+          GENERIC_OAUTH_ENABLED: "true"
+          GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets//run/secrets/calibre-web-nextgen-secrets
+          GENERIC_OAUTH_SERVER_URL: https://auth.${CLUSTER_DOMAIN}
+          GENERIC_OAUTH_AUTH_URL: https://auth.${CLUSTER_DOMAIN}/authorize
+          GENERIC_OAUTH_TOKEN_URL: https://auth.${CLUSTER_DOMAIN}/api/oidc/token
+          GENERIC_OAUTH_USERINFO_URL: https://auth.${CLUSTER_DOMAIN}/api/oidc/userinfo
+          GENERIC_OAUTH_SCOPE: "openid profile email groups"
+          GENERIC_OAUTH_USERNAME_MAPPER: "preferred_username"
+          GENERIC_OAUTH_EMAIL_MAPPER: "email"
+          GENERIC_OAUTH_LOGIN_BUTTON: "Sign in with SSO"
+          GENERIC_OAUTH_GROUP_CLAIM: "groups"
+          GENERIC_OAUTH_REQUIRE_GROUP: "true"
+          GENERIC_OAUTH_ALLOWED_GROUPS: "readers,admins"
+          GENERIC_OAUTH_ADMIN_GROUP: "admins"
+          GENERIC_OAUTH_DEFAULT_ROLE: "download,viewer"
+          OAUTH_SSL_STRICT: "1"
+          SESSION_COOKIE_SECURE: "true"
+          TRUSTED_PROXY_COUNT: "1"
+          TRUSTED_PROXY_NETWORKS: "${HOMENET_CIDR},${CLUSTER_POD_CIDR},${CLUSTER_SERVICE_CIDR}" # Home Net, Cilium Pod, K8s Services
+
         probes:
           liveness: &probes
             enabled: true
@@ -58,7 +81,7 @@ defaultPodOptions:
     runAsGroup: ${VOLSYNC_GID}
     fsGroup: ${VOLSYNC_GID}
     fsGroupChangePolicy: OnRootMismatch
-    supplementalGroups: [44, 10000]
+    supplementalGroups: []
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
@@ -82,6 +105,13 @@ persistence:
     size: 1Gi
     storageClass: longhorn-v2
     type: persistentVolumeClaim
+  secret:
+    type: secret
+    name: calibre-web-nextgen-secrets
+    defaultMode: 0440
+    globalMounts:
+      - path: /run/secrets/calibre-web-nextgen-secrets
+        readOnly: true
   ingest:
     type: emptyDir
 #    type: nfs
