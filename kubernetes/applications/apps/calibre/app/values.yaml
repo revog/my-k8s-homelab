@@ -20,7 +20,17 @@ controllers:
           CWA_COVER_BOOST: "true"
           CWA_PREVIEW_CACHE_MAX_MB: "1024"
           GENERIC_OAUTH_ENABLED: "true"
-          GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets/calibre-web-nextgen-secrets
+          GENERIC_OAUTH_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: calibre-web-nextgen-secrets
+                key: client-id
+          GENERIC_OAUTH_CLIENT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: calibre-web-nextgen-secrets
+                key: client-secret
+          # GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets/calibre-web-nextgen-secrets
           GENERIC_OAUTH_SERVER_URL: https://auth.${CLUSTER_DOMAIN}
           GENERIC_OAUTH_AUTH_URL: https://auth.${CLUSTER_DOMAIN}/authorize
           GENERIC_OAUTH_TOKEN_URL: https://auth.${CLUSTER_DOMAIN}/api/oidc/token
@@ -28,7 +38,7 @@ controllers:
           GENERIC_OAUTH_SCOPE: "openid profile email groups"
           GENERIC_OAUTH_USERNAME_MAPPER: "preferred_username"
           GENERIC_OAUTH_EMAIL_MAPPER: "email"
-          GENERIC_OAUTH_LOGIN_BUTTON: "Sign in with SSO"
+          GENERIC_OAUTH_LOGIN_BUTTON: "Sign-in with SSO"
           GENERIC_OAUTH_GROUP_CLAIM: "groups"
           GENERIC_OAUTH_REQUIRE_GROUP: "true"
           GENERIC_OAUTH_ALLOWED_GROUPS: "app-calibre-user,app-calibre-admin"
