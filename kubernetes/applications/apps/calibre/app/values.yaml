@@ -43,7 +43,7 @@ controllers:
           GENERIC_OAUTH_REQUIRE_GROUP: "true"
           GENERIC_OAUTH_ALLOWED_GROUPS: "app-calibre-user,app-calibre-admin"
           GENERIC_OAUTH_ADMIN_GROUP: "app-calibre-admin"
-          GENERIC_OAUTH_DEFAULT_ROLE: "app-calibre-user"
+          GENERIC_OAUTH_DEFAULT_ROLE: "download,viewer"
           OAUTH_SSL_STRICT: "1"
           SESSION_COOKIE_SECURE: "true"
           TRUSTED_PROXY_COUNT: "1"
