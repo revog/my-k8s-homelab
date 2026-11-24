@@ -8,3 +8,11 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.age.enc.yaml
+
+configMapGenerator:
+  - name: substrate-values
+    files:
+      - values.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
