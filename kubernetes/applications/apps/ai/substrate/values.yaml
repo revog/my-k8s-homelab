@@ -1,0 +1,11 @@
+---
+postgres:
+  readWriteConnectionStringSecretRef:
+    name: cloudnative-pg-user-substrate-rw
+    key: readWriteConnectionString
+  ownerConnectionStringSecretRef:
+    name: cloudnative-pg-user-substrate-owner
+    key: ownerConnectionString
+  readWriteRole: substrate_readwrite
+  ownerRole: substrate_owner
+  schema: substrate
