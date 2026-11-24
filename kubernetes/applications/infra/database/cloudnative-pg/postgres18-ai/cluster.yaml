@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres18-kagent
+  name: postgres18-ai
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
@@ -40,6 +40,16 @@ spec:
         login: true
         passwordSecret:
           name: cloudnative-pg-user-kagent-rw
+      - name: substrate_owner
+        superuser: true
+        login: true
+        passwordSecret:
+          name: cloudnative-pg-user-substrate-owner
+      - name: substrate_readwrite
+        superuser: false
+        login: true
+        passwordSecret:
+          name: cloudnative-pg-user-substrate-rw
 
   affinity:
     enablePodAntiAffinity: true
@@ -48,15 +58,20 @@ spec:
 
   bootstrap:
     initdb:
-      database: kagent
+      database: ai
       owner: kagent_owner
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
         - CREATE SCHEMA IF NOT EXISTS kagent AUTHORIZATION kagent_owner;
-        - GRANT ALL PRIVILEGES ON DATABASE kagent TO kagent_readwrite;
+        - CREATE SCHEMA IF NOT EXISTS substrate AUTHORIZATION substrate_owner;
+        - GRANT ALL PRIVILEGES ON DATABASE ai TO kagent_readwrite;
+        - GRANT ALL PRIVILEGES ON DATABASE ai TO substrate_readwrite;
         - GRANT USAGE, CREATE ON SCHEMA kagent TO kagent_readwrite;
+        - GRANT USAGE, CREATE ON SCHEMA substrate TO substrate_readwrite;
         - ALTER DEFAULT PRIVILEGES FOR ROLE kagent_owner IN SCHEMA kagent GRANT ALL PRIVILEGES ON TABLES TO kagent_readwrite;
         - ALTER DEFAULT PRIVILEGES FOR ROLE kagent_owner IN SCHEMA kagent GRANT ALL PRIVILEGES ON SEQUENCES TO kagent_readwrite;
+        - ALTER DEFAULT PRIVILEGES FOR ROLE substrate_owner IN SCHEMA substrate GRANT ALL PRIVILEGES ON TABLES TO substrate_readwrite;
+        - ALTER DEFAULT PRIVILEGES FOR ROLE substrate_owner IN SCHEMA substrate GRANT ALL PRIVILEGES ON SEQUENCES TO substrate_readwrite;
 
   # # ============================================================================
   # # RESTORE FROM BACKUP (commented out - use instead of initdb above)
@@ -68,7 +83,7 @@ spec:
   # # ============================================================================
   # bootstrap:
   #   recovery:
-  #     source: &previousCluster postgres18-kagent
+  #     source: &previousCluster postgres18-ai
   #     # Optional: Point-in-time recovery
   #     # recoveryTarget:
   #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time
