@@ -55,17 +55,23 @@ Alternatively it is possible to achieve the same with a manual/scriptable approa
 
 **`schematic.yaml.j2`**
 ```yaml
+---
 customization:
   extraKernelArgs:
-      - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
+    - sysctl.kernel.kexec_load_disabled=1   # Security hardening avoids loading new kernel module during runtime
+    - nvme_core.default_ps_max_latency_us=0 # Disable NVMe APST deep sleep to prevent controller drops
+    - pcie_aspm=off                         # Disable PCIe Active State Power Management
   systemExtensions:
     officialExtensions:
+      - siderolabs/gvisor                     # gVisor sandbox runtime support (for AI agent)
+      - siderolabs/intel-ucode                # Intel CPU microcode updates
       - siderolabs/iscsi-tools                # iSCSI-based storage support (for Longhorn)
       - siderolabs/nvme-cli                   # NVMe CLI utilities
       - siderolabs/tailscale                  # Tailscale
       - siderolabs/util-linux-tools           # Linux utilities
       - siderolabs/xe                         # Intel Xe3 GPU
 ```
+(!) This extract could differ from content in [schematic.yaml.j2](schematic.yaml.j2) file.
 
 Submit schematic to get schematic id:
 ```bash
