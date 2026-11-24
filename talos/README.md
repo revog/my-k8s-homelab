@@ -45,10 +45,15 @@ The online form will guide through the process and will provide a unique scheman
 - <!-- renovate: datasource=github-releases depName=siderolabs/talos --> Talos Linux Version: v1.14.6
 - Machine Architecture: amd64
 - System Extensions:
-  - siderolabs/iscsi-tools (required for Longhorn)
-  - siderolabs/tailscale (required for Tailscale on Node level)
-  - siderolabs/util-linux-tools (required for Longhorn)
-  - siderolabs/xe (required for Intel GPU)
+  - siderolabs/gvisor (gVisor sandbox runtime support for AI agent)
+  - siderolabs/intel-ucode (Intel CPU microcode updates)
+  - siderolabs/iscsi-tools (iSCSI-based storage support for Longhorn)
+  - siderolabs/nvme-cli (NVMe CLI utilities)
+  - siderolabs/tailscale (Tailscale)
+  - siderolabs/util-linux-tools (Linux utilities)
+  - siderolabs/xe (Intel Xe3 GPU)
+
+⚠️ This list could differ from content in [schematic.yaml.j2](schematic.yaml.j2) file.
 
 ##### Variant 2: Local prep
 Alternatively it is possible to achieve the same with a manual/scriptable approach by creating a local YAML manifest, submitting it with `curl` and downloading it afterwards with the returned schematic id.
@@ -71,7 +76,7 @@ customization:
       - siderolabs/util-linux-tools           # Linux utilities
       - siderolabs/xe                         # Intel Xe3 GPU
 ```
-(!) This extract could differ from content in [schematic.yaml.j2](schematic.yaml.j2) file.
+⚠️ This extract could differ from content in [schematic.yaml.j2](schematic.yaml.j2) file.
 
 Submit schematic to get schematic id:
 ```bash
