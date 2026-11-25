@@ -166,7 +166,13 @@ route:
       - name: public
         namespace: infra-gateway
     rules:
-      - backendRefs:
+      - filters:
+          - type: RequestHeaderModifier
+            requestHeaderModifier:
+              set:
+                - name: X-Forwarded-Proto  # Force https scheme so OIDC generates https redirect URIs behind HTTP-terminated Cloudflare Tunnel
+                  value: https
+        backendRefs:
           - name: calibre-web-nextgen
             port: *port
 
