@@ -11,7 +11,7 @@ resources:
 
 components:
   - ../../../components/volsync/local-nfs
-#  - ../../../components/zeroscaler
+  - ../../../components/zeroscaler
 
 configMapGenerator:
   - name: calibre-web-nextgen-values
