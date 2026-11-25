@@ -1,6 +1,6 @@
 ---
 controllers:
-  calibre-web-nextgen:
+  main:
     containers:
       calibre:
         image:
@@ -183,7 +183,7 @@ route:
 
 service:
   calibre:
-    controller: calibre-web-nextgen
+    controller: main
     ports:
       http:
         port: *port
