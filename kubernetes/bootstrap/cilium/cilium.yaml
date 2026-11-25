@@ -1494,7 +1494,7 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-      - image: quay.io/cilium/hubble-ui:v0.13.6@sha256:049a80a03585c043d0c3121bdc518c72b0fd42bae07e4bcce0fdb8f1e88041d0
+      - image: quay.io/cilium/hubble-ui:v0.13.7@sha256:1773bca237e3fc3d922b50f6d0e40ef17f8eca3fe5cd1abc6620eef88a640346
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1522,7 +1522,7 @@ spec:
           value: "8090"
         - name: FLOWS_API_ADDR
           value: hubble-relay:80
-        image: quay.io/cilium/hubble-ui-backend:v0.13.6@sha256:83b3fc763f3d49948c306bf49b08277383e195904b9ca5c0c0022b2112628787
+        image: quay.io/cilium/hubble-ui-backend:v0.13.7@sha256:e47a10fb74ee01ac6230895dafb2f180558fbfc4ff3cc0409e767ee995525b0f
         imagePullPolicy: IfNotPresent
         name: backend
         ports:
