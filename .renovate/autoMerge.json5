@@ -5,12 +5,12 @@
       description: "Auto-merge trusted OCI digests",
       matchDatasources: ["docker"],
       matchUpdateTypes: ["digest", "pin", "pinDigest"],
-      matchPackagePrefixes: [
-        "ghcr.io/home-operations",
-      //   "ghcr.io/bjw-s",
-      //   "ghcr.io/bjw-s-labs",
+      matchPackageNames : [
+      //  "ghcr.io/home-operations",
+      //  "ghcr.io/bjw-s",
+      //  "ghcr.io/bjw-s-labs",
       ],
-      excludePackagePatterns: [
+      excludePackageNames: [
         ":latest$",
         ":main$",
         ":master$"
@@ -75,7 +75,7 @@
     {
       "description": "Avoid Automerge for Talos & Extension",
       "matchPackageNames": ["siderolabs/talos", "ghcr.io/siderolabs/**"],
-      "excludePackagePatterns": ["kubelet", "kube-"],
+      "excludePackageNames": ["kubelet", "kube-"],
       "branchTopic": "talos",
       "groupName": "talos",
       "addLabels": ["renovate/talos"],
