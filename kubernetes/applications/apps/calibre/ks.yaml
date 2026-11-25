@@ -25,8 +25,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: calibre
-      VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_CLAIM: calibre-web-nextgen-config
+      VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_SCHEDULE: "45 1 * * *"
       # VOLSYNC_S3_SCHEDULE: "15 4 * * *"
       VOLSYNC_UID: "911"  # default id in LinuxServer-based images
