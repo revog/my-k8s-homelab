@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: not-used
+spec:
+  values:
+    defaultPodOptions:
+      initContainers:
+        init-nfs-permissions:
+          image:
+            repository: docker.io/library/busybox
+            tag: latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              awk '$3 ~ /^nfs/ {print $2}' /proc/mounts | while read -r mountpoint; do
+                echo "Fixing permissions on NFS mount: $mountpoint"
+                chown -R ${VOLSYNC_UID}:${VOLSYNC_GID} "$mountpoint"
+                chmod -R 0770 "$mountpoint"
+              done
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
