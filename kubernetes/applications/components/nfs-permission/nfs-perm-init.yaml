@@ -4,8 +4,8 @@ metadata:
   name: not-used
 spec:
   values:
-    defaultPodOptions:
-      initContainers:
+    initContainers:
+      ${APP_CONTROLLER:=main}:  
         init-nfs-permissions:
           image:
             repository: docker.io/library/busybox
@@ -19,8 +19,6 @@ spec:
                   echo "Fixing permissions on NFS mount: $mountpoint"
                   chown -R ${VOLSYNC_UID}:${VOLSYNC_GID} "$mountpoint"
                   chmod -R 0770 "$mountpoint"
-                else
-                  echo "Permissions already match ${VOLSYNC_UID}:${VOLSYNC_GID} on $mountpoint"
                 fi
               done
           securityContext:
