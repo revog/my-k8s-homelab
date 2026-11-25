@@ -15,9 +15,13 @@ spec:
             - -c
             - |
               awk '$3 ~ /^nfs/ {print $2}' /proc/mounts | while read -r mountpoint; do
-                echo "Fixing permissions on NFS mount: $mountpoint"
-                chown -R ${VOLSYNC_UID}:${VOLSYNC_GID} "$mountpoint"
-                chmod -R 0770 "$mountpoint"
+                if [ "$(stat -c '%u:%g' "$mountpoint")" != "${VOLSYNC_UID}:${VOLSYNC_GID}" ]; then
+                  echo "Fixing permissions on NFS mount: $mountpoint"
+                  chown -R ${VOLSYNC_UID}:${VOLSYNC_GID} "$mountpoint"
+                  chmod -R 0770 "$mountpoint"
+                else
+                  echo "Permissions already match ${VOLSYNC_UID}:${VOLSYNC_GID} on $mountpoint"
+                fi
               done
           securityContext:
             runAsUser: 0
