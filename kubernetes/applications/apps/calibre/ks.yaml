@@ -22,7 +22,6 @@ spec:
       name: sops-age
   dependsOn:
     - name: volsync
-    - name: zeroscaler
   postBuild:
     substitute:
       APP: *app
