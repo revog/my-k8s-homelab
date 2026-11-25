@@ -50,6 +50,7 @@ controllers:
           #       name: calibre-web-nextgen-secrets
           #       key: hardcover-token
           # HARDCOVER_SYNC_ENABLED: "true"
+          NETWORK_SHARE_MODE: "true" # Required as /calibre-library is on NFS/SMB (disables SQLite WAL & startup chown)
           OAUTH_SSL_STRICT: "1"
           SESSION_COOKIE_SECURE: "true"
           TRUSTED_PROXY_COUNT: "2" # passes two reverse proxies (Cloudflare Tunnel → Gateway API → Service → Pod)
@@ -104,14 +105,12 @@ defaultPodOptions:
 persistence:
   books:
     enabled: true
-    accessMode: ReadWriteOnce
+    type: persistentVolumeClaim
+    storageClass: qnap-nfs
+    accessMode: ReadWriteMany
+    size: 5Gi
     globalMounts:
       - path: /calibre-library
-    # labels:
-    #   volsync.backube/restore: "true"
-    size: 2Gi
-    storageClass: longhorn-v2
-    type: persistentVolumeClaim
   config:
     enabled: true
     accessMode: ReadWriteOnce
