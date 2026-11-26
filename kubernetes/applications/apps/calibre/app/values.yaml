@@ -30,7 +30,6 @@ controllers:
               secretKeyRef:
                 name: calibre-web-nextgen-secrets
                 key: client-secret
-          # GENERIC_OAUTH_CLIENT_SECRET_FILE: /run/secrets/calibre-web-nextgen-secrets
           GENERIC_OAUTH_SERVER_URL: https://auth.${CLUSTER_DOMAIN}
           GENERIC_OAUTH_AUTH_URL: https://auth.${CLUSTER_DOMAIN}/authorize
           GENERIC_OAUTH_TOKEN_URL: https://auth.${CLUSTER_DOMAIN}/api/oidc/token
@@ -44,12 +43,12 @@ controllers:
           GENERIC_OAUTH_ALLOWED_GROUPS: "app-calibre-user,app-calibre-admin"
           GENERIC_OAUTH_ADMIN_GROUP: "app-calibre-admin"
           GENERIC_OAUTH_DEFAULT_ROLE: "download,viewer"
-          # HARDCOVER_TOKEN:  # Hardcover Metadata Provider (server-wide lookup)
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: calibre-web-nextgen-secrets
-          #       key: hardcover-token
-          # HARDCOVER_SYNC_ENABLED: "true"
+          HARDCOVER_TOKEN:
+            valueFrom:
+              secretKeyRef:
+                name: calibre-web-nextgen-secrets
+                key: hardcover-token
+          HARDCOVER_SYNC_ENABLED: "true"
           NETWORK_SHARE_MODE: "true" # Required as /calibre-library is on NFS/SMB (disables SQLite WAL & startup chown)
           OAUTH_SSL_STRICT: "1"
           SESSION_COOKIE_SECURE: "true"
@@ -108,19 +107,19 @@ persistence:
     type: persistentVolumeClaim
     storageClass: qnap-nfs
     accessMode: ReadWriteMany
-    size: 5Gi
+    size: 10Gi
     globalMounts:
       - path: /calibre-library
   config:
-    enabled: true
     accessMode: ReadWriteOnce
+    storageClass: "longhorn-v2"
+    size: 1Gi
     globalMounts:
       - path: /config
-    # labels:
-    #   volsync.backube/restore: "true"
-    size: 1Gi
-    storageClass: longhorn-v2
-    type: persistentVolumeClaim
+    dataSourceRef:
+      apiGroup: volsync.backube
+      kind: ReplicationDestination
+      name: holyarrs-bootstrap
   secret:
     type: secret
     name: calibre-web-nextgen-secrets
@@ -129,12 +128,12 @@ persistence:
       - path: /run/secrets/calibre-web-nextgen-secrets
         readOnly: true
   ingest:
-    type: emptyDir
-#    type: nfs
-#    server: ${STORAGE_IP}
-#    path: /Downloads/ebooks
+    type: nfs
+    server: "${STORAGE_IP:-0.0.0.0}"
+    path: /Download
     globalMounts:
-      - path: /cwa-book-ingest
+      - path: /downloads
+        subPath: calibre-import
   log:
     type: emptyDir
     globalMounts:
