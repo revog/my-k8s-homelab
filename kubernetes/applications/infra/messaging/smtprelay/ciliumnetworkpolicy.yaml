@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://pages.dev
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-from-internal-to-smtprelay
+spec:
+  # Protect smtp mail relay endpoint
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: smtprelay
+  ingress:
+    # Allow SMTP (2525) from all internal Kubernetes pods
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "2525"
+              protocol: TCP
+    # Allow SMTP (2525) from your NAS static LAN IP
+    - fromCIDR:
+        - "${STORAGE_IP}/32"
+      toPorts:
+        - ports:
+            - port: "2525"
+              protocol: TCP
+    # Allow Prometheus / kubelet probes on Metrics port (8080) from cluster & host
+    - fromEntities:
+        - cluster
+        - host
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP

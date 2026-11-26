@@ -1,0 +1,87 @@
+---
+controllers:
+  main:
+    # Recreate, not RollingUpdate: the queue PVC is RWO, so a rolling update would deadlock with the new pod waiting on a volume the
+    # outgoing pod still holds. SMTP senders retry, so the brief gap during a roll is harmless.
+    strategy: Recreate
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      smtprelay:
+        image:
+          repository: ghcr.io/foxcpp/maddy
+          tag: 0.9.5@sha256:de42151adff6388edb5e4ee88f60334fa1ab85e309485193ecb1c2db20203315
+        env:
+          SMTP_RELAY_SMTP_PORT: &port 2525
+          SMTP_RELAY_METRICS_PORT: &metricsPort 8080
+        envFrom:
+          - secretRef:
+              name: smtprelay-creds
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 128Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1101
+    runAsGroup: 1101
+    fsGroup: 1101
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: []
+    seccompProfile: { type: RuntimeDefault }
+
+persistence:
+  config:
+    type: configMap
+    name: smtprelay-configmap
+    globalMounts:
+      - path: /data/maddy.conf
+        subPath: maddy.conf
+        readOnly: true
+  queue:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 256Mi
+    storageClass: longhorn-v2
+    globalMounts:
+      - path: /queue
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: /cache
+
+service:
+  smtprelay:
+    controller: main
+    type: LoadBalancer
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: smtprelay.internal.${CLUSTER_DOMAIN}
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_SMTPRELAY}
+    ports:
+      http:
+        primary: true
+        port: *metricsPort
+      smtp:
+        port: *port
+
+serviceMonitor:
+  main:
+    serviceName: smtprelay
+    endpoints:
+      - port: http
+        scheme: http
+        path: /metrics
+        interval: 1m
+        scrapeTimeout: 10s
