@@ -8,7 +8,7 @@ spec:
   trigger:
     schedule: "30 8 * * *" # daily 8:30
   repository:
-    repository: volsync-maintenance-secret <TBD>
+    repository: volsync-maintenance-secret
     repositoryType: filesystem
   podSecurityContext:
     runAsUser: ${VOLSYNC_SHARE_UID:=1003}
@@ -21,16 +21,3 @@ spec:
         nfs:
           path: /volsync
           server: ${STORAGE_IP}
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/kopiamaintenance_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: KopiaMaintenance
-metadata:
-  name: daily-s3
-spec:
-  enabled: true
-  trigger:
-    schedule: "30 9 * * *" # daily 9:30
-  repository:
-    repository: volsync-s3-maintenance-secret <TBD>
-    repositoryType: s3
