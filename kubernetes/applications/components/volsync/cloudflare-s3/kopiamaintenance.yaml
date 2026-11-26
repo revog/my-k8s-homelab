@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/kopiamaintenance_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: KopiaMaintenance
+metadata:
+  name: ${APP}-daily-s3
+spec:
+  enabled: true
+  trigger:
+    schedule: "${VOLSYNC_S3_MAINTENANCE_SCHEDULE:=30 9 * * *}" # default daily 9:30
+  repository:
+    repository: ${APP}-volsync-s3-secret
+    repositoryType: s3
