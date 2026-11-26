@@ -17,6 +17,6 @@ spec:
     fsGroup: ${VOLSYNC_GID:=1003}
     fsGroupChangePolicy: "Always"
   repository:
-    repository: volsync-kopia-secret
+    repository: volsync-secret
     repositoryType: filesystem
   schedule: "${VOLSYNC_MAINTENANCE_SCHEDULE:=30 8 * * *}" # default daily 8:30
