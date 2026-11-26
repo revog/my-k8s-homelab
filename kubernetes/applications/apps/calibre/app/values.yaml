@@ -160,9 +160,9 @@ route:
       gethomepage.dev/icon: calibre-web-ng.png
       gethomepage.dev/description: Bookstore
     hostnames:
-      - bookstore.${CLUSTER_DOMAIN}
-      - bookstore.internal.${CLUSTER_DOMAIN}
-      - bookstore.private.${CLUSTER_DOMAIN}
+      - books.${CLUSTER_DOMAIN}
+      - books.internal.${CLUSTER_DOMAIN}
+      - books.private.${CLUSTER_DOMAIN}
     parentRefs:
       - name: internal
         namespace: infra-gateway
