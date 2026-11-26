@@ -5,7 +5,7 @@ metadata:
   name: mail
   namespace: infra-flux
 spec:
-  path: ./kubernetes/applications/infra/messaging/app
+  path: ./kubernetes/applications/infra/messaging/smtprelay
   targetNamespace: infra-messaging
   interval: 15m
   retryInterval: 1m
