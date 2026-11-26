@@ -119,7 +119,7 @@ persistence:
     dataSourceRef:
       apiGroup: volsync.backube
       kind: ReplicationDestination
-      name: holyarrs-bootstrap
+      name: calibre-bootstrap
   secret:
     type: secret
     name: calibre-web-nextgen-secrets
