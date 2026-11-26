@@ -98,7 +98,8 @@ defaultPodOptions:
     runAsGroup: ${VOLSYNC_GID}
     fsGroup: ${VOLSYNC_GID}
     fsGroupChangePolicy: OnRootMismatch
-    supplementalGroups: []
+    supplementalGroups:
+      - 1002 # downloads_rw
     seccompProfile: { type: RuntimeDefault }
 
 persistence:
