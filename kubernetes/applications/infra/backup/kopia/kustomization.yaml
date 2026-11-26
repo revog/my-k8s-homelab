@@ -2,14 +2,15 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# components:
-#   - ../../../../components/keda/nfs-scaler
-#   - ../../../../components/priority/priority-10
+
 resources:
   - helmrelease.yaml
   - namespace.yaml
   - ocirepository.yaml
   - secret.age.enc.yaml
+
+components:
+  - ../../../components/zeroscaler
 
 configMapGenerator:
   - name: kopia-values
