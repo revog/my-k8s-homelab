@@ -1,0 +1,73 @@
+---
+auth:
+  mode: oidc
+  oidc:
+    issuerURL: "https://auth.${CLUSTER_DOMAIN}"
+    # Optional internal issuer base URL used by the Radar pod for discovery and
+    # derived server-side token/userinfo/JWKS endpoints. Tokens are still
+    # validated against issuerURL, and browser redirects stay browser-facing.
+    clientID: 864143c3-4800-47a6-b904-e8600287786d
+    existingSecret: radar-oidc-secret
+    clientSecretKey: client-secret
+    redirectURL: "https://radar.internal.${CLUSTER_DOMAIN}/auth/callback"
+    backchannelLogout: true
+    enablePKCE: true
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale # Explicitly points across namespaces to your Tailscale Gateway
+  hostnames:
+    - 'radar.internal.${CLUSTER_DOMAIN}'
+    - 'radar.private.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      timeouts:
+        request: 30s
+        backendRequest: 20s
+      backendRefs:
+        - name: radar
+          port: 9280
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /admin
+      timeouts:
+        request: 2m
+      backendRefs:
+        - name: radar
+          port: 9280
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: radar
+          port: 9280
+
+rbac:
+  additionalRules:
+    - apiGroups:
+        - "source.toolkit.fluxcd.io"
+        - "kustomize.toolkit.fluxcd.io"
+        - "helm.toolkit.fluxcd.io"
+        - "notification.toolkit.fluxcd.io"
+        - "image.toolkit.fluxcd.io"
+      resources: ["*"]
+      verbs: ["patch"]
+
+timeline:
+  storage: postgres
+  retention: 168h
+  postgres:
+    existingSecret: radar-postgres-readwrite
+    secretKey: "uri"
+
+usageReporting:
+  enabled: false
