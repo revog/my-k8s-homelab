@@ -5,7 +5,7 @@ controllers:
       calibre:
         image:
           repository: ghcr.io/new-usemame/calibre-web-nextgen
-          tag: v4.1.74@sha256:7d9f614755b875e85951d430ae3314c178e1a74940088896f33ddcb1a5d31121
+          tag: v4.1.75@sha256:533c78a47663bcfdf53d4c96f97291a66295971d5df4cac6d89fd7cc48e391ac
         env:
           TZ: ${CLUSTER_TIMEZONE}
           PUID: ${VOLSYNC_UID}
