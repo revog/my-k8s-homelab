@@ -60,6 +60,10 @@ spec:
     initdb:
       database: ai
       owner: kagent_owner
+      postInitSQL:
+        - CREATE ROLE kagent_readwrite WITH LOGIN;
+        - CREATE ROLE substrate_owner WITH LOGIN SUPERUSER;
+        - CREATE ROLE substrate_readwrite WITH LOGIN;
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
         - CREATE SCHEMA IF NOT EXISTS kagent AUTHORIZATION kagent_owner;
