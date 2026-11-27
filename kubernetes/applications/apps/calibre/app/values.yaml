@@ -115,10 +115,8 @@ persistence:
     size: 1Gi
     globalMounts:
       - path: /config
-    dataSourceRef:
-      apiGroup: volsync.backube
-      kind: ReplicationDestination
-      name: calibre-bootstrap
+    labels:
+      - volsync.backube/restore=true
   secret:
     type: secret
     name: calibre-web-nextgen-secrets
