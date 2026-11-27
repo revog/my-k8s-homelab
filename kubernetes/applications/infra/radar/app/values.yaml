@@ -54,13 +54,6 @@ httpRoute:
         - name: radar
           port: 9280
 
-postgres:
-  bundled:
-    enabled: false
-  external:
-    cnpgCluster: acme-pg  # <TBD>
-    existingSecret: radar-hub-pg   # <TBD>
-
 rbac:
   additionalRules:
     - apiGroups:
