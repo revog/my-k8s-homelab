@@ -16,7 +16,7 @@ spec:
     name: homelab
   dependsOn:
     - name: flux
-      namespace: infra-flux
+    - name: postgres18-radar
   decryption:
     provider: sops
     secretRef:
