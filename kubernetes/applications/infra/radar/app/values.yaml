@@ -9,7 +9,7 @@ auth:
     internalIssuerURL: ""  # <TBD>
     clientID: <TBD>
     existingSecret: radar-oidc-secret
-    clientSecretKey: "client-secret"
+    clientSecretKey: client-secret
     redirectURL: "https://radar.internal.${CLUSTER_DOMAIN}/auth/callback"
     # Enable OIDC Back-Channel Logout endpoint. When enabled, the IdP can POST
     # a signed logout_token to /auth/backchannel-logout to revoke sessions.
