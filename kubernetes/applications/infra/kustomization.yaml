@@ -24,6 +24,7 @@ resources:
   - monitoring/ks.yaml
   - node-feature-discovery/ks.yaml
   - omni/ks.yaml
+  - radar/ks.yaml
   - reloader/ks.yaml
   - storage/ks.yaml
   - tailscale/ks.yaml
