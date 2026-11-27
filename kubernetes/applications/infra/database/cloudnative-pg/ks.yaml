@@ -98,3 +98,32 @@ spec:
       DB: postgres18-ai
       BARMAN_SCHEDULE: "0 35 5 * * *" # 6-field (sec min hour day mon weekday)
       BARMAN_RETENTION: "14d"
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: postgres18-radar
+  namespace: infra-flux
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: infra-flux
+  path: "./kubernetes/applications/infra/database/cloudnative-pg/postgres18-radar"
+  wait: true
+  interval: 15m
+  prune: false
+  targetNamespace: infra-database
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute:
+      DB: postgres18-ai
+      BARMAN_SCHEDULE: "0 15 3 * * *" # 6-field (sec min hour day mon weekday)
+      BARMAN_RETENTION: "7d"
