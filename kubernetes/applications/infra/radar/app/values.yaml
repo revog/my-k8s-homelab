@@ -57,6 +57,17 @@ postgres:
     cnpgCluster: acme-pg  # <TBD>
     existingSecret: radar-hub-pg   # <TBD>
 
+rbac:
+  additionalRules:
+    - apiGroups:
+        - "source.toolkit.fluxcd.io"
+        - "kustomize.toolkit.fluxcd.io"
+        - "helm.toolkit.fluxcd.io"
+        - "notification.toolkit.fluxcd.io"
+        - "image.toolkit.fluxcd.io"
+      resources: ["*"]
+      verbs: ["patch"]
+
 timeline:
   storage: postgres
   retention: 168h
