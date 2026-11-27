@@ -4,4 +4,5 @@ kind: Namespace
 metadata:
   name: app-ai
   labels:
+    ate.dev/api-access: "true"
     resource.kubernetes.io/admin-access: "true"

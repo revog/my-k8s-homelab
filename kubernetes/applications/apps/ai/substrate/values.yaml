@@ -1,4 +1,13 @@
 ---
+atelet:
+  enabled: false
+
+ateApi:
+  authorization:
+    bootstrapOwners:
+      - system:serviceaccount:app-ai-ate:agent-substrate-ate-client
+      - system:serviceaccount:app-ai:kagent-controller
+
 postgres:
   readWriteConnectionStringSecretRef:
     name: substrate-postgres-readwrite

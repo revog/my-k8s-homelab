@@ -4,6 +4,10 @@ config:
     auth:
       mode: trusted-proxy
       userIdClaim: email
+  substrate:
+    apiEndpoint: dns:///agent-substrate-api.app-ai-ate.svc:443
+    routerUrl: https://agent-substrate-atenet-router.app-ai-ate.svc:443
+    actorJwtIssuer: https://agent-substrate-idp.app-ai-ate.svc
 
 controller:
   metrics:
@@ -19,6 +23,10 @@ database:
     readWriteConnectionStringSecretRef:
       name: kagent-postgres-readwrite
       key: uri
+
+harnesses:
+  enabled: true
+  snapshotLocation: s3://ate-snapshots/kagent/
 
 oauth2-proxy:
   enabled: true
@@ -39,6 +47,12 @@ oauth2-proxy:
       value: "http://kagent-ui:8080"
 
 providers: null
+
+substrateWorkerPool:
+  create: true
+  name: kagent-default
+  replicas: 1
+  sandboxClass: gvisor
 
 ui:
   httpRoute:
