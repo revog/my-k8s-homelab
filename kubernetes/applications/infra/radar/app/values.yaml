@@ -71,3 +71,6 @@ timeline:
   postgres:
     existingSecret: radar-postgres-owner
     secretKey: "uri"
+
+usageReporting:
+  enabled: false
