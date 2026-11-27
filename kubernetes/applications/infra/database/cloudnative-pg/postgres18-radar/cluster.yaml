@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres18-radar
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6
+  primaryUpdateStrategy: unsupervised
+
+  # Tolerate brief pod-network blips before failing over
+  failoverDelay: 30
+  probes:
+    liveness:
+      isolationCheck:
+        enabled: true            # keep split-brain protection
+        connectionTimeout: 3000  # default: 1000ms
+        requestTimeout: 3000     # default: 1000ms
+
+  storage:
+    size: 5Gi
+    storageClass: longhorn-v2
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cloudnative-pg-superuser
+
+  managed:
+    roles:
+      - name: radar
+        login: true
+        createdb: true
+        passwordSecret:
+          name: cloudnative-pg-user-radar-owner
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: preferred
+
+  bootstrap:
+    initdb:
+      database: radar
+      owner: radar
+      secret:
+        name: cloudnative-pg-user-radar-owner
+
+  # # ============================================================================
+  # # RESTORE FROM BACKUP (commented out - use instead of initdb above)
+  # # ============================================================================
+  # # To restore from backup:
+  # # 1. Comment out the 'initdb' block above
+  # # 2. Uncomment the 'recovery' block and 'externalClusters' below
+  # # 3. Optionally add recoveryTarget for point-in-time recovery
+  # # ============================================================================
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres18-radar
+  #     # Optional: Point-in-time recovery
+  #     # recoveryTarget:
+  #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time
+  #     #   # OR use: targetLSN, targetXID, targetImmediate
+  #
+  # externalClusters:
+  #   - name: *previousCluster
+  #     plugin:
+  #       name: barman-cloud.cloudnative-pg.io
+  #       parameters:
+  #         barmanObjectName: cloudflare-s3-kagent
+  #         serverName: *previousCluster
