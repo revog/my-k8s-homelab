@@ -116,7 +116,7 @@ persistence:
     globalMounts:
       - path: /config
     labels:
-      volsync.backube/restore: true
+      volsync.backube/restore: "true"
   secret:
     type: secret
     name: calibre-web-nextgen-secrets
