@@ -2,18 +2,15 @@
 auth:
   mode: oidc
   oidc:
-    issuerURL: ""  # <TBD>
+    issuerURL: "https://auth.${CLUSTER_DOMAIN}"
     # Optional internal issuer base URL used by the Radar pod for discovery and
     # derived server-side token/userinfo/JWKS endpoints. Tokens are still
     # validated against issuerURL, and browser redirects stay browser-facing.
     internalIssuerURL: ""  # <TBD>
-    clientID: "" # <TBD>
-    # Use an existing K8s Secret for the OIDC client secret (avoids storing in Helm values).
-    # The Secret must contain a key matching clientSecretKey below.
+    clientID: <TBD>
     existingSecret: radar-oidc-secret
-    # Key within the existingSecret that holds the client secret value
     clientSecretKey: "client-secret"
-    redirectURL: "" # <TBD>
+    redirectURL: "https://radar.internal.${CLUSTER_DOMAIN}/auth/callback"
     # Enable OIDC Back-Channel Logout endpoint. When enabled, the IdP can POST
     # a signed logout_token to /auth/backchannel-logout to revoke sessions.
     backchannelLogout: true
@@ -49,6 +46,13 @@ httpRoute:
       backendRefs:
         - name: radar
           port: 9280        
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: radar
+          port: 9280
 
 postgres:
   bundled:
@@ -72,5 +76,5 @@ timeline:
   storage: postgres
   retention: 168h
   postgres:
-    existingSecret: radar-timeline-pg-app # <TBD>
-    secretKey: dsn # <TBD>
+    existingSecret: radar-postgres-owner
+    secretKey: "uri"
