@@ -6,13 +6,10 @@ auth:
     # Optional internal issuer base URL used by the Radar pod for discovery and
     # derived server-side token/userinfo/JWKS endpoints. Tokens are still
     # validated against issuerURL, and browser redirects stay browser-facing.
-    internalIssuerURL: ""  # <TBD>
-    clientID: <TBD>
+    clientID: 864143c3-4800-47a6-b904-e8600287786d
     existingSecret: radar-oidc-secret
     clientSecretKey: client-secret
     redirectURL: "https://radar.internal.${CLUSTER_DOMAIN}/auth/callback"
-    # Enable OIDC Back-Channel Logout endpoint. When enabled, the IdP can POST
-    # a signed logout_token to /auth/backchannel-logout to revoke sessions.
     backchannelLogout: true
     enablePKCE: true
 
@@ -45,7 +42,7 @@ httpRoute:
         request: 2m
       backendRefs:
         - name: radar
-          port: 9280        
+          port: 9280
     - matches:
         - path:
             type: PathPrefix
@@ -69,7 +66,7 @@ timeline:
   storage: postgres
   retention: 168h
   postgres:
-    existingSecret: radar-postgres-owner
+    existingSecret: radar-postgres-readwrite
     secretKey: "uri"
 
 usageReporting:
