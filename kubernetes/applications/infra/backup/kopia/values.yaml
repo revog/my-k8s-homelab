@@ -135,7 +135,7 @@ persistence:
       - path: /config
   repository:
     type: nfs
-    server: ${STORAGE_IP}
+    server: "${STORAGE_IP:-0.0.0.0}"
     path: /volsync
     globalMounts:
       - path: /repository
