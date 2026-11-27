@@ -1,0 +1,65 @@
+---
+auth:
+  mode: oidc
+  oidc:
+    issuerURL: ""  # <TBD>
+    # Optional internal issuer base URL used by the Radar pod for discovery and
+    # derived server-side token/userinfo/JWKS endpoints. Tokens are still
+    # validated against issuerURL, and browser redirects stay browser-facing.
+    internalIssuerURL: ""  # <TBD>
+    clientID: "" # <TBD>
+    # Use an existing K8s Secret for the OIDC client secret (avoids storing in Helm values).
+    # The Secret must contain a key matching clientSecretKey below.
+    existingSecret: radar-oidc-secret
+    # Key within the existingSecret that holds the client secret value
+    clientSecretKey: "client-secret"
+    redirectURL: "" # <TBD>
+    # Enable OIDC Back-Channel Logout endpoint. When enabled, the IdP can POST
+    # a signed logout_token to /auth/backchannel-logout to revoke sessions.
+    backchannelLogout: true
+    enablePKCE: true
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: internal
+      namespace: infra-gateway
+    - name: private
+      namespace: infra-tailscale # Explicitly points across namespaces to your Tailscale Gateway
+  hostnames:
+    - 'radar.internal.${CLUSTER_DOMAIN}'
+    - 'radar.private.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      timeouts:
+        request: 30s
+        backendRequest: 20s
+      backendRefs:
+        - name: radar
+          port: 9280
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /admin
+      timeouts:
+        request: 2m
+      backendRefs:
+        - name: radar
+          port: 9280        
+
+postgres:
+  bundled:
+    enabled: false
+  external:
+    cnpgCluster: acme-pg  # <TBD>
+    existingSecret: radar-hub-pg   # <TBD>
+
+timeline:
+  storage: postgres
+  retention: 168h
+  postgres:
+    existingSecret: radar-timeline-pg-app # <TBD>
+    secretKey: dsn # <TBD>
