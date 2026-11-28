@@ -123,6 +123,8 @@ machine-learning:
       type: persistentVolumeClaim
       size: 10Gi
       storageClass: longhorn-v2
+    library-nfs:
+│     enabled: false  # mount library only in immich server pod
 
 persistence:
   tmp:
@@ -133,6 +135,7 @@ persistence:
   library-nfs:
     enabled: true
     type: persistentVolumeClaim
+    forceRename: immich-library-nfs
     storageClass: qnap-nfs
     accessMode: ReadWriteMany
     size: 100Gi
