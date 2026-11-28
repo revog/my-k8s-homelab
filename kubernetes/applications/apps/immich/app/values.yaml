@@ -138,6 +138,7 @@ persistence:
     forceRename: immich-library-nfs
     storageClass: qnap-nfs
     accessMode: ReadWriteMany
+    retain: true
     size: 100Gi
     advancedMounts:
       main:
