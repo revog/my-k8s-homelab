@@ -87,14 +87,14 @@ immich:
   persistence:
     library:
       existingClaim: immich-library
-  persistence-nfs:
-    enabled: true
-    type: persistentVolumeClaim
-    storageClass: qnap-nfs
-    accessMode: ReadWriteMany
-    size: 100Gi
-    globalMounts:
-      - path: /immich-library-nfs
+    library-nfs:
+      enabled: true
+      type: persistentVolumeClaim
+      storageClass: qnap-nfs
+      accessMode: ReadWriteMany
+      size: 100Gi
+      globalMounts:
+        - path: /immich-library-nfs
 
 machine-learning:
   enabled: true
