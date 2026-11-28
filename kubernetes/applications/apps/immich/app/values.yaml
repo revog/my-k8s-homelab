@@ -86,15 +86,7 @@ immich:
     enabled: true
   persistence:
     library:
-      existingClaim: immich-library
-    library-nfs:
-      enabled: true
-      type: persistentVolumeClaim
-      storageClass: qnap-nfs
-      accessMode: ReadWriteMany
-      size: 100Gi
-      globalMounts:
-        - path: /immich-library-nfs
+      existingClaim: immich-library # Replace with NFS PVC after migration
 
 machine-learning:
   enabled: true
@@ -137,6 +129,18 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /tmp
+  # Temp during migration - to be removed after
+  library-nfs:
+    enabled: true
+    type: persistentVolumeClaim
+    storageClass: qnap-nfs
+    accessMode: ReadWriteMany
+    size: 100Gi
+    advancedMounts:
+      main:
+        main:
+          - path: /immich-library-nfs
+  # Temp during migration - to be removed after
 
 route:
   immich-server:
