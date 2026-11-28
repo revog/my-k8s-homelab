@@ -86,7 +86,7 @@ immich:
     enabled: true
   persistence:
     library:
-      existingClaim: immich-library # Replace with NFS PVC after migration
+      existingClaim: immich-library # Replace with NFS PVC (immich-library-nfs) after migration
 
 machine-learning:
   enabled: true
@@ -124,7 +124,7 @@ machine-learning:
       size: 10Gi
       storageClass: longhorn-v2
     library-nfs:
-│     enabled: false  # mount library only in immich server pod
+      enabled: false  # mount library only in immich server pod
 
 persistence:
   tmp:
